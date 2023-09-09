@@ -219,6 +219,9 @@ export default function Upload() {
             </div>
           </div>
         </div>
+        <button className="font-sans block ml-auto mt-4 border-[#222222] font-semibold">
+          + Add More
+        </button>
         <Button
           variant="outline"
           className="font-sans rounded-full w-48 block ml-auto mt-12 border-[#222222]"

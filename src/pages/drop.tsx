@@ -17,16 +17,22 @@ import React from "react";
 export default function drop() {
   return (
     <Layout>
-      <div className="grid grid-cols-9 w-11/12 max-w-5xl mx-auto gap-x-32 gap-y-20 mb-32">
-        <div className="col-span-4 row-span-1">
-          <div className="w-96 h-96">
+      <div className="grid w-11/12 md:grid-cols-9 max-w-5xl mx-auto gap-x-20 gap-y-20 mb-32">
+        <div className="col-span-full md:col-span-4 row-span-1">
+          {/* <div className="w-96 max-w-full h-96 max-h-max ">
             <AspectRatio
               ratio={16 / 16}
               className="bg-muted bg-[url('/preview.png')] bg-cover bg-center"
             ></AspectRatio>
+          </div> */}
+          <div className="w-full max-w-sm h-96 bg-red-400">
+            {/* <AspectRatio
+              ratio={16 / 16}
+              className="bg-muted bg-[url('/preview.png')] bg-cover bg-center"
+            ></AspectRatio> */}
           </div>
         </div>
-        <div className="col-span-4 row-start-2">
+        <div className="col-span-full md:col-span-4 md:row-start-2 order-3">
           <div>
             <h2 className="font-sans font-medium text-lg text-orange mb-3">
               Description
@@ -95,7 +101,7 @@ export default function drop() {
             </div>
           </div>
         </div>
-        <div className="col-span-5 col-start-5 row-span-1 row-start-1">
+        <div className="col-span-full md:col-span-5 md:col-start-5 md:row-span-1 md:row-start-1">
           <div>
             <div className="flex flex-col gap-3">
               <h2 className="font-mono text-2xl">Jamiroquai</h2>
@@ -108,7 +114,7 @@ export default function drop() {
               </div>
             </div>
             <div>
-              <div className="flex items-center justify-end gap-4  mb-6">
+              <div className="flex items-center justify-end gap-4 mb-6">
                 <IconSkipBack />
                 <IconSkipForward />
                 <IconVolume />
@@ -120,14 +126,14 @@ export default function drop() {
               </div>
             </div>
           </div>
-          <div className="flex gap-6 mt-12">
-            <Button className="rounded-full flex items-center px-8 gap-1">
+          <div className="flex flex-col md:flex-row gap-3 md:gap-6 mt-12">
+            <Button className="rounded-full w-fit mx-auto flex items-center py-8 px-12 gap-1">
               <IconLockOpen />
-              <span className="text-xs font-sans border-[#222222]">
+              <span className="text-base md:text-xs font-sans border-[#222222]">
                 Track IDs & Video
               </span>
             </Button>
-            <Button className="rounded-full font-mono text-orange text-xs bg-[#F5F5F5] px-6">
+            <Button className="rounded-full w-fit mx-auto font-mono text-orange text-xs bg-[#F5F5F5] px-6">
               14 Collected
             </Button>
           </div>
@@ -147,7 +153,7 @@ export default function drop() {
             </div>
           </div>
         </div>
-        <div className="col-span-5 col-start-5 row-start-2">
+        <div className="col-span-full md:col-span-5 md:col-start-5 md:row-start-2 order-3">
           <div>
             <h2 className="font-sans font-medium text-lg text-orange mb-3">
               Track IDs

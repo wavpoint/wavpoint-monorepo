@@ -47,8 +47,8 @@ export default function drop() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-x-28 gap-y-16">
-          <div className="flex gap-6 mt-12">
+        <div className="grid grid-cols-2 gap-x-6 lg:gap-x-28 gap-y-16">
+          <div className="flex items-center gap-6 col-span-full md:col-span-1 mt-12 md:order-1">
             <Button
               className="rounded-full text-base font-sans border-[#222222] flex-grow"
               variant="outline"
@@ -59,7 +59,7 @@ export default function drop() {
               14 Collected
             </Button>
           </div>
-          <div className="flex items-center justify-between mt-12">
+          <div className="flex flex-col md:flex-row gap-y-8 md:items-center col-span-full justify-between md:mt-12 order-3 md:order-2 md:col-span-1">
             <div>
               <p className="font-sans text-orange text-lg">Date Deployed</p>
               <p className="font-mono text-sm">8 July 2002</p>
@@ -74,7 +74,7 @@ export default function drop() {
               </p>
             </div>
           </div>
-          <div className="">
+          <div className="col-span-full order-2 md:order-4 lg:col-span-1 lg:order-3">
             <h2 className="font-sans font-medium text-lg text-orange mb-4">
               Description
             </h2>
@@ -93,7 +93,7 @@ export default function drop() {
               having had over 100,000 copies produced.
             </p>
           </div>
-          <div className="">
+          <div className="col-span-full md:order-3 lg:col-span-1 lg:order-4">
             <div>
               <h2 className="font-sans font-medium text-lg text-orange mb-4">
                 Track IDs
