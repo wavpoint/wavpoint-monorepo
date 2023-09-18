@@ -191,31 +191,48 @@ export default function Upload() {
               rows={6}
             />
             <div className="grid grid-cols-3 gap-2 my-6">
-              <Input
-                type="text"
-                placeholder="Recording Location"
-                className="font-sans col-span-2"
-              />
-              <Input
-                type="text"
-                placeholder="Royalty"
-                className="font-sans col-span-1"
-              />
+              <div className="col-span-2 relative">
+                <Input
+                  type="text"
+                  placeholder="Recording Location"
+                  className="font-sans"
+                />
+                <span className="font-sans absolute top-2 right-3 text-[#BBBBBB] select-none text-md">
+                  City, Neighborhood, Nightclub
+                </span>
+              </div>
+              <div className="col-span-1 relative">
+                <Input
+                  type="text"
+                  placeholder="Royalty"
+                  className="font-sans"
+                />
+                <span className="font-sans absolute top-2 right-3 text-[#BBBBBB] select-none text-md">
+                  %
+                </span>
+              </div>
             </div>
           </div>
           <div className="mt-10">
             <h1 className="text-xl font-sans mb-4">Creator Reward Splits</h1>
             <div className="grid grid-cols-3 gap-2">
-              <Input
-                type="text"
-                placeholder="Wallet / ENS address or Email"
-                className="font-sans col-span-2"
-              />
-              <Input
-                type="text"
-                placeholder="Percentage"
-                className="font-sans col-span-1"
-              />
+              <div className="col-span-2">
+                <Input
+                  type="text"
+                  placeholder="Wallet / ENS address or Email"
+                  className="font-sans"
+                />
+              </div>
+              <div className="col-span-1 relative">
+                <Input
+                  type="text"
+                  placeholder="Percentage"
+                  className="font-sans"
+                />
+                <span className="font-sans absolute top-2 right-3 text-[#BBBBBB] select-none text-md">
+                  %
+                </span>
+              </div>
             </div>
           </div>
         </div>
