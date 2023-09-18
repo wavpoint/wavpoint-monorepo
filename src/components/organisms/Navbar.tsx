@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 export default function Navbar() {
   return (
     <div className="flex items-center justify-between p-6">
-      <Image src="/logo.svg" alt="Logo" width={74} height={46} />
+      <Image src="/logo.png" alt="Logo" width={74} height={46} />
       <div>
         <Button
           variant="outline"
