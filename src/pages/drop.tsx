@@ -126,14 +126,14 @@ export default function drop() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row gap-3 md:gap-6 mt-12">
-            <Button className="rounded-full w-fit mx-auto flex items-center py-8 px-12 gap-1">
+          <div className="flex flex-col items-center md:items-start md:flex-row gap-3 md:gap-6 mt-12">
+            <Button className="rounded-full w-fit mx-auto md:mx-0 flex items-center py-8 md:py-2 px-12 gap-1">
               <IconLockOpen />
               <span className="text-base md:text-xs font-sans border-[#222222]">
                 Track IDs & Video
               </span>
             </Button>
-            <Button className="rounded-full w-fit mx-auto font-mono text-orange text-xs bg-[#F5F5F5] px-6">
+            <Button className="rounded-full w-fit mx-auto md:mx-0 font-mono text-orange text-xs bg-[#F5F5F5] px-6">
               14 Collected
             </Button>
           </div>
