@@ -53,52 +53,8 @@ export default function drop() {
             </p>
           </div>
 
-          <div className="mt-8">
-            <h2 className="font-sans font-medium text-lg text-orange mb-3">
-              Activity
-            </h2>
-            <div>
-              <div className="flex items-center justify-between my-2">
-                <span className="font-mono text-sm">Collector</span>
-                <span className="font-mono text-sm">Time</span>
-              </div>
-              <Separator className="h-[2px] bg-black" />
-              <div className="my-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <Avatar className="w-8">
-                      <AvatarImage src="/avatar.svg" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <span className="font-mono text-sm">0x0000...000</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-orange font-mono text-sm">1 hr</span>
-                    <IconArrowUpRight stroke="#FF6700" />
-                  </div>
-                </div>
-                <p className="mt-4 text-sm">🔥🔥🔥</p>
-              </div>
-              <div className="my-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <Avatar className="w-8">
-                      <AvatarImage src="/avatar.svg" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <span className="font-mono text-sm">wavthe0ry.eth</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-orange font-mono text-sm">1 hr</span>
-                    <IconArrowUpRight stroke="#FF6700" />
-                  </div>
-                </div>
-                <p className="mt-4 font-mono text-sm">First to collect!!!</p>
-              </div>
-              <span className="block text-center font-mono text-xs text-orange mt-6">
-                show more
-              </span>
-            </div>
+          <div className="hidden md:block">
+            <Activity />
           </div>
         </div>
         <div className="col-span-full md:col-span-5 md:col-start-5 md:row-span-1 md:row-start-1">
@@ -137,20 +93,8 @@ export default function drop() {
               14 Collected
             </Button>
           </div>
-          <div className="flex items-center justify-between mt-12">
-            <div>
-              <p className="font-sans text-orange text-lg">Date Deployed</p>
-              <p className="font-mono text-sm">8 July 2002</p>
-            </div>
-            <div>
-              <p className="font-sans text-orange text-lg">Contract Address</p>
-              <p className="flex items-center gap-1">
-                <span className="font-mono text-sm underline">
-                  0x4691...45960f532
-                </span>
-                <IconArrowUpRight />
-              </p>
-            </div>
+          <div className="hidden md:block">
+            <DateDeployedContractAddress />
           </div>
         </div>
         <div className="col-span-full md:col-span-5 md:col-start-5 md:row-start-2 order-3">
@@ -201,8 +145,82 @@ export default function drop() {
               </li>
             </ul>
           </div>
+          <div className="block md:hidden">
+            <Activity />
+          </div>
         </div>
       </div>
     </Layout>
   );
 }
+
+const Activity = () => (
+  <>
+    <div className="mt-8">
+      <h2 className="font-sans font-medium text-lg text-orange mb-3">
+        Activity
+      </h2>
+      <div>
+        <div className="flex items-center justify-between my-2">
+          <span className="font-mono text-sm">Collector</span>
+          <span className="font-mono text-sm">Time</span>
+        </div>
+        <Separator className="h-[2px] bg-black" />
+        <div className="my-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Avatar className="w-8">
+                <AvatarImage src="/avatar.svg" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <span className="font-mono text-sm">0x0000...000</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-orange font-mono text-sm">1 hr</span>
+              <IconArrowUpRight stroke="#FF6700" />
+            </div>
+          </div>
+          <p className="mt-4 text-sm">🔥🔥🔥</p>
+        </div>
+        <div className="my-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <Avatar className="w-8">
+                <AvatarImage src="/avatar.svg" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+              <span className="font-mono text-sm">wavthe0ry.eth</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-orange font-mono text-sm">1 hr</span>
+              <IconArrowUpRight stroke="#FF6700" />
+            </div>
+          </div>
+          <p className="mt-4 font-mono text-sm">First to collect!!!</p>
+        </div>
+        <span className="block text-center font-mono text-xs text-orange mt-6">
+          show more
+        </span>
+      </div>
+    </div>
+    <div className="block md:hidden">
+      <DateDeployedContractAddress />
+    </div>
+  </>
+);
+
+const DateDeployedContractAddress = () => (
+  <div className="flex items-center justify-between mt-12">
+    <div>
+      <p className="font-sans text-orange text-lg">Date Deployed</p>
+      <p className="font-mono text-sm">8 July 2002</p>
+    </div>
+    <div>
+      <p className="font-sans text-orange text-lg">Contract Address</p>
+      <p className="flex items-center gap-1">
+        <span className="font-mono text-sm underline">0x4691...45960f532</span>
+        <IconArrowUpRight />
+      </p>
+    </div>
+  </div>
+);

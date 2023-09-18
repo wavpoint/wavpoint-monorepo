@@ -59,22 +59,10 @@ export default function drop() {
               14 Collected
             </Button>
           </div>
-          <div className="flex flex-col md:flex-row gap-y-8 md:items-center col-span-full justify-between md:mt-12 order-3 md:order-2 md:col-span-1">
-            <div>
-              <p className="font-sans text-orange text-lg">Date Deployed</p>
-              <p className="font-mono text-sm">8 July 2002</p>
-            </div>
-            <div>
-              <p className="font-sans text-orange text-lg">Contract Address</p>
-              <p className="flex items-center gap-1">
-                <span className="font-mono text-sm underline">
-                  0x4691...45960f532
-                </span>
-                <IconArrowUpRight />
-              </p>
-            </div>
+          <div className="hidden md:block">
+            <DateDeployedContractAddress />
           </div>
-          <div className="col-span-full order-2 md:order-4 lg:col-span-1 lg:order-3">
+          <div className="col-span-full order-2 md:order-3 lg:col-span-1 lg:order-3">
             <h2 className="font-sans font-medium text-lg text-orange mb-4">
               Description
             </h2>
@@ -93,7 +81,7 @@ export default function drop() {
               having had over 100,000 copies produced.
             </p>
           </div>
-          <div className="col-span-full md:order-3 lg:col-span-1 lg:order-4">
+          <div className="col-span-full order-3 md:order-4 lg:col-span-1 lg:order-4">
             <div>
               <h2 className="font-sans font-medium text-lg text-orange mb-4">
                 Track IDs
@@ -143,9 +131,28 @@ export default function drop() {
                 </li>
               </ul>
             </div>
+            <div className="block md:hidden">
+              <DateDeployedContractAddress />
+            </div>
           </div>
         </div>
       </div>
     </Layout>
   );
 }
+
+const DateDeployedContractAddress = () => (
+  <div className="flex items-center justify-between mt-12">
+    <div>
+      <p className="font-sans text-orange text-lg">Date Deployed</p>
+      <p className="font-mono text-sm">8 July 2002</p>
+    </div>
+    <div>
+      <p className="font-sans text-orange text-lg">Contract Address</p>
+      <p className="flex items-center gap-1">
+        <span className="font-mono text-sm underline">0x4691...45960f532</span>
+        <IconArrowUpRight />
+      </p>
+    </div>
+  </div>
+);
