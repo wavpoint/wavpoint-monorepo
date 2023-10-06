@@ -15,13 +15,12 @@ export default function Home() {
             textWrap: "balance",
           }}
         >
-          A decentralized content deployment experiment featuring DJ mixes,
-          mixtapes & maybe more :)
+          Showcase & monetize unreleased music.
         </p>
         <div>
-          <span className="relative top-8 left-7 font-sans">Powered By:</span>
-          <div className="flex items-center">
-            <Image src="/zora.svg" alt="Logo" width={151} height={97} />
+          <span className="relative font-sans">Powered By:</span>
+          <div className="flex items-center gap-4">
+            <Image src="/zora.png" alt="Logo" width={100} height={97} />
             <Image src="/base.svg" alt="Logo" width={100} height={28} />
           </div>
         </div>
