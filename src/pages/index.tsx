@@ -9,13 +9,13 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col flex-1 items-center justify-between">
         <p
-          className="font-mono uppercase max-w-xl text-center my-10"
+          className="font-mono uppercase max-w-4xl text-center my-10 text-3xl md:text-4xl lg:text-6xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-bold"
           style={{
             // @ts-ignore
             textWrap: "balance",
           }}
         >
-          Showcase & monetize unreleased music.
+          New tech for unreleased & exclusive music.
         </p>
         <div>
           <span className="relative font-sans">Powered By:</span>
