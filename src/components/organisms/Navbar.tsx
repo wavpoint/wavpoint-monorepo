@@ -11,7 +11,7 @@ export default function Navbar() {
           variant="outline"
           className="rounded-full border border-[#FF6700]"
         >
-          <span className="text-sm font-sans">Connect</span>
+          <span className="text-sm ">Connect</span>
           <svg height="20" width="20">
             <circle cx="10" cy="10" r="4" fill="#FF6700" />
           </svg>

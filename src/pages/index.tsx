@@ -9,7 +9,7 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col flex-1 items-center justify-between">
         <p
-          className="uppercase max-w-4xl text-center my-10 text-3xl md:text-4xl lg:text-7xl leading-tight md:leading-tight lg:leading-tight font-bold font-sans"
+          className="uppercase max-w-4xl text-center my-10 text-3xl md:text-4xl lg:text-7xl leading-tight md:leading-tight lg:leading-tight font-bold "
           style={{
             // @ts-ignore
             textWrap: "balance",
@@ -18,7 +18,7 @@ export default function Home() {
           New tech for unreleased & exclusive music.
         </p>
         <div>
-          <span className="relative font-sans">Powered By:</span>
+          <span className="relative ">Powered By:</span>
           <div className="flex items-center gap-4">
             <Image src="/zora.png" alt="Logo" width={100} height={97} />
             <Image src="/base.svg" alt="Logo" width={100} height={28} />
@@ -26,7 +26,7 @@ export default function Home() {
         </div>
         <Button
           variant="outline"
-          className="font-sans text-2xl md:text-6xl rounded-full font-normal border border-black py-8 md:py-14 w-10/12 max-w-xl my-20 mb-64"
+          className="text-2xl md:text-6xl rounded-full font-normal border border-black py-8 md:py-14 w-10/12 max-w-xl my-20 mb-64"
           style={{
             boxShadow: " 0px 4px 20px 0px #FF6700CC",
           }}

@@ -3,14 +3,14 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <div className="font-dm-sans flex flex-col md:flex-row gap-6 items-center justify-between border-t p-6">
+    <div className=" flex flex-col md:flex-row gap-6 items-center justify-between border-t p-6">
       <div className="flex-1">
         <Image src="/logo_full.png" alt="Logo" width={88} height={24} />
       </div>
-      <p className="font-sans text-sm text-[#888888] flex-1 text-center">
+      <p className="text-sm text-[#888888] flex-1 text-center">
         &copy; Copyright {new Date().getFullYear()} Wavpoint, Inc.
       </p>
-      <ul className="font-sans text-[#222222] text-sm flex gap-4 flex-1 justify-end">
+      <ul className="text-[#222222] text-sm flex gap-4 flex-1 justify-end">
         <li>Twitter</li>
         <li>
           <svg height="20" width="20">

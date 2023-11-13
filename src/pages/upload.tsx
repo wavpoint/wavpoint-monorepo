@@ -70,12 +70,12 @@ export default function Upload() {
   if (isMobile && !isMobileLandscape) {
     return (
       <div className="h-screen flex items-center justify-center flex-col">
-        <p className="text-center font-sans max-w-md w-11/12">
+        <p className="text-center max-w-md w-11/12">
           Media uploading and drop creation is only available on desktop
           browser. Please visit this page on a desktop browser to upload media
         </p>
         <Link
-          className="text-center font-sans text-sm bg-black hover:bg-blue-700 text-white py-2 px-4 rounded mt-4"
+          className="text-center text-sm bg-black hover:bg-blue-700 text-white py-2 px-4 rounded mt-4"
           href="/"
         >
           Back to Home
@@ -87,29 +87,29 @@ export default function Upload() {
   return (
     <Layout>
       <div className="w-11/12 max-w-2xl m-auto mb-36">
-        <h1 className="text-2xl font-sans mb-4">Media Upload</h1>
+        <h1 className="text-2xl mb-4">Media Upload</h1>
         <div>
           <div>
             <Input
               type="text"
               placeholder="Drop name"
-              className="font-sans my-2"
+              className="my-2"
             />
             <Input
               type="text"
               placeholder="Collection name"
-              className="font-sans my-2"
+              className="my-2"
             />
             <div className="grid grid-cols-3 gap-2">
               <div className="col-span-2">
                 <Input
                   type="text"
                   placeholder="Artist name"
-                  className="font-sans"
+                  className=""
                 />
                 <Textarea
                   placeholder="Description"
-                  className="font-sans mt-2"
+                  className="mt-2"
                   rows={6}
                 />
               </div>
@@ -148,10 +148,10 @@ export default function Upload() {
                         <IconUpload />
                       </div>
                       <div className="flex items-center flex-col ">
-                        <p className="text-sm text-[#222222] font-sans">
+                        <p className="text-sm text-[#222222] ">
                           Upload or drag & drop artwork
                         </p>
-                        <p className="text-sm text-[#888888] font-sans">
+                        <p className="text-sm text-[#888888] ">
                           .JPEG, .PNG or .GIF max 50 MB
                         </p>
                       </div>
@@ -163,7 +163,7 @@ export default function Upload() {
           </div>
           <div className="">
             <div className="mt-6">
-              <Label className="font-sans text-[#888888]" htmlFor="picture">
+              <Label className="text-[#888888]" htmlFor="picture">
                 Audio
               </Label>
               <div
@@ -184,7 +184,7 @@ export default function Upload() {
                   />
                   {audio ? (
                     <div>
-                      <p className="font-sans">{audio.name}</p>
+                      <p className="">{audio.name}</p>
                     </div>
                   ) : (
                     <div
@@ -195,10 +195,10 @@ export default function Upload() {
                       tabIndex={0}
                     >
                       <IconUpload />
-                      <span className="text-sm text-[#222222] font-sans">
+                      <span className="text-sm text-[#222222] ">
                         Upload or drag & drop artwork
                       </span>
-                      <span className="text-sm text-[#888888] font-sans">
+                      <span className="text-sm text-[#888888] ">
                         .MP3 or .WAV max 100 MB
                       </span>
                     </div>
@@ -207,7 +207,7 @@ export default function Upload() {
               </div>
             </div>
             <div className="my-4">
-              <Label className="font-sans text-[#888888]" htmlFor="picture">
+              <Label className="text-[#888888]" htmlFor="picture">
                 Video
               </Label>
               <div
@@ -228,7 +228,7 @@ export default function Upload() {
                   />
                   {video ? (
                     <div>
-                      <p className="font-sans">{video.name}</p>
+                      <p className="">{video.name}</p>
                     </div>
                   ) : (
                     <div
@@ -239,10 +239,10 @@ export default function Upload() {
                       tabIndex={0}
                     >
                       <IconUpload />
-                      <span className="text-sm text-[#222222] font-sans">
+                      <span className="text-sm text-[#222222] ">
                         Upload or drag & drop artwork
                       </span>
-                      <span className="text-sm text-[#888888] font-sans">
+                      <span className="text-sm text-[#888888] ">
                         .MP4 max 10 GB
                       </span>
                     </div>
@@ -253,7 +253,7 @@ export default function Upload() {
 
             <Textarea
               placeholder="Track IDs/Chapters"
-              className="font-sans my-4"
+              className="my-4"
               rows={6}
             />
             <div className="grid grid-cols-3 gap-2 my-6">
@@ -261,9 +261,9 @@ export default function Upload() {
                 <Input
                   type="text"
                   placeholder="Recording Location"
-                  className="font-sans"
+                  className=""
                 />
-                <span className="font-sans absolute top-2 right-3 text-[#BBBBBB] select-none text-md">
+                <span className="absolute top-2 right-3 text-[#BBBBBB] select-none text-md">
                   City, Neighborhood, Nightclub
                 </span>
               </div>
@@ -271,52 +271,52 @@ export default function Upload() {
                 <Input
                   type="text"
                   placeholder="Royalty"
-                  className="font-sans"
+                  className=""
                 />
-                <span className="font-sans absolute top-2 right-3 text-[#BBBBBB] select-none text-md">
+                <span className="absolute top-2 right-3 text-[#BBBBBB] select-none text-md">
                   %
                 </span>
               </div>
             </div>
           </div>
           <div className="mt-10">
-            <h1 className="text-xl font-sans mb-4">Creator Reward Splits</h1>
+            <h1 className="text-xl mb-4">Creator Reward Splits</h1>
             <div className="grid grid-cols-3 gap-2">
               <div className="col-span-2">
                 <Input
                   type="text"
                   placeholder="Wallet / ENS address or Email"
-                  className="font-sans"
+                  className=""
                 />
               </div>
               <div className="col-span-1 relative">
                 <Input
                   type="text"
                   placeholder="Percentage"
-                  className="font-sans"
+                  className=""
                 />
-                <span className="font-sans absolute top-2 right-3 text-[#BBBBBB] select-none text-md">
+                <span className="absolute top-2 right-3 text-[#BBBBBB] select-none text-md">
                   %
                 </span>
               </div>
             </div>
           </div>
         </div>
-        <button className="font-sans block ml-auto mt-4 border-[#222222] font-semibold">
+        <button className="block ml-auto mt-4 border-[#222222] font-semibold">
           + Add More
         </button>
         <Button
           variant="outline"
-          className="font-sans rounded-full w-48 block ml-auto mt-12 border-[#222222]"
+          className="rounded-full w-48 block ml-auto mt-12 border-[#222222]"
         >
           Split Evenly
         </Button>
         <Separator className="my-8" />
         <div className="flex items-center justify-end gap-2">
-          <Button className="font-sans rounded-full outline-none border border-transparent bg-transparent text-[#222222] hover:border-[#222222] hover:bg-transparent">
+          <Button className="rounded-full outline-none border border-transparent bg-transparent text-[#222222] hover:border-[#222222] hover:bg-transparent">
             Cancel
           </Button>
-          <Button className="font-sans rounded-full w-48">Deploy</Button>
+          <Button className="rounded-full w-48">Deploy</Button>
         </div>
       </div>
     </Layout>

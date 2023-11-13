@@ -25,12 +25,12 @@ export default function drop() {
         </div>
         <div>
           <div className="flex flex-col gap-3">
-            <h2 className="font-mono text-2xl">Jamiroquai</h2>
+            <h2 className=" text-2xl">Jamiroquai</h2>
             <div className="flex gap-2">
-              <span className="font-mono text-base">Mini Mix 001</span>
+              <span className=" text-base">Mini Mix 001</span>
               <IconPencil />
             </div>
-            <div className="font-mono text-sm text-[#888888]">
+            <div className=" text-sm text-[#888888]">
               Recorded: London, UK
             </div>
           </div>
@@ -42,20 +42,20 @@ export default function drop() {
             </div>
             <Progress value={0} className="h-[3px]" />
             <div className="flex items-center justify-between mt-2">
-              <span className="font-mono text-sm text-mid-grey">0:00</span>
-              <span className="font-mono text-sm text-mid-grey">29:30</span>
+              <span className=" text-sm text-mid-grey">0:00</span>
+              <span className=" text-sm text-mid-grey">29:30</span>
             </div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-x-6 lg:gap-x-28 gap-y-16">
           <div className="flex items-center gap-6 col-span-full md:col-span-1 mt-12 md:order-1">
             <Button
-              className="rounded-full text-base font-sans border-[#222222] flex-grow"
+              className="rounded-full text-base border-[#222222] flex-grow"
               variant="outline"
             >
               Collected
             </Button>
-            <Button className="rounded-full font-mono text-orange text-xs bg-[#F5F5F5] px-6">
+            <Button className="rounded-full  text-orange text-xs bg-[#F5F5F5] px-6">
               14 Collected
             </Button>
           </div>
@@ -63,10 +63,10 @@ export default function drop() {
             <DateDeployedContractAddress />
           </div>
           <div className="col-span-full order-2 md:order-3 lg:col-span-1 lg:order-3">
-            <h2 className="font-sans font-medium text-lg text-orange mb-4">
+            <h2 className="font-medium text-lg text-orange mb-4">
               Description
             </h2>
-            <p className="font-mono text-sm font-normal">
+            <p className=" text-sm font-normal">
               Fourth and final single from British funk and acid jazz band
               Jamiroquai&apos;s fifth studio album, A Funk Odyssey (2001).
               <br />
@@ -74,7 +74,7 @@ export default function drop() {
               nova-type track, reflecting on the problems that people of the
               Earth have to suffer.
             </p>
-            <p className="font-mono text-sm font-normal mt-8">
+            <p className=" text-sm font-normal mt-8">
               The song peaked at number 31 on the UK Singles Chart and was the
               last Jamiroquai single to use the DVD format. Its DVD single is
               referred to as one of the rarest DVD singles in history despite
@@ -83,50 +83,50 @@ export default function drop() {
           </div>
           <div className="col-span-full order-3 md:order-4 lg:col-span-1 lg:order-4">
             <div>
-              <h2 className="font-sans font-medium text-lg text-orange mb-4">
+              <h2 className="font-medium text-lg text-orange mb-4">
                 Track IDs
               </h2>
               <ul className="flex flex-col gap-5">
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Do It Like I&apos;m Used 2 It - Freddie Joachim
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Buddha Fist Style - Evidence
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Claim 2 Fame - 9th Wonder
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Club Onna Thursday - Maze
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Habitzz - Buddy
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Keep It Movin - Ackryte
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Buttr Grits - Ohbliv
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Damndamndamn - Mndsgn
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Whodatwho - Damu The Fudgemunk
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Davibe - Uptown XO
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Buttery Brwn - Danny Brown
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   U & Ya Frendz - Knxwledge
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   1st Nite - Little Brother
                 </li>
-                <li className="font-mono text-sm font-normal">
+                <li className=" text-sm font-normal">
                   Les Journey - Dibiase
                 </li>
               </ul>
@@ -144,13 +144,13 @@ export default function drop() {
 const DateDeployedContractAddress = () => (
   <div className="flex items-center justify-between mt-12">
     <div>
-      <p className="font-sans text-orange text-lg">Date Deployed</p>
-      <p className="font-mono text-sm">8 July 2002</p>
+      <p className="text-orange text-lg">Date Deployed</p>
+      <p className=" text-sm">8 July 2002</p>
     </div>
     <div>
-      <p className="font-sans text-orange text-lg">Contract Address</p>
+      <p className="text-orange text-lg">Contract Address</p>
       <p className="flex items-center gap-1">
-        <span className="font-mono text-sm underline">0x4691...45960f532</span>
+        <span className=" text-sm underline">0x4691...45960f532</span>
         <IconArrowUpRight />
       </p>
     </div>
