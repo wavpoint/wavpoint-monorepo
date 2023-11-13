@@ -9,7 +9,7 @@ export default function Home() {
       <Navbar />
       <main className="flex flex-col flex-1 items-center justify-between">
         <p
-          className="font-mono uppercase max-w-4xl text-center my-10 text-3xl md:text-4xl lg:text-6xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-bold"
+          className="uppercase max-w-4xl text-center my-10 text-3xl md:text-4xl lg:text-7xl leading-tight md:leading-tight lg:leading-tight font-bold font-sans"
           style={{
             // @ts-ignore
             textWrap: "balance",
