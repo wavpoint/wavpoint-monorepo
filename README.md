@@ -1,1 +1,1 @@
-# wavpoint-v1
+# wavpoint-monorepo
