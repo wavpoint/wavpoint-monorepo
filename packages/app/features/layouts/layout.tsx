@@ -51,11 +51,11 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
                 </Link>
 
                 <Row className='gap-2'>
-                    <Button variant={'ghost'} className='flex items-center gap-2' onClick={submitButtonHandler}>
+                    <Button variant={'ghost'} className='flex items-center gap-2' onPress={submitButtonHandler}>
                         <UploadCloudIcon className='w-4' />
                         Submit Mix
                     </Button>
-                    <Button onClick={connectButtonHandler}>
+                    <Button onPress={connectButtonHandler}>
                         {authenticated ? 'Disconnect' : 'Connect'}
                     </Button>
                 </Row>

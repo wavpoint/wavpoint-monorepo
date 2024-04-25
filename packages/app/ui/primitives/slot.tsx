@@ -25,7 +25,7 @@ const Pressable = React.forwardRef<React.ElementRef<typeof RNPressable>, RNPress
 
     return React.cloneElement<
       React.ComponentPropsWithoutRef<typeof RNPressable>,
-      // @ts-expect-error
+      // @ts-ignore
       React.ElementRef<typeof RNPressable>
     >(isTextChildren(children) ? <></> : children, {
       ...mergeProps(pressableSlotProps, children.props),
