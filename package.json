@@ -1,0 +1,31 @@
+{
+  "name": "wavpoint",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "web:clean": "cd apps/web && bun clean",
+    "mobile:clean": "cd apps/mobile && bun clean",
+    "app:clean": "cd packages/app && bun clean",
+    "clean": "git clean -xdf node_modules && rm -rf .turbo && rm -rf bun.lockb && bun web:clean && bun mobile:clean && bun app:clean"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "prettier": "^3.2.5",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "bun@1.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9"
+  }
+}

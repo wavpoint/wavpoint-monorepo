@@ -1,0 +1,15 @@
+{
+	"extends": "@repo/typescript-config/react-library.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"moduleResolution": "Node"
+	},
+	"include": [
+		"**.d.ts",
+		"tailwind.config.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.png"
+	],
+	"exclude": ["node_modules", "dist"]
+}
