@@ -54,8 +54,8 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 	};
 
 	return (
-		<View className="h-screen w-full items-center p-6 pb-28">
-			<View className="flex-1 w-full max-w-2xl gap-4">
+		<View className="h-full w-full items-center p-6">
+			<View className="fixed inset-x-0 top-0 w-full px-6 pt-6 pb-2 bg-white items-center z-10">
 				<Row className="max-w-2xl w-full bg-primary rounded-full px-4 py-3 flex justify-between items-center">
 					<Link href={"/"}>
 						<SolitoImage
@@ -83,11 +83,13 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 						</Button>
 					</Row>
 				</Row>
+			</View>
 
+			<View className="pb-24 pt-20 w-full max-w-2xl items-center">
 				{children}
 			</View>
 
-			<View className="fixed inset-x-0 bottom-0 w-full gap-1 items-center px-6 bg-white">
+			<View className="fixed inset-x-0 bottom-0 w-full gap-1 items-center px-6 py-2 bg-white">
 				<Row className="max-w-2xl w-full bg-gradient-final border border-primary rounded-full px-8 py-3 flex justify-between items-center">
 					<View>
 						<Text className="font-bold">Mix Season</Text>
@@ -179,7 +181,16 @@ function ShareDialog() {
 						variant={"link"}
 						className="gap-1 flex no-underline hover:underline"
 					>
-						🟣 Zora Bridge
+						<SolitoImage
+							src="/zorb.png"
+							height={14}
+							width={14}
+							contentFit={"contain"}
+							onLayout={{}}
+							resizeMode={"cover"}
+							alt="A cool image, imported locally."
+						/>{" "}
+						Zora Bridge
 					</Button>
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-[425px]">
@@ -198,7 +209,16 @@ function ShareDialog() {
 						"cursor-pointer gap-1 flex no-underline hover:underline",
 					)}
 				>
-					🟣 Zora Bridge
+					<SolitoImage
+						src="/zorb.png"
+						height={14}
+						width={14}
+						contentFit={"contain"}
+						onLayout={{}}
+						resizeMode={"cover"}
+						alt="A cool image, imported locally."
+					/>{" "}
+					Zora Bridge
 				</Text>
 			</DrawerTrigger>
 			<DrawerContent>
