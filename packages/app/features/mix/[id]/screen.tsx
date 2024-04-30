@@ -45,16 +45,16 @@ export function MixScreen() {
 				</Row>
 
 				<View className="w-[200px] items-center">
-					<Row className="justify-between w-full">
-						<Text className="text-[10px]">0</Text>
-						<Text className="text-[10px]">1,111</Text>
-						<Text className="text-[10px]">7,777</Text>
+					<Row className="w-full">
+						<Text className="text-[10px] w-1/3 pl-3">0</Text>
+						<Text className="text-[10px] w-1/3 text-center">1,111</Text>
+						<Text className="text-[10px] text-end w-1/3 pr-1">7,777</Text>
 					</Row>
 					<Progress value={1100} max={7777} className="w-11/12" />
-					<Row className="w-full flex">
-						<Text className="text-[10px] grow">Onchain</Text>
-						<Text className="text-[10px] grow">Downloads</Text>
-						<Text className="text-[10px] grow">Vinyl</Text>
+					<Row className="w-full">
+						<Text className="text-[10px] w-1/3">Onchain</Text>
+						<Text className="text-[10px] w-1/3 text-center">Downloads</Text>
+						<Text className="text-[10px] w-1/3 text-end pr-2">Vinyl</Text>
 					</Row>
 				</View>
 
