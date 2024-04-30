@@ -87,7 +87,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 				{children}
 			</View>
 
-			<View className="fixed inset-x-0 bottom-0 w-full gap-1 items-center px-6">
+			<View className="fixed inset-x-0 bottom-0 w-full gap-1 items-center px-6 bg-white">
 				<Row className="max-w-2xl w-full bg-gradient-final border border-primary rounded-full px-8 py-3 flex justify-between items-center">
 					<View>
 						<Text className="font-bold">Mix Season</Text>
