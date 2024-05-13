@@ -21,6 +21,8 @@ import {
 	Play,
 	Scale,
 	UploadCloudIcon,
+	User,
+	User2,
 } from "lucide-react-native";
 import { useState } from "react";
 import { SolitoImage } from "solito/image";
@@ -35,7 +37,7 @@ interface DefaultLayoutProps {
 }
 
 export function DefaultLayout({ children }: DefaultLayoutProps) {
-	const { login, logout, authenticated, ready } = usePrivy();
+	const { login, logout, authenticated, ready, user } = usePrivy();
 
 	const disableLogin = !ready || (ready && authenticated);
 
@@ -104,6 +106,17 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 						<Button variant={"ghost"} size={"icon"} className="h-auto w-auto">
 							<Play className="w-[18px] h-[18px]" fill={"black"} />
 						</Button>
+
+						<Link
+							href={`/profile/${user?.id.replace("did:privy:", "")}`}
+							className={buttonVariants({
+								variant: "ghost",
+								size: "icon",
+								className: "h-auto w-auto",
+							})}
+						>
+							<User className="w-[18px] h-[18px]" />
+						</Link>
 					</Row>
 				</Row>
 

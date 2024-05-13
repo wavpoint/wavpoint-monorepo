@@ -16,11 +16,12 @@ import {
 	buttonVariants,
 } from "@repo/app/ui";
 
-import { ArrowUpRight, PlayIcon } from "lucide-react-native";
+import { ArrowUpRight, Play, PlayIcon } from "lucide-react-native";
 import { useState } from "react";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
 import { cn } from "../../../lib/utils";
+import { EthLogo } from "../../../ui/eth-logo";
 import { useMediaQuery } from "../../../ui/primitives/hooks";
 import MintDialogContent from "../../dialogs/mint";
 
@@ -60,6 +61,17 @@ export function MixScreen() {
 
 				<MintDialog />
 
+				<Row className="gap-3">
+					<Row className="items-center gap-0.5">
+						<Play className="fill-black w-2.5 h-2.5" />
+						<Text className="text-xs">10,000</Text>
+					</Row>
+					<Row className="items-center gap-0.5">
+						<EthLogo className="w-3 h-3" />
+						<Text className="text-xs text-primary">1 ETH</Text>
+					</Row>
+				</Row>
+
 				<View className="w-full mt-8 gap-3">
 					{Array.from({ length: 10 }).map((_, i) => (
 						<View key={`${i * 2}`} className="w-full">
@@ -85,6 +97,7 @@ function MintDialog() {
 				<DialogTrigger asChild>
 					<Button
 						variant="outline"
+						size={"wide"}
 						className="border-primary text-primary font-semibold gap-1"
 					>
 						<SolitoImage
@@ -111,7 +124,7 @@ function MintDialog() {
 			<DrawerTrigger asChild>
 				<Text
 					className={cn(
-						buttonVariants({ variant: "outline" }),
+						buttonVariants({ variant: "outline", size: "wide" }),
 						"cursor-pointer border-primary text-primary font-semibold gap-1",
 					)}
 				>

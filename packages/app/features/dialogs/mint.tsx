@@ -1,21 +1,14 @@
 import { Disc3, Download } from "lucide-react-native";
-import { type Dispatch, type SetStateAction, useState } from "react";
+import { useState } from "react";
 import { SolitoImage } from "solito/image";
 import { cn } from "../../lib/utils";
 import {
 	Button,
 	Dialog,
-	DialogClose,
 	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
 	DialogTrigger,
 	Drawer,
 	DrawerContent,
-	DrawerDescription,
-	DrawerHeader,
-	DrawerTitle,
 	DrawerTrigger,
 	Input,
 	Row,
@@ -26,6 +19,8 @@ import {
 import { useMediaQuery } from "../../ui/primitives/hooks";
 import { Slider } from "../../ui/slider";
 import ClaimDialogContent from "./claim";
+
+const MAX = 111;
 
 export default function MintDialogContent() {
 	const [value, setValue] = useState(1);
@@ -38,7 +33,7 @@ export default function MintDialogContent() {
 					<Slider
 						value={value}
 						min={1}
-						max={111}
+						max={MAX}
 						onValueChange={(vals) => {
 							const nextValue = vals[0];
 							if (typeof nextValue !== "number") return;
@@ -47,12 +42,12 @@ export default function MintDialogContent() {
 					/>
 					<Row className="w-full flex justify-between">
 						<Text className="text-xs">QTY: {value}</Text>
-						<Text className="text-xs">0.000777 ETH</Text>
+						<Text className="text-xs">0.000777 ETH ($2.50 USD)</Text>
 					</Row>
 				</View>
 				<Button
 					variant="outline"
-					className="border-primary text-primary font-semibold gap-1"
+					className="border-primary text-primary font-semibold gap-2"
 				>
 					<SolitoImage
 						src="/zorb.png"
@@ -65,6 +60,32 @@ export default function MintDialogContent() {
 					/>
 					Mint +
 				</Button>
+
+				<Row className="gap-6 justify-center w-full">
+					<Button
+						variant={"outline"}
+						className="border-primary text-primary font-semibold w-20"
+						onClick={() => setValue(3)}
+					>
+						3
+					</Button>
+
+					<Button
+						variant={"outline"}
+						className="border-primary text-primary font-semibold w-20"
+						onClick={() => setValue(20)}
+					>
+						20
+					</Button>
+
+					<Button
+						variant={"outline"}
+						className="border-primary text-primary font-semibold w-20"
+						onClick={() => setValue(MAX)}
+					>
+						MAX
+					</Button>
+				</Row>
 				<View className="flex items-center gap-2">
 					<Text className="text-sm">
 						Collect <Text className="text-primary text-sm">3+</Text> to download
