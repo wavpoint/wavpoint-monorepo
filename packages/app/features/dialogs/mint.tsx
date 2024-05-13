@@ -42,7 +42,7 @@ export default function MintDialogContent() {
 					/>
 					<Row className="w-full flex justify-between">
 						<Text className="text-xs">QTY: {value}</Text>
-						<Text className="text-xs">0.000777 ETH ($2.50 USD)</Text>
+						<Text className="text-xs">{value * 0.000777} ETH ($2.50 USD)</Text>
 					</Row>
 				</View>
 				<Button
@@ -65,7 +65,7 @@ export default function MintDialogContent() {
 					<Button
 						variant={"outline"}
 						className="border-primary text-primary font-semibold w-20"
-						onClick={() => setValue(3)}
+						onPress={() => setValue(3)}
 					>
 						3
 					</Button>
@@ -73,7 +73,7 @@ export default function MintDialogContent() {
 					<Button
 						variant={"outline"}
 						className="border-primary text-primary font-semibold w-20"
-						onClick={() => setValue(20)}
+						onPress={() => setValue(20)}
 					>
 						20
 					</Button>
@@ -81,7 +81,7 @@ export default function MintDialogContent() {
 					<Button
 						variant={"outline"}
 						className="border-primary text-primary font-semibold w-20"
-						onClick={() => setValue(MAX)}
+						onPress={() => setValue(MAX)}
 					>
 						MAX
 					</Button>
