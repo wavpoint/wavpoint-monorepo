@@ -26,6 +26,8 @@
     "packages/*"
   ],
   "dependencies": {
-    "@babel/plugin-proposal-export-namespace-from": "^7.18.9"
+    "@airstack/airstack-react": "^0.6.3",
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+    "react-hook-form": "^7.51.4"
   }
 }

@@ -1,6 +1,7 @@
 import { Disc3, Download } from "lucide-react-native";
 import { useState } from "react";
 import { SolitoImage } from "solito/image";
+// import { useWriteContract } from "wagmi";
 import { cn } from "../../lib/utils";
 import {
 	Button,
@@ -23,6 +24,8 @@ import ClaimDialogContent from "./claim";
 const MAX = 111;
 
 export default function MintDialogContent() {
+	// const { data: hash, writeContract } = useWriteContract();
+
 	const [value, setValue] = useState(1);
 
 	return (

@@ -16,11 +16,13 @@ import {
 	buttonVariants,
 } from "@repo/app/ui";
 
-import { ArrowUpRight, Play, PlayIcon } from "lucide-react-native";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowUpRight, Play } from "lucide-react-native";
 import { useState } from "react";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
-import { cn } from "../../../lib/utils";
+import { cn, ipfsToUrl } from "../../../lib/utils";
+import { COLLECTION_ADDRESS, zdk } from "../../../lib/zdk";
 import { EthLogo } from "../../../ui/eth-logo";
 import { useMediaQuery } from "../../../ui/primitives/hooks";
 import MintDialogContent from "../../dialogs/mint";
@@ -30,17 +32,60 @@ const useMixParams = useParams<{ id: string }>;
 export function MixScreen() {
 	const { id } = useMixParams();
 
+	const fetchToken = async () => {
+		const data = await zdk.token({
+			token: {
+				address: COLLECTION_ADDRESS,
+				tokenId: id,
+			},
+		});
+
+		return data.token?.token;
+	};
+
+	const fetchMints = async () => {
+		const data = await zdk.sdk.ownersByCount1155({
+			where: {
+				collectionAddress: COLLECTION_ADDRESS,
+				tokenId: id,
+			},
+		});
+
+		let mintCount = 0;
+
+		data.aggregateStat.ownersByCount1155.map((owner) => {
+			mintCount += owner.count;
+		});
+
+		return mintCount;
+	};
+
+	const { data } = useQuery({
+		queryKey: [`TOKEN_${id}`],
+		queryFn: fetchToken,
+		enabled: !!id,
+	});
+
+	const { data: mintCount } = useQuery({
+		queryKey: [`MINT_${id}`],
+		queryFn: fetchMints,
+		enabled: !!id,
+	});
+
 	return (
 		<DefaultLayout>
 			<View className="max-w-xl items-center gap-2 flex-1 w-full">
 				<View className="w-[200px] h-[200px] bg-gradient-initial rounded-md flex items-center justify-center mt-2">
-					<PlayIcon className="w-8 h-8" fill={"black"} />
+					{/* <PlayIcon className="w-8 h-8" fill={"black"} /> */}
+					<img
+						src={ipfsToUrl(data?.image?.url)}
+						alt=""
+						className="absolute inset-0 rounded-md"
+					/>
 				</View>
 
 				<Row className="px-0 items-center">
-					<Text className="text-sm font-bold underline">
-						S{id} - Lootmatic & Trucalyptus
-					</Text>
+					<Text className="text-sm font-bold underline">{data?.name}</Text>
 
 					<ArrowUpRight className="w-4 h-4 mt-1 text-primary" />
 				</Row>
@@ -51,7 +96,9 @@ export function MixScreen() {
 						<Text className="text-[10px] w-1/3 text-center">1,111</Text>
 						<Text className="text-[10px] text-end w-1/3 pr-1">7,777</Text>
 					</Row>
-					<Progress value={1100} max={7777} className="w-11/12" />
+					{mintCount && (
+						<Progress value={mintCount} max={7777} className="w-11/12" />
+					)}
 					<Row className="w-full">
 						<Text className="text-[10px] w-1/3">Onchain</Text>
 						<Text className="text-[10px] w-1/3 text-center">Downloads</Text>

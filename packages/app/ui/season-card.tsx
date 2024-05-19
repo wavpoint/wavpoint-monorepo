@@ -1,50 +1,53 @@
 import { Button, Row, View } from "@repo/app/ui";
 
+import { useQuery } from "@tanstack/react-query";
+import type { TokensResponseItem } from "@zoralabs/zdk";
 import { Disc3, Download } from "lucide-react-native";
-import { useEffect, useState } from "react";
 import { Link } from "solito/link";
 import { ShareDialog } from "../features/dialogs/share-arrow";
-import type { ContractSummaryResponse, TokenData } from "../lib/zdk";
+import { ipfsToUrl } from "../lib/utils";
+import { COLLECTION_ADDRESS, zdk } from "../lib/zdk";
 
 interface SeasonCardProps {
-	token: TokenData;
+	token: TokensResponseItem["token"];
 }
 
 export function SeasonCard({ token }: SeasonCardProps) {
-	const [contractSummary, setContractSummary] =
-		useState<ContractSummaryResponse>();
+	const fetchMints = async () => {
+		const data = await zdk.sdk.ownersByCount1155({
+			where: {
+				collectionAddress: COLLECTION_ADDRESS,
+				tokenId: token.tokenId,
+			},
+		});
 
-	const fetchTokenData = async () => {
-		const response = await fetch(
-			`https://api.zora.co/discover/contract_summary/ZORA-MAINNET/0xcb11bcaedde64360dcbb0a72a15c4eef509b2f53?token_id=${token.tokenId}`,
-		);
+		let mintCount = 0;
 
-		const contract: ContractSummaryResponse = await response.json();
+		data.aggregateStat.ownersByCount1155.map((owner) => {
+			mintCount += owner.count;
+		});
 
-		setContractSummary(contract);
+		return mintCount;
 	};
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	useEffect(() => {
-		fetchTokenData();
-	}, [token]);
+	const { data: mintCount } = useQuery({
+		queryKey: [`MINT_${token.tokenId}`],
+		queryFn: fetchMints,
+		enabled: !!token.tokenId,
+	});
 
 	return (
 		<View className="gap-1">
 			<Link href={`/mix/${token.tokenId}`}>
 				<View className="w-[200px] h-[200px] flex justify-end bg-gradient-to-b from-gradient-initial to-gradient-final rounded-md p-2">
 					<img
-						src={
-							token.image?.url
-								? token.image.url?.replace("ipfs://", "https://ipfs.io/ipfs/")
-								: ""
-						}
+						src={ipfsToUrl(token.image?.url)}
 						alt=""
-						className="absolute inset-0"
+						className="absolute inset-0 rounded-md"
 					/>
 					<Row className="flex justify-between items-end">
 						<Button variant={"outline"} size={"sm"}>
-							{contractSummary?.contract_summary.mint_count}
+							{mintCount}
 						</Button>
 
 						<Row className="gap-2 font-bold">

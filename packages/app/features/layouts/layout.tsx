@@ -108,7 +108,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 						</Button>
 
 						<Link
-							href={`/profile/${user?.id.replace("did:privy:", "")}`}
+							href={`/profile/${user?.wallet?.address}`}
 							className={buttonVariants({
 								variant: "ghost",
 								size: "icon",
