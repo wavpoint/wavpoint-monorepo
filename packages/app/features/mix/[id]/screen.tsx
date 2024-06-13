@@ -9,6 +9,7 @@ import {
 	DrawerContent,
 	DrawerTrigger,
 	EthLogo,
+	Pressable,
 	Progress,
 	Row,
 	Text,
@@ -138,12 +139,12 @@ export function MixScreen() {
 					className="absolute inset-0 rounded-md"
 				/>
 				{currentSong?.url !== ipfsToUrl(data?.content?.url) && (
-					<View
-						onClick={setAsCurrentSong}
+					<Pressable
+						onPress={setAsCurrentSong}
 						className="backdrop-blur opacity-0 cursor-pointer inset-0 absolute justify-center items-center hover:opacity-100 transition-opacity"
 					>
 						<PlayIcon className="w-8 h-8" fill={"black"} />
-					</View>
+					</Pressable>
 				)}
 			</View>
 

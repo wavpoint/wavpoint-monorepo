@@ -17,7 +17,6 @@ import {
 } from "@repo/app/ui";
 
 import { cn, cookieName } from "@repo/app/lib";
-import { formatTime } from "@repo/utils";
 import {
 	audioRefAtom,
 	currentSongAtom,
@@ -25,6 +24,7 @@ import {
 	isPlayingAtom,
 	useIsPlayingListener,
 } from "@repo/app/store/player";
+import { formatTime } from "@repo/utils";
 import { useAtom, useSetAtom } from "jotai";
 import Cookies from "js-cookie";
 import {
@@ -204,7 +204,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 							variant={"ghost"}
 							size={"icon"}
 							className="h-auto w-auto"
-							onClick={handleTogglePlay}
+							onPress={handleTogglePlay}
 						>
 							{currentSong && (
 								// biome-ignore lint/a11y/useMediaCaption: <explanation>
