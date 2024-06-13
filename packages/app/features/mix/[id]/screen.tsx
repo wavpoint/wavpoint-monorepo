@@ -96,9 +96,13 @@ export function MixScreen() {
 	const { data: mintData } = useQuery({
 		queryKey: [`MINT_${id}`],
 		queryFn: async () =>
-			request("http://localhost:42069", mintCountQueryDocument, {
-				tokenId: `${id}:${COLLECTION_ADDRESS}`,
-			}),
+			request(
+				process.env.INDEXER_URI ?? "http://localhost:42069",
+				mintCountQueryDocument,
+				{
+					tokenId: `${id}:${COLLECTION_ADDRESS}`,
+				},
+			),
 		enabled: !!id,
 		refetchOnWindowFocus: false,
 	});

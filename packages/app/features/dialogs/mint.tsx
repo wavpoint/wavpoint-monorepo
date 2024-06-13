@@ -94,9 +94,13 @@ export default function MintDialogContent() {
 	const { data: mintData } = useQuery({
 		queryKey: [`MINT_${params.id}`],
 		queryFn: async () =>
-			request("http://localhost:42069", mintCountQueryDocument, {
-				tokenId: `${params.id}:${COLLECTION_ADDRESS}`,
-			}),
+			request(
+				process.env.INDEXER_URI ?? "http://localhost:42069",
+				mintCountQueryDocument,
+				{
+					tokenId: `${params.id}:${COLLECTION_ADDRESS}`,
+				},
+			),
 		enabled: !!params.id,
 	});
 
