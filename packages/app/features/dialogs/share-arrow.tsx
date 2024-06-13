@@ -1,5 +1,3 @@
-import { ArrowUpRight } from "lucide-react-native";
-import { useState } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -7,8 +5,10 @@ import {
 	Drawer,
 	DrawerContent,
 	DrawerTrigger,
-} from "../../ui";
-import { useMediaQuery } from "../../ui/primitives/hooks";
+	useMediaQuery,
+} from "@repo/app/ui";
+import { ArrowUpRight } from "lucide-react-native";
+import { useState } from "react";
 import ShareDialogContent from "./share";
 
 export function ShareDialog() {

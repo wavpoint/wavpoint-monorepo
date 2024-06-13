@@ -1,3 +1,4 @@
+import { VINYL_GOAL } from "@repo/utils";
 import * as React from "react";
 import { Platform } from "react-native";
 import Animated, {
@@ -36,15 +37,20 @@ function Indicator({ value }: { value: number | undefined | null }) {
 	const progress = useDerivedValue(() => value ?? 0, [value]);
 
 	function getVisualProgress(currentValue: number) {
-		if (currentValue <= 1111) {
-			// Interpolate from 0 to 1111 to map to 0% to 50%
-			return interpolate(currentValue, [0, 1111], [0, 50], Extrapolation.CLAMP);
-		}
-		// Interpolate from 1111 to 7777 to map to 50% to 100%
+		// FIXME: Uncomment to enable downloads goal
+		// if (currentValue <= 1111) {
+		// 	// Interpolate from 0 to 1111 to map to 0% to 50%
+		// 	return interpolate(currentValue, [0, 1111], [0, 50], Extrapolation.CLAMP);
+		// }
+
+		// Interpolate from 1111 to VINYL_GOAL to map to 50% to 100%
 		return interpolate(
 			currentValue,
-			[1111, 7777],
-			[50, 100],
+			// FIXME: Replace the two arrays to enable downloads goal
+			// [1111, VINYL_GOAL],
+			// [50, 100],
+			[0, VINYL_GOAL],
+			[0, 100],
 			Extrapolation.CLAMP,
 		);
 	}
@@ -54,7 +60,7 @@ function Indicator({ value }: { value: number | undefined | null }) {
 			width: withSpring(
 				`${interpolate(
 					progress.value,
-					[0, 7777],
+					[0, VINYL_GOAL],
 					[0, 100],
 					Extrapolation.CLAMP,
 				)}%`,
@@ -74,7 +80,7 @@ function Indicator({ value }: { value: number | undefined | null }) {
 						}%)`,
 					}}
 				/>
-				{progress.value > 250 && (
+				{progress.value > VINYL_GOAL / 11 && (
 					<Text
 						className="absolute flex items-center justify-end w-full text-[8px] h-full pr-1 italic -mt-[1px]"
 						style={{
@@ -92,7 +98,7 @@ function Indicator({ value }: { value: number | undefined | null }) {
 
 	return (
 		<ProgressPrimitive.Indicator asChild>
-			{progress.value > 250 && (
+			{progress.value > VINYL_GOAL / 11 && (
 				<Text
 					className="absolute flex items-center justify-end w-full text-[8px] h-full pr-1 italic -mt-[1px]"
 					style={{

@@ -1,0 +1,24 @@
+{
+	"compilerOptions": {
+		// Type checking
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+
+		// Interop constraints
+		"verbatimModuleSyntax": false,
+		"esModuleInterop": true,
+		"isolatedModules": true,
+		"allowSyntheticDefaultImports": true,
+		"resolveJsonModule": true,
+
+		// Language and environment
+		"moduleResolution": "bundler",
+		"module": "Preserve",
+		"noEmit": true,
+
+		// Skip type checking for node modules
+		"skipLibCheck": true
+	},
+	"include": ["./**/*.ts"],
+	"exclude": ["node_modules"]
+}

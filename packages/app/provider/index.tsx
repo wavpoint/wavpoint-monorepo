@@ -2,10 +2,9 @@
 "use client";
 import { PrivyProvider } from "@privy-io/react-auth";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Provider as JotaiProvider } from "jotai";
 import { useServerInsertedHTML } from "next/navigation";
 import { StyleSheet } from "react-native";
-import { WagmiProvider } from "wagmi";
-import { config } from "../lib/wagmi";
 import { PortalHost } from "../ui/primitives/portal";
 import { SafeArea } from "./safe-area";
 
@@ -33,10 +32,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
 				}}
 			>
 				<QueryClientProvider client={queryClient}>
-					<WagmiProvider config={config}>
+					<JotaiProvider>
 						<PortalHost />
 						{children}
-					</WagmiProvider>
+					</JotaiProvider>
 				</QueryClientProvider>
 			</PrivyProvider>
 		</SafeArea>

@@ -1,88 +1,194 @@
-import { ArrowUpRight, Play, PlusCircle, SkipBack, SkipForward } from "lucide-react-native";
-import { Button, Dialog, DialogContent, DialogTrigger, Drawer, DrawerContent, DrawerTrigger, Row, Text, View, buttonVariants } from "../../ui";
-import { Slider2 } from "../../ui/slider";
-import { useState } from "react";
+import { cn } from "@repo/app/lib";
+import { formatTime } from "@repo/utils";
+import {
+	audioRefAtom,
+	currentSongAtom,
+	currentSongElapsedTimeAtom,
+	isPlayingAtom,
+} from "@repo/app/store/player";
+import {
+	Button,
+	Dialog,
+	DialogContent,
+	DialogTrigger,
+	Drawer,
+	DrawerContent,
+	DrawerTrigger,
+	Row,
+	Slider2,
+	Text,
+	View,
+	buttonVariants,
+	useMediaQuery,
+} from "@repo/app/ui";
+import { useAtom, useAtomValue } from "jotai";
+import { debounce } from "lodash";
+import {
+	ArrowUpRight,
+	Play,
+	PlusCircle,
+	SkipBack,
+	SkipForward,
+} from "lucide-react-native";
+import { useCallback, useEffect, useState } from "react";
 import MintDialogContent from "./mint";
-import { cn } from "../../lib/utils";
-import { useMediaQuery } from "../../ui/primitives/hooks";
 
 export function TrackDialogContent() {
-    const [time, setTime] = useState(0);
+	const currentSong = useAtomValue(currentSongAtom);
+	const currentSongElapsedTime = useAtomValue(currentSongElapsedTimeAtom);
+	const audioRefState = useAtomValue(audioRefAtom);
+	const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
 
-    const secondsToMinutes = (seconds: number) => `${Math.floor(seconds / 60)}:${(`0${Math.floor(seconds % 60)}`).slice(-2)}`;
+	const handleTogglePlay = () => setIsPlaying((prev) => !prev);
 
-    return <Row className="flex justify-center">
-        <Row className="px-8 py-2 max-w-xl w-full gap-4">
-            <View className="w-[150px] h-[150px] bg-gradient-initial rounded-lg" />
+	const [sliderValue, setSliderValue] = useState(currentSongElapsedTime);
 
-            <View className="gap-4 grow justify-center">
-                <View className="gap-1">
-                    <Text className="flex items-center font-semibold">Mix Name <ArrowUpRight className="w-4 h-4 text-primary mt-0.5" /></Text>
-                    <Text className="font-extralight italic text-xs">Artist Name</Text>
-                </View>
+	useEffect(() => {
+		setSliderValue(currentSongElapsedTime);
+	}, [currentSongElapsedTime]);
 
-                <View className="gap-1.5">
-                    <Slider2 value={time} max={30 * 60} onValueChange={(vals) => {
-                        const nextValue = vals[0];
-                        if (typeof nextValue !== 'number') return;
-                        setTime(nextValue);
-                    }} />
+	const debouncedUpdateTime = useCallback(
+		debounce((nextValue) => {
+			if (typeof nextValue !== "number" || !audioRefState?.current) return;
 
-                    <Row className="justify-between">
-                        <Text className="text-[10px]">{secondsToMinutes(time)}</Text>
-                        <Text className="text-[10px]">30:00</Text>
-                    </Row>
-                </View>
+			audioRefState.current.currentTime = nextValue;
+		}, 200),
+		[],
+	);
 
-                <Row className="justify-between">
-                    <Button size={'icon'} variant={'ghost'} className="rounded-lg">
-                        <SkipBack className="w-5 h-5" />
-                    </Button>
+	const onSliderChange = (vals: number[]) => {
+		const nextValue = vals[0];
+		if (!nextValue) return;
+		setSliderValue(nextValue);
+		debouncedUpdateTime(nextValue);
+	};
 
-                    <Button size={'icon'} variant={'ghost'} className="rounded-lg">
-                        <Play className="w-6 h-6 fill-black" />
-                    </Button>
+	return (
+		<Row className="flex justify-center">
+			<Row className="px-8 py-2 max-w-xl gap-4">
+				<View className="w-[150px] h-[150px] bg-gradient-initial rounded-lg relative">
+					<img
+						src={currentSong?.cover}
+						width={"100%"}
+						height={"100%"}
+						alt={currentSong?.title}
+						className="absolute inset-0 rounded-md"
+					/>
+				</View>
 
-                    <Button size={'icon'} variant={'ghost'} className="rounded-lg">
-                        <SkipForward className="w-5 h-5" />
-                    </Button>
+				<View className="gap-4 justify-center max-w-44">
+					<View className="gap-1">
+						<Row>
+							<Text className="flex items-center font-semibold truncate">
+								{currentSong?.title ?? "Nothing Playing"}
+							</Text>
+							<ArrowUpRight className="w-4 h-4 text-primary mt-0.5 basis-4 shrink-0" />
+						</Row>
+						<Text className="font-extralight italic text-xs">
+							{currentSong?.artist ?? "Nothing Playing"}
+						</Text>
+					</View>
 
-                    <MintDialog />
-                </Row>
-            </View>
-        </Row>
-    </Row>
+					<View className="gap-1.5">
+						<Slider2
+							value={sliderValue}
+							max={currentSong?.duration}
+							onValueChange={onSliderChange}
+						/>
+
+						<Row className="justify-between">
+							<Text className="text-[10px]">
+								{formatTime(currentSongElapsedTime)}
+							</Text>
+							<Text className="text-[10px]">
+								{formatTime(currentSong?.duration)}
+							</Text>
+						</Row>
+					</View>
+
+					<Row className="justify-between">
+						<Button
+							size={"icon"}
+							variant={"ghost"}
+							className="rounded-lg"
+							onPress={() => {
+								if (audioRefState?.current)
+									audioRefState.current.currentTime = 0;
+							}}
+						>
+							<SkipBack className="w-5 h-5" />
+						</Button>
+
+						<Button
+							size={"icon"}
+							variant={"ghost"}
+							className="rounded-lg"
+							onPress={handleTogglePlay}
+						>
+							{isPlaying ? (
+								<Row className="w-6 h-[18px] justify-evenly">
+									<View className="w-1.5 h-full bg-black" />
+									<View className="w-1.5 h-full bg-black" />
+								</Row>
+							) : (
+								<Play className="w-6 h-6" fill={"black"} />
+							)}
+						</Button>
+
+						<Button
+							size={"icon"}
+							variant={"ghost"}
+							className="rounded-lg"
+							onPress={() => {
+								if (audioRefState?.current && currentSong)
+									audioRefState.current.currentTime = currentSong.duration - 1;
+							}}
+						>
+							<SkipForward className="w-5 h-5" />
+						</Button>
+
+						<MintDialog />
+					</Row>
+				</View>
+			</Row>
+		</Row>
+	);
 }
 
 export function MintDialog() {
-    const [open, setOpen] = useState(false)
-    const isDesktop = useMediaQuery("(min-width: 624px)")
+	const [open, setOpen] = useState(false);
+	const isDesktop = useMediaQuery("(min-width: 624px)");
 
-    if (isDesktop) {
-        return (
-            <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
-                    <Button size={'icon'} variant={'ghost'} className="rounded-lg">
-                        <PlusCircle className="w-5 h-5 text-primary" />
-                    </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                    <MintDialogContent />
-                </DialogContent>
-            </Dialog>
-        )
-    }
+	if (isDesktop) {
+		return (
+			<Dialog open={open} onOpenChange={setOpen}>
+				<DialogTrigger asChild>
+					<Button size={"icon"} variant={"ghost"} className="rounded-lg">
+						<PlusCircle className="w-5 h-5 text-primary" />
+					</Button>
+				</DialogTrigger>
+				<DialogContent className="sm:max-w-[425px]">
+					<MintDialogContent />
+				</DialogContent>
+			</Dialog>
+		);
+	}
 
-    return (
-        <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger asChild>
-                <Text className={cn(buttonVariants({ variant: 'ghost', size: 'icon' }), 'cursor-pointer rounded-lg')}>
-                    <PlusCircle className="w-5 h-5 text-primary" />
-                </Text>
-            </DrawerTrigger>
-            <DrawerContent>
-                <MintDialogContent />
-            </DrawerContent>
-        </Drawer>
-    )
+	return (
+		<Drawer open={open} onOpenChange={setOpen}>
+			<DrawerTrigger asChild>
+				<Text
+					className={cn(
+						buttonVariants({ variant: "ghost", size: "icon" }),
+						"cursor-pointer rounded-lg",
+					)}
+				>
+					<PlusCircle className="w-5 h-5 text-primary" />
+				</Text>
+			</DrawerTrigger>
+			<DrawerContent>
+				<MintDialogContent />
+			</DrawerContent>
+		</Drawer>
+	);
 }

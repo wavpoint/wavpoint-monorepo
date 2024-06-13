@@ -1,6 +1,6 @@
+import { Button, Row, View } from "@repo/app/ui";
 import { ArrowUpRight, Copy } from "lucide-react-native";
 import { SolitoImage } from "solito/image";
-import { Button, Row, Text, View } from "../../ui";
 
 export default function ShareDialogContent() {
 	return (

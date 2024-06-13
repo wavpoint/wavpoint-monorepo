@@ -8,8 +8,9 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "web:clean": "cd apps/web && bun clean",
     "mobile:clean": "cd apps/mobile && bun clean",
+    "indexer:clean": "cd apps/indexer && bun clean",
     "app:clean": "cd packages/app && bun clean",
-    "clean": "git clean -xdf node_modules && rm -rf .turbo && rm -rf bun.lockb && bun web:clean && bun mobile:clean && bun app:clean"
+    "clean": "git clean -xdf node_modules && rm -rf .turbo && rm -rf bun.lockb && bun web:clean && bun mobile:clean && bun app:clean && bun indexer:clean"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
@@ -21,13 +22,17 @@
     "node": ">=18"
   },
   "packageManager": "bun@1.1.0",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "workspaces": ["apps/*", "packages/*"],
   "dependencies": {
-    "@airstack/airstack-react": "^0.6.3",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-    "react-hook-form": "^7.51.4"
+    "@privy-io/wagmi": "^0.2.7",
+    "@zoralabs/protocol-sdk": "^0.5.17",
+    "jotai": "^2.8.0",
+    "react-hook-form": "^7.51.4",
+    "thirdweb": "^5.28.0"
+  },
+  "overrides": {
+    "commander": "^12.0.0",
+    "ink": "^4.4.1"
   }
 }

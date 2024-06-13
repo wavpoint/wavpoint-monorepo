@@ -5,12 +5,6 @@
 		"moduleResolution": "Bundler",
 		"module": "Preserve"
 	},
-	"include": [
-		"**.d.ts",
-		"tailwind.config.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		"**/*.png"
-	],
+	"include": ["**.d.ts", "**/*.ts", "**/*.tsx"],
 	"exclude": ["node_modules", "dist"]
 }

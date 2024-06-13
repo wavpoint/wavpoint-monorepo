@@ -1,0 +1,10 @@
+{
+	"name": "@repo/utils",
+	"version": "0.0.0",
+	"private": true,
+	"main": "index.ts",
+	"type": "module",
+	"scripts": {
+		"clean": "git clean -xdf node_modules && rm -rf dist"
+	}
+}

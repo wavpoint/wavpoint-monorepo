@@ -1,6 +1,6 @@
 "use client";
 
-import { usePrivy } from "@privy-io/react-auth";
+import { useLogin, usePrivy } from "@privy-io/react-auth";
 import {
 	Button,
 	Dialog,
@@ -13,8 +13,20 @@ import {
 	Text,
 	View,
 	buttonVariants,
+	useMediaQuery,
 } from "@repo/app/ui";
 
+import { cn, cookieName } from "@repo/app/lib";
+import { formatTime } from "@repo/utils";
+import {
+	audioRefAtom,
+	currentSongAtom,
+	currentSongElapsedTimeAtom,
+	isPlayingAtom,
+	useIsPlayingListener,
+} from "@repo/app/store/player";
+import { useAtom, useSetAtom } from "jotai";
+import Cookies from "js-cookie";
 import {
 	AudioLines,
 	FileQuestion,
@@ -22,13 +34,10 @@ import {
 	Scale,
 	UploadCloudIcon,
 	User,
-	User2,
 } from "lucide-react-native";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { Link } from "solito/link";
-import { cn } from "../../lib/utils";
-import { useMediaQuery } from "../../ui/primitives/hooks";
 import ShareDialogContent from "../dialogs/share";
 import { TrackDialogContent } from "../dialogs/track";
 
@@ -37,9 +46,71 @@ interface DefaultLayoutProps {
 }
 
 export function DefaultLayout({ children }: DefaultLayoutProps) {
-	const { login, logout, authenticated, ready, user } = usePrivy();
+	const { logout, authenticated, ready, user, getAccessToken } = usePrivy();
+
+	const { login } = useLogin({
+		async onComplete(_, __, wasAlreadyAuthenticated) {
+			if (wasAlreadyAuthenticated) {
+				const cookie = Cookies.get(cookieName);
+				if (cookie) return;
+			}
+			await fetch("/api/login", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					accessToken: await getAccessToken(),
+				}),
+			});
+		},
+	});
+
+	const [currentSong, setCurrentSong] = useAtom(currentSongAtom);
+	const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
+	const [currentSongElapsedTime, setCurrentSongElapsedTime] = useAtom(
+		currentSongElapsedTimeAtom,
+	);
+	const setAudioRefState = useSetAtom(audioRefAtom);
+
+	const [updateAudioRef, setUpdateAudioRef] = useState(false);
+	const audioRef = useRef<HTMLAudioElement | null>(null);
 
 	const disableLogin = !ready || (ready && authenticated);
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		setAudioRefState(audioRef);
+	}, [audioRef]);
+
+	// TODO: Don't use this hacky solution
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		const update = async () => {
+			if (updateAudioRef && audioRef.current?.isConnected) {
+				isPlaying ? await audioRef.current?.play() : audioRef.current?.pause();
+
+				setUpdateAudioRef(false);
+			}
+		};
+
+		update();
+	}, [updateAudioRef]);
+
+	useIsPlayingListener(
+		useCallback(async (g, s, prev, curr) => {
+			setUpdateAudioRef(true);
+		}, []),
+	);
+
+	const handleLogout = useCallback(async () => {
+		// clear both Privy and supabase session
+		await logout();
+		await fetch("/api/logout", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+	}, [logout]);
 
 	const submitButtonHandler = () => {
 		if (disableLogin) return;
@@ -49,10 +120,18 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 
 	const connectButtonHandler = () => {
 		if (disableLogin) {
-			return logout();
+			return handleLogout();
 		}
 
 		login();
+	};
+
+	const handleTogglePlay = () => {
+		if (currentSong) setIsPlaying(!isPlaying);
+	};
+
+	const handleSongEnd = () => {
+		setIsPlaying(false);
 	};
 
 	return (
@@ -67,7 +146,8 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 							contentFit={"contain"}
 							onLayout={{}}
 							resizeMode={"cover"}
-							alt="A cool image, imported locally."
+							alt="Wavpoint Logo"
+							priority
 						/>
 					</Link>
 
@@ -92,31 +172,82 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 			</View>
 
 			<View className="fixed inset-x-0 bottom-0 w-full gap-1 items-center px-6 py-2 bg-white">
-				<Row className="max-w-2xl w-full bg-gradient-final border border-primary rounded-full px-8 py-3 flex justify-between items-center">
-					<View>
-						<Text className="font-bold">Mix Season</Text>
-						<Text className="italic">Artist Name</Text>
+				<Row className="max-w-2xl w-full bg-gradient-final border border-primary rounded-full px-8 py-3 flex justify-between items-center gap-2">
+					<View className="shrink w-full">
+						<Text
+							className={cn(
+								"font-bold truncate",
+								!currentSong?.title && "opacity-0",
+							)}
+						>
+							{currentSong?.title ?? "Nothing Playing"}
+						</Text>
+						<Text
+							className={cn(
+								"italic truncate",
+								!currentSong?.artist && "opacity-0",
+							)}
+						>
+							{currentSong?.artist ?? "Nothing Playing"}
+						</Text>
 					</View>
 
 					<Row className="gap-2 items-center">
-						<TrackDialog />
+						{currentSong && <TrackDialog />}
 
-						<Text className="mb-0.5">0:00/30:24</Text>
+						<Text className="mb-0.5">
+							{formatTime(currentSongElapsedTime)}/
+							{formatTime(audioRef.current?.duration)}
+						</Text>
 
-						<Button variant={"ghost"} size={"icon"} className="h-auto w-auto">
-							<Play className="w-[18px] h-[18px]" fill={"black"} />
+						<Button
+							variant={"ghost"}
+							size={"icon"}
+							className="h-auto w-auto"
+							onClick={handleTogglePlay}
+						>
+							{currentSong && (
+								// biome-ignore lint/a11y/useMediaCaption: <explanation>
+								<audio
+									src={currentSong.url}
+									className="hidden"
+									ref={audioRef}
+									onDurationChange={(e) =>
+										setCurrentSong({
+											...currentSong,
+											duration: e.currentTarget.duration,
+										})
+									}
+									onEnded={handleSongEnd}
+									onTimeUpdate={(e) =>
+										setCurrentSongElapsedTime(
+											Math.floor(e.currentTarget.currentTime),
+										)
+									}
+								/>
+							)}
+							{isPlaying ? (
+								<Row className="w-[18px] h-[16px] justify-evenly">
+									<View className="w-1 h-full bg-black" />
+									<View className="w-1 h-full bg-black" />
+								</Row>
+							) : (
+								<Play className="w-[18px] h-[18px]" fill={"black"} />
+							)}
 						</Button>
 
-						<Link
-							href={`/profile/${user?.wallet?.address}`}
-							className={buttonVariants({
-								variant: "ghost",
-								size: "icon",
-								className: "h-auto w-auto",
-							})}
-						>
-							<User className="w-[18px] h-[18px]" />
-						</Link>
+						{user?.wallet && (
+							<Link
+								href={`/profile/${user.wallet.address}`}
+								className={buttonVariants({
+									variant: "ghost",
+									size: "icon",
+									className: "h-auto w-auto",
+								})}
+							>
+								<User className="w-[18px] h-[18px]" />
+							</Link>
+						)}
 					</Row>
 				</Row>
 
