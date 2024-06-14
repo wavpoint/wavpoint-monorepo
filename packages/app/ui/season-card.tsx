@@ -5,10 +5,9 @@ import { COLLECTION_ADDRESS, VINYL_GOAL, ipfsToUrl } from "@repo/utils";
 import { useQuery } from "@tanstack/react-query";
 import type { TokensResponseItem } from "@zoralabs/zdk";
 import request from "graphql-request";
-import { Disc3, Download } from "lucide-react-native";
+import { Disc3 } from "lucide-react-native";
 import { Link } from "solito/link";
 import { ShareDialog } from "../features/dialogs/share-arrow";
-import { graphql } from "../gql";
 
 interface SeasonCardProps {
 	token: TokensResponseItem["token"];
@@ -18,9 +17,13 @@ export function SeasonCard({ token }: SeasonCardProps) {
 	const { data: mintData } = useQuery({
 		queryKey: [`MINT_${token.tokenId}`],
 		queryFn: async () =>
-			request("http://localhost:42069", mintCountQueryDocument, {
-				tokenId: `${token.tokenId}:${COLLECTION_ADDRESS}`,
-			}),
+			request(
+				process.env.NEXT_PUBLIC_INDEXER_URI ?? "http://localhost:42069",
+				mintCountQueryDocument,
+				{
+					tokenId: `${token.tokenId}:${COLLECTION_ADDRESS}`,
+				},
+			),
 		enabled: !!token.tokenId,
 	});
 
