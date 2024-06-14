@@ -36,7 +36,7 @@ export const publicClient = createPublicClient({
 export const getWalletClient = () => {
 	const walletClient = createWalletClient({
 		chain,
-		transport: custom(window?.ethereum),
+		transport: window?.ethereum ? custom(window.ethereum) : http(),
 	});
 
 	return walletClient;
