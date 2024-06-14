@@ -95,7 +95,7 @@ export default function MintDialogContent() {
 		queryKey: [`MINT_${params.id}`],
 		queryFn: async () =>
 			request(
-				process.env.INDEXER_URI ?? "http://localhost:42069",
+				process.env.NEXT_PUBLIC_INDEXER_URI ?? "http://localhost:42069",
 				mintCountQueryDocument,
 				{
 					tokenId: `${params.id}:${COLLECTION_ADDRESS}`,

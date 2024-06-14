@@ -97,7 +97,7 @@ export function MixScreen() {
 		queryKey: [`MINT_${id}`],
 		queryFn: async () =>
 			request(
-				process.env.INDEXER_URI ?? "http://localhost:42069",
+				process.env.NEXT_PUBLIC_INDEXER_URI ?? "http://localhost:42069",
 				mintCountQueryDocument,
 				{
 					tokenId: `${id}:${COLLECTION_ADDRESS}`,
