@@ -2,20 +2,33 @@
 
 import { Button, Row, SeasonCard, Text, View } from "@repo/app/ui";
 
+import { useWallets } from "@privy-io/react-auth";
+import { Avatar, EditProfileForm } from "@repo/app/components";
 import { cookieName, getSupabase, zdk } from "@repo/app/lib";
 import { COLLECTION_ADDRESS, formatAddress } from "@repo/utils";
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { Copy, Edit3 } from "lucide-react-native";
-import { useMemo } from "react";
+import { Check, Copy, Edit3 } from "lucide-react-native";
+import { useMemo, useState } from "react";
 import { useParams } from "solito/navigation";
 
 const useProfileParams = useParams<{ id: string }>;
 
 export function ProfileScreen() {
 	const { id } = useProfileParams();
+	const [isEditing, setIsEditing] = useState<boolean>(false);
+	const [copied, setCopied] = useState(false);
 
 	const profileAddress = id.replace("/profile/", "");
+
+	const { wallets } = useWallets();
+
+	const handleCopy = () => {
+		navigator.clipboard.writeText(id);
+		setCopied(true);
+
+		setTimeout(() => setCopied(false), 2000);
+	};
 
 	const supabase = useMemo(() => {
 		const accessToken = Cookies.get(cookieName);
@@ -27,10 +40,10 @@ export function ProfileScreen() {
 		queryFn: async () => {
 			if (!supabase) return;
 			return supabase
-				.from("User")
+				.from("users")
 				.select("*")
 				.eq("id", profileAddress)
-				.single<{ username: string; image: string }>();
+				.single<{ id: string; username: string; image: string }>();
 		},
 		enabled: !!supabase && !!profileAddress,
 	});
@@ -51,18 +64,53 @@ export function ProfileScreen() {
 		queryFn: fetchTokens,
 	});
 
+	const isAuthenticatedUser = user?.data?.id === wallets[0]?.address;
+
 	return (
 		<View className="max-w-xl flex-1 flex items-center w-full gap-8">
 			<View className="items-center gap-2">
-				<View className="w-20 h-20 rounded-full bg-gradient-final" />
+				<Avatar
+					user={user?.data}
+					id={id}
+					isAuthenticatedUser={isAuthenticatedUser}
+					supabase={supabase}
+				/>
 				<Row className="items-center">
-					<Text className="font-bold text-xl">{user?.data?.username}</Text>
-					<Edit3 className="w-4 h-4 ml-2 mt-1" />
+					{isAuthenticatedUser &&
+						(isEditing ? (
+							<EditProfileForm
+								oldUsername={user?.data?.username ?? ""}
+								setIsEditing={setIsEditing}
+								supabase={supabase}
+								id={id}
+							/>
+						) : (
+							<>
+								<Text className="font-bold text-xl">
+									{user?.data?.username}
+								</Text>
+								<Button
+									variant={"ghost"}
+									size={"icon"}
+									onPress={() => setIsEditing(true)}
+								>
+									<Edit3 className="w-4 h-4 mt-1" />
+								</Button>
+							</>
+						))}
 				</Row>
 
-				<Button variant={"link"} className="py-0 flex text-xs">
+				<Button
+					variant={"link"}
+					className="py-0 flex text-xs"
+					onPress={handleCopy}
+				>
 					{formatAddress(profileAddress)}
-					<Copy className="w-3 h-3 ml-2 mt-1" />
+					{copied ? (
+						<Check className="w-3 h-3 ml-2 mt-1" />
+					) : (
+						<Copy className="w-3 h-3 ml-2 mt-1" />
+					)}
 				</Button>
 
 				<Text className="text-xs font-semibold mt-1">Collected Seasons</Text>
