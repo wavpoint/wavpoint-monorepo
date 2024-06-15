@@ -58,7 +58,7 @@ export async function POST(req: Request) {
 		},
 	);
 
-	await supabase.from("users").upsert({
+	await supabase.from("users").insert({
 		id: user.wallet.address,
 		username: formatAddress(user.wallet.address),
 		image: "",
