@@ -6,6 +6,7 @@ import { Check, Loader } from "lucide-react-native";
 import type { Dispatch, SetStateAction } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import type { Database } from "../../lib";
 
 const editProfileSchema = z.object({
 	username: z.string().min(3).max(30),
@@ -16,7 +17,7 @@ interface EditProfileFormProps {
 	oldUsername: string;
 	setIsEditing: Dispatch<SetStateAction<boolean>>;
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	supabase?: SupabaseClient<any, "public", any>;
+	supabase?: SupabaseClient<Database, "public", any>;
 	id: string;
 }
 

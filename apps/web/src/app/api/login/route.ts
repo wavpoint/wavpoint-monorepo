@@ -1,4 +1,5 @@
 import { PrivyClient } from "@privy-io/server-auth";
+import type { Database } from "@repo/app/lib";
 import { formatAddress } from "@repo/utils";
 import { type CookieOptions, createServerClient } from "@supabase/ssr";
 import cookie from "cookie";
@@ -40,7 +41,7 @@ export async function POST(req: Request) {
 			status: 403,
 		});
 
-	const supabase = createServerClient(
+	const supabase = createServerClient<Database>(
 		process.env.NEXT_PUBLIC_SUPABASE_URL,
 		process.env.SUPABASE_SERVICE_ROLE_KEY,
 		{
@@ -61,7 +62,7 @@ export async function POST(req: Request) {
 	await supabase.from("users").insert({
 		id: user.wallet.address,
 		username: formatAddress(user.wallet.address),
-		image: "",
+		image: null,
 	});
 
 	const supabaseJWT = jwt.sign(
