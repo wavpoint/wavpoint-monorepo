@@ -37,6 +37,7 @@ import { useMemo, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
 import MintDialogContent from "../../dialogs/mint";
+import { ShareDialog } from "../../dialogs/share-arrow";
 
 const useMixParams = useParams<{ id: string }>;
 
@@ -158,7 +159,7 @@ export function MixScreen() {
 					<View className="absolute inset-y-0 right-0 w-12 bg-gradient-to-r from-transparent to-white pointer-events-none" />
 				</Text>
 
-				<ArrowUpRight className="w-4 h-4 mt-1 text-primary basis-4 shrink-0" />
+				<ShareDialog />
 			</Row>
 
 			<View className="w-[200px] items-center">
