@@ -2,7 +2,7 @@
 
 import { Button, Row, SeasonCard, Text, View } from "@repo/app/ui";
 
-import { useWallets } from "@privy-io/react-auth";
+import { usePrivy } from "@privy-io/react-auth";
 import { Avatar, EditProfileForm } from "@repo/app/components";
 import { cookieName, getSupabase, zdk } from "@repo/app/lib";
 import { COLLECTION_ADDRESS, formatAddress } from "@repo/utils";
@@ -21,7 +21,7 @@ export function ProfileScreen() {
 
 	const profileAddress = id.replace("/profile/", "");
 
-	const { wallets } = useWallets();
+	const { user } = usePrivy();
 
 	const handleCopy = () => {
 		navigator.clipboard.writeText(id);
@@ -35,7 +35,7 @@ export function ProfileScreen() {
 		return getSupabase(accessToken ?? "");
 	}, []);
 
-	const { data: user } = useQuery({
+	const { data: userData } = useQuery({
 		queryKey: ["user"],
 		queryFn: async () => {
 			if (!supabase) return;
@@ -64,13 +64,13 @@ export function ProfileScreen() {
 		queryFn: fetchTokens,
 	});
 
-	const isAuthenticatedUser = user?.data?.id === wallets[0]?.address;
+	const isAuthenticatedUser = userData?.data?.id === user?.wallet?.address;
 
 	return (
 		<View className="max-w-xl flex-1 flex items-center w-full gap-8">
 			<View className="items-center gap-2">
 				<Avatar
-					user={user?.data}
+					user={userData?.data}
 					id={id}
 					isAuthenticatedUser={isAuthenticatedUser}
 					supabase={supabase}
@@ -79,7 +79,7 @@ export function ProfileScreen() {
 					{isAuthenticatedUser &&
 						(isEditing ? (
 							<EditProfileForm
-								oldUsername={user?.data?.username ?? ""}
+								oldUsername={userData?.data?.username ?? ""}
 								setIsEditing={setIsEditing}
 								supabase={supabase}
 								id={id}
@@ -87,7 +87,7 @@ export function ProfileScreen() {
 						) : (
 							<>
 								<Text className="font-bold text-xl">
-									{user?.data?.username}
+									{userData?.data?.username}
 								</Text>
 								<Button
 									variant={"ghost"}
