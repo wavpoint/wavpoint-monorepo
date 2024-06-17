@@ -25,6 +25,9 @@ const nextConfig = {
 			{
 				hostname: "rogpgrdjgfryhrmcmmpl.supabase.co",
 			},
+			{
+				hostname: "ipfs.io"
+			}
 		],
 	},
 };
