@@ -3,6 +3,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ImagePlus, Loader } from "lucide-react-native";
 import { useRef, useState } from "react";
+import { SolitoImage } from "solito/image";
 import type { Database } from "../lib";
 
 interface AvatarProps {
@@ -64,14 +65,25 @@ export function Avatar({
 
 	return (
 		<View className="w-20 h-20 rounded-full bg-gradient-final group relative">
-			<img
-				src={
-					user?.image
-						? avatarUrl
-						: `https://api.dicebear.com/9.x/shapes/svg?seed=${id}`
-				}
-				alt={user?.username}
-				className="absolute inset-0 h-20 w-20 rounded-full object-cover"
+			<SolitoImage
+				src={user?.image && avatarUrl ? avatarUrl : "/default_avatar.jpg"}
+				height={80}
+				width={80}
+				contentFit={"cover"}
+				onLayout={{}}
+				resizeMode={"cover"}
+				alt={user?.username ?? "User Avatar"}
+				priority
+				style={{
+					borderRadius: 9999,
+					position: "absolute",
+					left: 0,
+					top: 0,
+					right: 0,
+					bottom: 0,
+					width: 80,
+					height: 80,
+				}}
 			/>
 
 			{isAuthenticatedUser && !loading && (

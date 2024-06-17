@@ -1,4 +1,4 @@
-import { withExpo } from '@expo/next-adapter';
+import { withExpo } from "@expo/next-adapter";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,18 +9,24 @@ const nextConfig = {
 	// once that gets fixed, set this back to true
 	reactStrictMode: false,
 	transpilePackages: [
-		'react-native',
-		'react-native-web',
-		'solito',
-		'moti',
-		'@repo/app',
-		'react-native-reanimated',
-		'nativewind',
-		'react-native-gesture-handler',
-		'react-native-svg',
-		'lucide-react-native',
+		"react-native",
+		"react-native-web",
+		"solito",
+		"moti",
+		"@repo/app",
+		"react-native-reanimated",
+		"nativewind",
+		"react-native-gesture-handler",
+		"react-native-svg",
+		"lucide-react-native",
 	],
-	images: {},
+	images: {
+		remotePatterns: [
+			{
+				hostname: "rogpgrdjgfryhrmcmmpl.supabase.co",
+			},
+		],
+	},
 };
 
 export default withExpo(nextConfig);

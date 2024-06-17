@@ -9,6 +9,7 @@ import {
 	Drawer,
 	DrawerContent,
 	DrawerTrigger,
+	Marquee,
 	Row,
 	Text,
 	View,

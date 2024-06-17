@@ -76,8 +76,8 @@ export function ProfileScreen() {
 					supabase={supabase}
 				/>
 				<Row className="items-center">
-					{isAuthenticatedUser &&
-						(isEditing ? (
+					{isAuthenticatedUser ? (
+						isEditing ? (
 							<EditProfileForm
 								oldUsername={userData?.data?.username ?? ""}
 								setIsEditing={setIsEditing}
@@ -97,7 +97,12 @@ export function ProfileScreen() {
 									<Edit3 className="w-4 h-4 mt-1" />
 								</Button>
 							</>
-						))}
+						)
+					) : (
+						<Text className="font-bold text-xl">
+							{userData?.data?.username}
+						</Text>
+					)}
 				</Row>
 
 				<Button

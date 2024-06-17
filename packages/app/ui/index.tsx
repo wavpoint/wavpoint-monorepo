@@ -11,3 +11,4 @@ export * from "./slider";
 export * from "./season-card";
 export * from "./eth-logo";
 export * from "./primitives/hooks";
+export * from "./marquee";
