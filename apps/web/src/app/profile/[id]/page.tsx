@@ -5,26 +5,6 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { cookies } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
 
-const description = "View a user's profile and their collected seasons on Wavpoint.";
-const title = "Profile | Wavpoint";
-const siteName = "Wavpoint";
-
-const metadata: Metadata = {
-    title,
-    description,
-    openGraph: {
-        type: "profile",
-        description,
-        title,
-        siteName
-    },
-    twitter: {
-        title,
-        description,
-        site: siteName,
-    }
-}
-
 interface GenerateMetadataProps {
     params: { id: string };
 }
@@ -62,30 +42,33 @@ export async function generateMetadata({ params }: GenerateMetadataProps, parent
     .eq("id", id)
     .single<{ id: string; username: string; image: string }>();
 
-    console.log(user);
-    
     if (!user.data) return notFound();
 
     const avatarUrl = supabase.storage
 		.from("avatars")
-		.getPublicUrl(user?.data?.image ?? "").data.publicUrl;
+		.getPublicUrl(user.data.image).data.publicUrl;
 
-    const image = user?.data?.image && avatarUrl ? avatarUrl : "/default_avatar.jpg"
+    const image =  avatarUrl ?? "/default_avatar.jpg"
     
-    const title = `${user.data?.username} | Wavpoint`;
-    
+    const title = `${user.data.username} | Wavpoint`;
+    const url = new URL(`/profile/${id}`, "https://app.wavpoint.tech");
+    const description = `View ${user.data.username}'s profile and their collected seasons on Wavpoint.`;
     return {
-        ...metadata,
         title,
+        description,
         openGraph: {
             title,
+            description,
             images: [image],
             username: user.data?.username,
+            siteName: "Wavpoint",
+            url,
         },
         twitter: {
             title,
             card: "summary",
-            images: [image]
+            images: [image],
+            site: "https://app.wavpoint.tech"
         }
     }
 }
