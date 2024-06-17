@@ -32,7 +32,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import request from "graphql-request";
 import { useAtom, useSetAtom } from "jotai";
 import Cookies from "js-cookie";
-import { ArrowUpRight, Play, PlayIcon } from "lucide-react-native";
+import { Play, PlayIcon } from "lucide-react-native";
 import { useMemo, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
