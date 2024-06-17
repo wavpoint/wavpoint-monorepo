@@ -8,6 +8,7 @@ import request from "graphql-request";
 import { Disc3 } from "lucide-react-native";
 import { Link } from "solito/link";
 import { ShareDialog } from "../features/dialogs/share-arrow";
+import { SolitoImage } from 'solito/image'
 
 interface SeasonCardProps {
 	token: TokensResponseItem["token"];
@@ -31,11 +32,16 @@ export function SeasonCard({ token }: SeasonCardProps) {
 		<View className="gap-1">
 			<Link href={`/mix/${token.tokenId}`}>
 				<View className="w-[200px] h-[200px] flex justify-end bg-gradient-to-b from-gradient-initial to-gradient-final rounded-md p-2">
-					<img
+					<SolitoImage
 						src={ipfsToUrl(token.image?.url)}
-						alt=""
-						className="absolute inset-0 rounded-md"
-					/>
+						onLayout={{}}
+						contentFit={"cover"}
+						resizeMode={"cover"}
+						width={200}
+						height={200}
+						alt={token.name ?? "Mix Cover"}
+						style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, borderRadius: 6 }}
+					/>	
 					<Row className="flex justify-between items-end">
 						<Button variant={"outline"} size={"sm"}>
 							{mintData?.mintCount?.mintCount}

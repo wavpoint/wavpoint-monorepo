@@ -32,6 +32,7 @@ import {
 } from "lucide-react-native";
 import { useCallback, useEffect, useState } from "react";
 import MintDialogContent from "./mint";
+import { SolitoImage } from "solito/image";
 
 export function TrackDialogContent() {
 	const currentSong = useAtomValue(currentSongAtom);
@@ -67,12 +68,15 @@ export function TrackDialogContent() {
 		<Row className="flex justify-center">
 			<Row className="px-8 py-2 max-w-xl gap-4">
 				<View className="w-[150px] h-[150px] bg-gradient-initial rounded-lg relative">
-					<img
-						src={currentSong?.cover}
-						width={"100%"}
-						height={"100%"}
-						alt={currentSong?.title}
-						className="absolute inset-0 rounded-md"
+					<SolitoImage
+						src={currentSong?.cover ?? ""}
+						onLayout={{}}
+						contentFit={"cover"}
+						resizeMode={"cover"}
+						width={150}
+						height={150}
+						alt={currentSong?.title ?? "Mix Cover"}
+						style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, borderRadius: 6 }}
 					/>
 				</View>
 
