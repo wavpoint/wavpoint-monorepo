@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 			default: "Wavpoint - Exclusive Onchain Music",
 			template: "%s | Wavpoint",
 		},
+		url: "https://app.wavpoint.tech",
+		siteName: "Wavpoint - Exclusive Onchain Music",
 		description: "Very rare onchain MiniMixes & white label vinyl drops.",
 		images: ["https://app.wavpoint.tech/logo.png"],
 	},

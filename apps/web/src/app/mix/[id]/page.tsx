@@ -33,7 +33,7 @@ export async function generateMetadata({
 
 	const title = token.name ?? `Token ${id}`;
 	const url = new URL(`/mix/${id}`, "https://app.wavpoint.tech");
-	const description = `Stream ${token.name} and mint it directly on Wavpoint.`;
+	const description = `Stream "${token.name}" and mint it directly on Wavpoint.`;
 	const image = ipfsToUrl(token.image?.url);
 
 	return {
@@ -47,6 +47,7 @@ export async function generateMetadata({
 		},
 		twitter: {
 			title,
+			card: "summary",
 			images: [image],
 		},
 	};
