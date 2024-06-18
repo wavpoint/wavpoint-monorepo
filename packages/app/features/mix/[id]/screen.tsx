@@ -135,17 +135,26 @@ export function MixScreen() {
 
 	return (
 		<View className="max-w-xl items-center gap-2 flex-1 w-full">
-			<View className="relative w-[200px] h-[200px] bg-gradient-initial rounded-md flex items-center justify-center mt-2">
-				<SolitoImage
-					src={ipfsToUrl(data?.image?.url)}
-					onLayout={{}}
-					contentFit={"cover"}
-					resizeMode={"cover"}
-					width={200}
-					height={200}
-					alt={currentSong?.title ?? "Mix Cover"}
-					style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, borderRadius: 6 }}
-				/>
+			<View className="relative w-[200px] h-[200px] bg-gradient-to-b from-gradient-initial to-gradient-final rounded-md flex items-center justify-center mt-2">
+				{data?.image && (
+					<SolitoImage
+						src={ipfsToUrl(data?.image?.url)}
+						onLayout={{}}
+						contentFit={"cover"}
+						resizeMode={"cover"}
+						width={200}
+						height={200}
+						alt={currentSong?.title ?? "Mix Cover"}
+						style={{
+							position: "absolute",
+							top: 0,
+							bottom: 0,
+							left: 0,
+							right: 0,
+							borderRadius: 6,
+						}}
+					/>
+				)}
 				{currentSong?.url !== ipfsToUrl(data?.content?.url) && (
 					<Pressable
 						onPress={setAsCurrentSong}
