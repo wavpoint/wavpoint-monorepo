@@ -1,24 +1,28 @@
-import { ProfileScreen } from '@repo/app/features/profile/screen';
-import { type Database } from '@repo/app/lib';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import type { Metadata, ResolvingMetadata } from 'next';
-import { cookies } from 'next/headers';
-import { notFound, redirect } from 'next/navigation';
+import { ProfileScreen } from "@repo/app/features/profile/screen";
+import type { Database } from "@repo/app/lib";
+import { type CookieOptions, createServerClient } from "@supabase/ssr";
+import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { notFound, redirect } from "next/navigation";
 
 interface GenerateMetadataProps {
-    params: { id: string };
+	params: { id: string };
 }
 
-export async function generateMetadata({ params }: GenerateMetadataProps, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({
+	params,
+}: GenerateMetadataProps): Promise<Metadata> {
+	if (
+		!process.env.NEXT_PUBLIC_SUPABASE_URL ||
+		!process.env.SUPABASE_SERVICE_ROLE_KEY
+	)
+		return redirect("/");
 
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL ||
-		!process.env.SUPABASE_SERVICE_ROLE_KEY) return redirect('/');
-    
-    const id = params.id;
+	const id = params.id;
 
-    const cookieStore = cookies();
-    
-    const supabase = createServerClient<Database>(
+	const cookieStore = cookies();
+
+	const supabase = createServerClient<Database>(
 		process.env.NEXT_PUBLIC_SUPABASE_URL,
 		process.env.SUPABASE_SERVICE_ROLE_KEY,
 		{
@@ -35,44 +39,41 @@ export async function generateMetadata({ params }: GenerateMetadataProps, parent
 			},
 		},
 	);
-    
-    const user = await supabase
-    .from("users")
-    .select("*")
-    .eq("id", id)
-    .single<{ id: string; username: string; image: string }>();
 
-    if (!user.data) return notFound();
+	const user = await supabase
+		.from("users")
+		.select("*")
+		.eq("id", id)
+		.single<{ id: string; username: string; image: string }>();
 
-    const avatarUrl = supabase.storage
+	if (!user.data) return notFound();
+
+	const avatarUrl = supabase.storage
 		.from("avatars")
 		.getPublicUrl(user.data.image).data.publicUrl;
 
-    const image =  avatarUrl ?? "/default_avatar.jpg"
-    
-    const title = `${user.data.username} | Wavpoint`;
-    const url = new URL(`/profile/${id}`, "https://app.wavpoint.tech");
-    const description = `View ${user.data.username}'s profile and their collected seasons on Wavpoint.`;
-    return {
-        title,
-        description,
-        openGraph: {
-            title,
-            description,
-            images: [image],
-            username: user.data?.username,
-            siteName: "Wavpoint",
-            url,
-        },
-        twitter: {
-            title,
-            card: "summary",
-            images: [image],
-            site: "https://app.wavpoint.tech"
-        }
-    }
+	const image = avatarUrl ?? "/default_avatar.jpg";
+
+	const title = user.data.username;
+	const url = new URL(`/profile/${id}`, "https://app.wavpoint.tech");
+	const description = `View ${user.data.username}'s profile and their collected seasons on Wavpoint.`;
+	return {
+		title,
+		description,
+		openGraph: {
+			title,
+			description,
+			images: [image],
+			username: user.data?.username,
+			url,
+		},
+		twitter: {
+			title,
+			images: [image],
+		},
+	};
 }
 
 export default function Profile() {
-    return <ProfileScreen />;
+	return <ProfileScreen />;
 }
