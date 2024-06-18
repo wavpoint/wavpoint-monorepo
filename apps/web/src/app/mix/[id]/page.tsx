@@ -41,6 +41,7 @@ export async function generateMetadata({
 		description,
 		openGraph: {
 			title,
+			siteName: "Wavpoint - Exclusive Onchain Music",
 			description,
 			images: [image],
 			url,
