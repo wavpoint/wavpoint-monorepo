@@ -12,7 +12,10 @@ export function formatAddress(address?: string): string {
 }
 
 export function ipfsToUrl(ipfsAddress?: string | null): string {
-	return ipfsAddress?.replace("ipfs://", "https://ipfs.io/ipfs/") ?? "";
+	return (
+		ipfsAddress?.replace("ipfs://", "https://zora-prod.mypinata.cloud/ipfs/") ??
+		""
+	);
 }
 
 export function formatTime(ms?: number): string {

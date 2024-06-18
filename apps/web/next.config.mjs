@@ -26,8 +26,8 @@ const nextConfig = {
 				hostname: "rogpgrdjgfryhrmcmmpl.supabase.co",
 			},
 			{
-				hostname: "ipfs.io"
-			}
+				hostname: "zora-prod.mypinata.cloud",
+			},
 		],
 	},
 };
