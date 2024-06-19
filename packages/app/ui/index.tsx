@@ -8,7 +8,7 @@ export * from "./drawer";
 export * from "./dialog";
 export * from "./input";
 export * from "./slider";
-export * from "./season-card";
 export * from "./eth-logo";
 export * from "./primitives/hooks";
 export * from "./marquee";
+export * from "./toast";

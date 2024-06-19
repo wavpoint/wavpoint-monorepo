@@ -136,7 +136,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 	};
 
 	return (
-		<View className="h-full w-full items-center p-6">
+		<View className="h-full w-full items-center p-6 has-[.loading]:max-h-screen has-[.loading]:overflow-hidden">
 			<View className="fixed inset-x-0 top-0 w-full px-6 pt-6 pb-2 bg-white items-center z-10">
 				<Row className="max-w-2xl w-full bg-primary rounded-full px-4 py-3 flex justify-between items-center">
 					<Link href={"/"}>

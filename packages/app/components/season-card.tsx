@@ -94,3 +94,12 @@ export function SeasonCard({ token }: SeasonCardProps) {
 		</View>
 	);
 }
+
+export function SeasonCardSkeleton() {
+	return (
+		<View className="gap-1">
+			<View className="animate-pulse w-[200px] h-[200px] flex justify-end bg-gradient-to-b from-gradient-initial to-gradient-final rounded-md p-2" />
+			<View className="h-6 w-full" />
+		</View>
+	);
+}

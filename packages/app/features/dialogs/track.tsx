@@ -1,5 +1,4 @@
 import { cn } from "@repo/app/lib";
-import { formatTime } from "@repo/utils";
 import {
 	audioRefAtom,
 	currentSongAtom,
@@ -21,6 +20,7 @@ import {
 	buttonVariants,
 	useMediaQuery,
 } from "@repo/app/ui";
+import { formatTime } from "@repo/utils";
 import { useAtom, useAtomValue } from "jotai";
 import { debounce } from "lodash";
 import {
@@ -31,8 +31,8 @@ import {
 	SkipForward,
 } from "lucide-react-native";
 import { useCallback, useEffect, useState } from "react";
-import MintDialogContent from "./mint";
 import { SolitoImage } from "solito/image";
+import MintDialogContent from "./mint";
 
 export function TrackDialogContent() {
 	const currentSong = useAtomValue(currentSongAtom);
@@ -76,7 +76,14 @@ export function TrackDialogContent() {
 						width={150}
 						height={150}
 						alt={currentSong?.title ?? "Mix Cover"}
-						style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, borderRadius: 6 }}
+						style={{
+							position: "absolute",
+							top: 0,
+							bottom: 0,
+							left: 0,
+							right: 0,
+							borderRadius: 6,
+						}}
 					/>
 				</View>
 

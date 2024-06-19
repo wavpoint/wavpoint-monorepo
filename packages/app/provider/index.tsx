@@ -34,12 +34,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
 			>
 				<QueryClientProvider client={queryClient}>
 					<JotaiProvider>
-						<PortalHost />
-						<Toaster />
 						{children}
+						<Toaster />
 					</JotaiProvider>
 				</QueryClientProvider>
 			</PrivyProvider>
+			<PortalHost />
 		</SafeArea>
 	);
 }

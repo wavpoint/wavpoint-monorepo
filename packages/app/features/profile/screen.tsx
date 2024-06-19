@@ -1,9 +1,14 @@
 "use client";
 
-import { Button, Row, SeasonCard, Text, View } from "@repo/app/ui";
+import { Button, Row, Text, View } from "@repo/app/ui";
 
 import { usePrivy } from "@privy-io/react-auth";
-import { Avatar, EditProfileForm } from "@repo/app/components";
+import {
+	Avatar,
+	EditProfileForm,
+	SeasonCard,
+	SeasonCardSkeleton,
+} from "@repo/app/components";
 import { cookieName, getSupabase, zdk } from "@repo/app/lib";
 import { COLLECTION_ADDRESS, formatAddress } from "@repo/utils";
 import { useQuery } from "@tanstack/react-query";
@@ -59,7 +64,7 @@ export function ProfileScreen() {
 		return tokens.tokens.nodes.map((node) => node.token);
 	};
 
-	const { data } = useQuery({
+	const { data, isLoading } = useQuery({
 		queryKey: [`PROFILE_${profileAddress}`],
 		queryFn: fetchTokens,
 	});
@@ -122,9 +127,16 @@ export function ProfileScreen() {
 			</View>
 
 			<View className="flex sm:flex-row flex-wrap items-center sm:justify-between max-w-md w-full mx-auto gap-2">
-				{data?.map((token) => (
-					<SeasonCard token={token} key={token.tokenId} />
-				))}
+				{isLoading ? (
+					<>
+						{Array.from({ length: 6 }).map((_v, i) => (
+							<SeasonCardSkeleton key={`skeleton_${i + 1}`} />
+						))}
+						<View className="loading hidden" />
+					</>
+				) : (
+					data?.map((token) => <SeasonCard token={token} key={token.tokenId} />)
+				)}
 			</View>
 		</View>
 	);

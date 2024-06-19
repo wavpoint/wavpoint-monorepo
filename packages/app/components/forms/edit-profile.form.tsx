@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input } from "@repo/app/ui";
+import { Button, Input, View } from "@repo/app/ui";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Check, Loader } from "lucide-react-native";
+import { Check, Loader2 } from "lucide-react-native";
 import type { Dispatch, SetStateAction } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -68,7 +68,9 @@ export function EditProfileForm({
 				onPress={handleSubmit((values) => mutate(values))}
 			>
 				{isPending ? (
-					<Loader className="w-4 h-4" />
+					<View className="animate-spin">
+						<Loader2 className="w-4 h-4" />
+					</View>
 				) : (
 					<Check className="w-4 h-4" />
 				)}

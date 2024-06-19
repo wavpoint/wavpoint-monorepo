@@ -1,7 +1,7 @@
 import { Pressable, View } from "@repo/app/ui";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ImagePlus, Loader } from "lucide-react-native";
+import { ImagePlus, Loader, Loader2 } from "lucide-react-native";
 import { useRef, useState } from "react";
 import { SolitoImage } from "solito/image";
 import type { Database } from "../lib";
@@ -105,7 +105,9 @@ export function Avatar({
 
 			{loading && (
 				<View className="absolute inset-0 flex items-center justify-center backdrop-blur-md rounded-full">
-					<Loader className="w-8 h-8 text-primary" />
+					<View className="animate-spin">
+						<Loader2 className="w-8 h-8 text-primary" />
+					</View>
 				</View>
 			)}
 		</View>

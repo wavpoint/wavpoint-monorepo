@@ -33,7 +33,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { createMintClient } from "@zoralabs/protocol-sdk";
 import request from "graphql-request";
-import { Disc3 } from "lucide-react-native";
+import { Disc3, Loader2 } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -48,6 +48,8 @@ const mintFormSchema = z.object({
 type MintFormInput = z.infer<typeof mintFormSchema>;
 
 export default function MintDialogContent() {
+	const [mintLoading, setMintLoading] = useState(false);
+
 	const {
 		control,
 		handleSubmit,
@@ -130,6 +132,8 @@ export default function MintDialogContent() {
 	// })
 
 	const handleMint = async (input: MintFormInput) => {
+		setMintLoading(true);
+
 		if (!wallets[0]?.address) {
 			toast.error("Please log into your wallet!");
 			return;
@@ -179,6 +183,8 @@ export default function MintDialogContent() {
 		} catch (error) {
 			await handleContractErrors(error, wallets);
 		}
+
+		setMintLoading(false);
 	};
 
 	// FIXME: Uncomment to enable downloads
@@ -208,6 +214,7 @@ export default function MintDialogContent() {
 
 				<View>
 					<Slider
+						disabled={mintLoading}
 						value={value}
 						min={1}
 						max={MAX_MINT_AMOUNT}
@@ -229,16 +236,23 @@ export default function MintDialogContent() {
 					variant="outline"
 					className="border-primary text-primary font-semibold gap-2"
 					onPress={handleSubmit(handleMint)}
+					disabled={mintLoading}
 				>
-					<SolitoImage
-						src="/zorb.png"
-						height={14}
-						width={14}
-						contentFit={"contain"}
-						onLayout={{}}
-						resizeMode={"cover"}
-						alt="A cool image, imported locally."
-					/>
+					{mintLoading ? (
+						<View className="animate-spin">
+							<Loader2 className="text-primary w-[14px] h-[14px]" />
+						</View>
+					) : (
+						<SolitoImage
+							src="/zorb.png"
+							height={14}
+							width={14}
+							contentFit={"contain"}
+							onLayout={{}}
+							resizeMode={"cover"}
+							alt="A cool image, imported locally."
+						/>
+					)}
 					Mint +
 				</Button>
 
@@ -247,6 +261,7 @@ export default function MintDialogContent() {
 						variant={"outline"}
 						className="border-primary text-primary font-semibold w-20"
 						onPress={() => setValue(3)}
+						disabled={mintLoading}
 					>
 						3
 					</Button>
@@ -255,6 +270,7 @@ export default function MintDialogContent() {
 						variant={"outline"}
 						className="border-primary text-primary font-semibold w-20"
 						onPress={() => setValue(20)}
+						disabled={mintLoading}
 					>
 						20
 					</Button>
@@ -263,6 +279,7 @@ export default function MintDialogContent() {
 						variant={"outline"}
 						className="border-primary text-primary font-semibold w-20"
 						onPress={() => setValue(MAX_MINT_AMOUNT)}
+						disabled={mintLoading}
 					>
 						MAX
 					</Button>
