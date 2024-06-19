@@ -269,7 +269,23 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 						Legal
 					</Button>
 
-					<ShareDialog />
+					<Link href={"https://bridge.zora.energy/"} target="_blank">
+						<Button
+							variant={"link"}
+							className="gap-1 flex no-underline hover:underline"
+						>
+							<SolitoImage
+								src="/zorb.png"
+								height={14}
+								width={14}
+								contentFit={"contain"}
+								onLayout={{}}
+								resizeMode={"cover"}
+								alt="A cool image, imported locally."
+							/>{" "}
+							Zora Bridge
+						</Button>
+					</Link>
 				</Row>
 			</View>
 		</View>
@@ -309,65 +325,6 @@ function TrackDialog() {
 			</DrawerTrigger>
 			<DrawerContent>
 				<TrackDialogContent />
-			</DrawerContent>
-		</Drawer>
-	);
-}
-
-function ShareDialog() {
-	const [open, setOpen] = useState(false);
-	const isDesktop = useMediaQuery("(min-width: 624px)");
-
-	if (isDesktop) {
-		return (
-			<Dialog open={open} onOpenChange={setOpen}>
-				<DialogTrigger asChild>
-					<Button
-						variant={"link"}
-						className="gap-1 flex no-underline hover:underline"
-					>
-						<SolitoImage
-							src="/zorb.png"
-							height={14}
-							width={14}
-							contentFit={"contain"}
-							onLayout={{}}
-							resizeMode={"cover"}
-							alt="A cool image, imported locally."
-						/>{" "}
-						Zora Bridge
-					</Button>
-				</DialogTrigger>
-				<DialogContent className="sm:max-w-[425px]">
-					<ShareDialogContent />
-				</DialogContent>
-			</Dialog>
-		);
-	}
-
-	return (
-		<Drawer open={open} onOpenChange={setOpen}>
-			<DrawerTrigger asChild>
-				<Text
-					className={cn(
-						buttonVariants({ variant: "link" }),
-						"cursor-pointer gap-1 flex no-underline hover:underline",
-					)}
-				>
-					<SolitoImage
-						src="/zorb.png"
-						height={14}
-						width={14}
-						contentFit={"contain"}
-						onLayout={{}}
-						resizeMode={"cover"}
-						alt="A cool image, imported locally."
-					/>{" "}
-					Zora Bridge
-				</Text>
-			</DrawerTrigger>
-			<DrawerContent>
-				<ShareDialogContent />
 			</DrawerContent>
 		</Drawer>
 	);

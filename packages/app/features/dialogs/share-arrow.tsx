@@ -11,7 +11,11 @@ import { ArrowUpRight } from "lucide-react-native";
 import { useState } from "react";
 import ShareDialogContent from "./share";
 
-export function ShareDialog() {
+interface ShareDialogProps {
+	tokenId: string;
+}
+
+export function ShareDialog({ tokenId }: ShareDialogProps) {
 	const [open, setOpen] = useState(false);
 	const isDesktop = useMediaQuery("(min-width: 624px)");
 
@@ -22,7 +26,7 @@ export function ShareDialog() {
 					<ArrowUpRight className="w-4 h-4 mt-1 text-primary z-50" />
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-[425px]">
-					<ShareDialogContent />
+					<ShareDialogContent tokenId={tokenId} />
 				</DialogContent>
 			</Dialog>
 		);
@@ -34,7 +38,7 @@ export function ShareDialog() {
 				<ArrowUpRight className="w-4 h-4 mt-1 text-primary z-50" />
 			</DrawerTrigger>
 			<DrawerContent>
-				<ShareDialogContent />
+				<ShareDialogContent tokenId={tokenId} />
 			</DrawerContent>
 		</Drawer>
 	);

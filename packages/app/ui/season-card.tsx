@@ -6,9 +6,9 @@ import { useQuery } from "@tanstack/react-query";
 import type { TokensResponseItem } from "@zoralabs/zdk";
 import request from "graphql-request";
 import { Disc3 } from "lucide-react-native";
+import { SolitoImage } from "solito/image";
 import { Link } from "solito/link";
 import { ShareDialog } from "../features/dialogs/share-arrow";
-import { SolitoImage } from 'solito/image'
 
 interface SeasonCardProps {
 	token: TokensResponseItem["token"];
@@ -40,8 +40,15 @@ export function SeasonCard({ token }: SeasonCardProps) {
 						width={200}
 						height={200}
 						alt={token.name ?? "Mix Cover"}
-						style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, borderRadius: 6 }}
-					/>	
+						style={{
+							position: "absolute",
+							top: 0,
+							bottom: 0,
+							left: 0,
+							right: 0,
+							borderRadius: 6,
+						}}
+					/>
 					<Row className="flex justify-between items-end">
 						<Button variant={"outline"} size={"sm"}>
 							{mintData?.mintCount?.mintCount}
@@ -82,7 +89,7 @@ export function SeasonCard({ token }: SeasonCardProps) {
 					</TextLink>
 					<View className="absolute inset-y-0 right-0 w-12 bg-gradient-to-r from-transparent to-white pointer-events-none" />
 				</Button>
-				<ShareDialog />
+				<ShareDialog tokenId={token.tokenId} />
 			</Row>
 		</View>
 	);

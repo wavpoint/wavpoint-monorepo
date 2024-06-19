@@ -34,8 +34,9 @@ import { useQuery } from "@tanstack/react-query";
 import { createMintClient } from "@zoralabs/protocol-sdk";
 import request from "graphql-request";
 import { Disc3 } from "lucide-react-native";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
 import { z } from "zod";
@@ -128,17 +129,16 @@ export default function MintDialogContent() {
 
 	// })
 
-	const walletClient = useMemo(() => {
-		return getWalletClient();
-	}, []);
-
 	const handleMint = async (input: MintFormInput) => {
-		if (!wallets[0]?.address) return;
+		if (!wallets[0]?.address) {
+			toast.error("Please log into your wallet!");
+			return;
+		}
 
 		const address = wallets[0].address as `0x${string}`;
 
 		try {
-			const mintClient = createMintClient({ chain });
+			const mintClient = createMintClient({ chain, publicClient });
 
 			// prepare the mint transaction, which can be simulated via an rpc with the public client.
 			const prepared = await mintClient.makePrepareMintTokenParams({
@@ -152,7 +152,7 @@ export default function MintDialogContent() {
 					quantityToMint: value,
 					// optional comment to include with the mint
 					mintComment: input.comment,
-					// optional address that will receive a mint referral reward
+					// TODO: address that will receive a mint referral reward
 				},
 				// account that is to invoke the mint transaction
 				minterAccount: address,
@@ -163,14 +163,18 @@ export default function MintDialogContent() {
 				...prepared,
 			});
 
-			const hash = await walletClient.writeContract(request);
+			const client = await getWalletClient(wallets[0]);
+
+			const hash = await client.writeContract(request);
 
 			const receipt = await publicClient.waitForTransactionReceipt({ hash });
 
 			if (receipt.status !== "success") {
-				console.error("Transaction failed", receipt);
+				console.error(receipt);
+				toast.error("Transaction failed! Check console for receipt.");
 			} else {
 				reset();
+				toast.success("Successfully minted!");
 			}
 		} catch (error) {
 			await handleContractErrors(error, wallets);

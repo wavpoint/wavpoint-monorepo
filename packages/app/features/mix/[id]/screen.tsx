@@ -171,7 +171,7 @@ export function MixScreen() {
 					<View className="absolute inset-y-0 right-0 w-12 bg-gradient-to-r from-transparent to-white pointer-events-none" />
 				</Text>
 
-				<ShareDialog />
+				<ShareDialog tokenId={id} />
 			</Row>
 
 			<View className="w-[200px] items-center">

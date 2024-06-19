@@ -1,7 +1,8 @@
-export { useAugmentedRef } from './useAugmentedRef';
+export { useAugmentedRef } from "./useAugmentedRef";
 export {
 	useRelativePosition,
 	type LayoutPosition,
-} from './useRelativePosition';
-export { useControllableState } from './useControllableState';
-export { useMediaQuery } from './useMediaQuery';
+} from "./useRelativePosition";
+export { useControllableState } from "./useControllableState";
+export { useMediaQuery } from "./useMediaQuery";
+export { useCopy } from "./useCopy";
