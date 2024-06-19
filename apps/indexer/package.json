@@ -13,7 +13,7 @@
 	"dependencies": {
 		"@ponder/core": "^0.4.36",
 		"viem": "^2.13.8",
-		"@repo/utils": "workspace:*"
+		"@wavpoint/utils": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "^20.9.0",

@@ -1,10 +1,10 @@
-import { Button, Row, TextLink, View } from "@repo/app/ui";
+import { Button, Row, Text, TextLink, View } from "@wavpoint/app/ui";
 
-import { cn, mintCountQueryDocument } from "@repo/app/lib";
-import { COLLECTION_ADDRESS, VINYL_GOAL, ipfsToUrl } from "@repo/utils";
+import { client, mintCountQueryDocument } from "@wavpoint/app/gql";
+import { cn } from "@wavpoint/app/lib";
+import { COLLECTION_ADDRESS, VINYL_GOAL, ipfsToUrl } from "@wavpoint/utils";
 import { useQuery } from "@tanstack/react-query";
 import type { TokensResponseItem } from "@zoralabs/zdk";
-import request from "graphql-request";
 import { Disc3 } from "lucide-react-native";
 import { SolitoImage } from "solito/image";
 import { Link } from "solito/link";
@@ -18,13 +18,9 @@ export function SeasonCard({ token }: SeasonCardProps) {
 	const { data: mintData } = useQuery({
 		queryKey: [`MINT_${token.tokenId}`],
 		queryFn: async () =>
-			request(
-				process.env.NEXT_PUBLIC_INDEXER_URI ?? "http://localhost:42069",
-				mintCountQueryDocument,
-				{
-					tokenId: `${token.tokenId}:${COLLECTION_ADDRESS}`,
-				},
-			),
+			client.request(mintCountQueryDocument, {
+				tokenId: `${token.tokenId}:${COLLECTION_ADDRESS}`,
+			}),
 		enabled: !!token.tokenId,
 	});
 
@@ -51,10 +47,11 @@ export function SeasonCard({ token }: SeasonCardProps) {
 					/>
 					<Row className="flex justify-between items-end">
 						<Button variant={"outline"} size={"sm"}>
-							{mintData?.mintCount?.mintCount}
+							{mintData?.mintCount?.mintCount ?? <Text className="h-4 w-5" />}
 						</Button>
 
 						<Row className="gap-2 font-bold">
+							{/* FIXME: Uncomment for mint downloads goal */}
 							{/* <Button
 								variant={"ghost"}
 								size={"icon"}

@@ -9,23 +9,22 @@ import {
 	Drawer,
 	DrawerContent,
 	DrawerTrigger,
-	Marquee,
 	Row,
 	Text,
 	View,
 	buttonVariants,
 	useMediaQuery,
-} from "@repo/app/ui";
+} from "@wavpoint/app/ui";
 
-import { cn, cookieName } from "@repo/app/lib";
+import { cn, cookieName } from "@wavpoint/app/lib";
 import {
 	audioRefAtom,
 	currentSongAtom,
 	currentSongElapsedTimeAtom,
 	isPlayingAtom,
 	useIsPlayingListener,
-} from "@repo/app/store/player";
-import { formatTime } from "@repo/utils";
+} from "@wavpoint/app/store/player";
+import { formatTime } from "@wavpoint/utils";
 import { useAtom, useSetAtom } from "jotai";
 import Cookies from "js-cookie";
 import {
@@ -39,7 +38,6 @@ import {
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { Link } from "solito/link";
-import ShareDialogContent from "../dialogs/share";
 import { TrackDialogContent } from "../dialogs/track";
 
 interface DefaultLayoutProps {

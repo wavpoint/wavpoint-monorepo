@@ -1,4 +1,4 @@
-import { VINYL_GOAL } from "@repo/utils";
+import { VINYL_GOAL } from "@wavpoint/utils";
 import * as React from "react";
 import { Platform } from "react-native";
 import Animated, {

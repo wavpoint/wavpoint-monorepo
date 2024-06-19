@@ -5,4 +5,3 @@ export {
 } from "./useRelativePosition";
 export { useControllableState } from "./useControllableState";
 export { useMediaQuery } from "./useMediaQuery";
-export { useCopy } from "./useCopy";

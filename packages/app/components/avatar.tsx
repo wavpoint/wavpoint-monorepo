@@ -1,4 +1,4 @@
-import { Pressable, View } from "@repo/app/ui";
+import { Pressable, View } from "@wavpoint/app/ui";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ImagePlus, Loader, Loader2 } from "lucide-react-native";

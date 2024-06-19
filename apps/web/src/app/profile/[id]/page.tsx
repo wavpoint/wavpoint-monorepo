@@ -1,5 +1,5 @@
-import { ProfileScreen } from "@repo/app/features/profile/screen";
-import type { Database } from "@repo/app/lib";
+import { ProfileScreen } from "@wavpoint/app/features/profile/screen";
+import type { Database } from "@wavpoint/app/lib";
 import { type CookieOptions, createServerClient } from "@supabase/ssr";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";

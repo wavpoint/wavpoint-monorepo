@@ -1,6 +1,6 @@
 import { PrivyClient } from "@privy-io/server-auth";
-import type { Database } from "@repo/app/lib";
-import { formatAddress } from "@repo/utils";
+import type { Database } from "@wavpoint/app/lib";
+import { formatAddress } from "@wavpoint/utils";
 import { type CookieOptions, createServerClient } from "@supabase/ssr";
 import cookie from "cookie";
 import jwt from "jsonwebtoken";

@@ -13,7 +13,7 @@ const nextConfig = {
 		"react-native-web",
 		"solito",
 		"moti",
-		"@repo/app",
+		"@wavpoint/app",
 		"react-native-reanimated",
 		"nativewind",
 		"react-native-gesture-handler",

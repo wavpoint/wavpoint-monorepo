@@ -1,5 +1,5 @@
 import { ponder } from "@/generated";
-import { formatAddress } from "@repo/utils";
+import { formatAddress } from "@wavpoint/utils";
 
 ponder.on("ZoraCreator1155Impl:TransferBatch", async ({ event, context }) => {
 	if (event.args.from !== "0x0000000000000000000000000000000000000000") return;

@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useWallets } from "@privy-io/react-auth";
+import { fetchMintData } from "@wavpoint/app/gql";
 import {
 	chain,
 	cn,
 	getWalletClient,
 	handleContractErrors,
-	mintCountQueryDocument,
 	publicClient,
-} from "@repo/app/lib";
+} from "@wavpoint/app/lib";
 import {
 	Button,
 	Dialog,
@@ -23,16 +23,15 @@ import {
 	View,
 	buttonVariants,
 	useMediaQuery,
-} from "@repo/app/ui";
+} from "@wavpoint/app/ui";
 import {
 	COLLECTION_ADDRESS,
 	MAX_MINT_AMOUNT,
 	TOKEN_PRICE_ETH,
 	VINYL_GOAL,
-} from "@repo/utils";
+} from "@wavpoint/utils";
 import { useQuery } from "@tanstack/react-query";
 import { createMintClient } from "@zoralabs/protocol-sdk";
-import request from "graphql-request";
 import { Disc3, Loader2 } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -49,6 +48,7 @@ type MintFormInput = z.infer<typeof mintFormSchema>;
 
 export default function MintDialogContent() {
 	const [mintLoading, setMintLoading] = useState(false);
+	const [quantityToMint, setQuantityToMint] = useState(1);
 
 	const {
 		control,
@@ -66,18 +66,15 @@ export default function MintDialogContent() {
 	// FIXME: Uncomment to enable downloads
 	// const router = useRouter();
 
-	const { wallets, ready } = useWallets();
+	const { wallets } = useWallets();
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		const wallet = wallets[0];
 
 		if (!wallet || wallet.chainId === chain.id.toString()) return;
 
 		wallet.switchChain(chain.id);
-	}, [ready]);
-
-	const [value, setValue] = useState(1);
+	}, [wallets[0]]);
 
 	const fetchEthPrice = async () => {
 		const res = await fetch("https://api.coinbase.com/v2/prices/ETH-USD/spot");
@@ -94,16 +91,9 @@ export default function MintDialogContent() {
 		queryFn: fetchEthPrice,
 	});
 
-	const { data: mintData } = useQuery({
+	const { data: mintCount } = useQuery({
 		queryKey: [`MINT_${params.id}`],
-		queryFn: async () =>
-			request(
-				process.env.NEXT_PUBLIC_INDEXER_URI ?? "http://localhost:42069",
-				mintCountQueryDocument,
-				{
-					tokenId: `${params.id}:${COLLECTION_ADDRESS}`,
-				},
-			),
+		queryFn: () => fetchMintData(params.id?.toString() ?? ""),
 		enabled: !!params.id,
 	});
 
@@ -135,6 +125,7 @@ export default function MintDialogContent() {
 		setMintLoading(true);
 
 		if (!wallets[0]?.address) {
+			setMintLoading(false);
 			toast.error("Please log into your wallet!");
 			return;
 		}
@@ -153,7 +144,7 @@ export default function MintDialogContent() {
 					// address that will receive the minted tokens
 					mintToAddress: address,
 					// quantity of tokens to mint
-					quantityToMint: value,
+					quantityToMint,
 					// optional comment to include with the mint
 					mintComment: input.comment,
 					// TODO: address that will receive a mint referral reward
@@ -215,20 +206,21 @@ export default function MintDialogContent() {
 				<View>
 					<Slider
 						disabled={mintLoading}
-						value={value}
+						value={quantityToMint}
 						min={1}
 						max={MAX_MINT_AMOUNT}
 						onValueChange={(vals) => {
 							const nextValue = vals[0];
 							if (typeof nextValue !== "number") return;
-							setValue(nextValue);
+							setQuantityToMint(nextValue);
 						}}
 					/>
 					<Row className="w-full flex justify-between">
-						<Text className="text-xs">QTY: {value}</Text>
+						<Text className="text-xs">QTY: {quantityToMint}</Text>
 						<Text className="text-xs">
-							{value * TOKEN_PRICE_ETH} ETH (≈$
-							{((ethPrice ?? 0) * value * TOKEN_PRICE_ETH).toFixed(2)} USD)
+							{quantityToMint * TOKEN_PRICE_ETH} ETH (≈$
+							{((ethPrice ?? 0) * quantityToMint * TOKEN_PRICE_ETH).toFixed(2)}{" "}
+							USD)
 						</Text>
 					</Row>
 				</View>
@@ -260,7 +252,7 @@ export default function MintDialogContent() {
 					<Button
 						variant={"outline"}
 						className="border-primary text-primary font-semibold w-20"
-						onPress={() => setValue(3)}
+						onPress={() => setQuantityToMint(3)}
 						disabled={mintLoading}
 					>
 						3
@@ -269,7 +261,7 @@ export default function MintDialogContent() {
 					<Button
 						variant={"outline"}
 						className="border-primary text-primary font-semibold w-20"
-						onPress={() => setValue(20)}
+						onPress={() => setQuantityToMint(20)}
 						disabled={mintLoading}
 					>
 						20
@@ -278,7 +270,7 @@ export default function MintDialogContent() {
 					<Button
 						variant={"outline"}
 						className="border-primary text-primary font-semibold w-20"
-						onPress={() => setValue(MAX_MINT_AMOUNT)}
+						onPress={() => setQuantityToMint(MAX_MINT_AMOUNT)}
 						disabled={mintLoading}
 					>
 						MAX
@@ -308,9 +300,7 @@ export default function MintDialogContent() {
 						Download IDs
 					</Button> */}
 
-					{(mintData?.mintCount?.mintCount ?? 0) >= VINYL_GOAL && (
-						<ClaimDialog />
-					)}
+					{(mintCount ?? 0) >= VINYL_GOAL && <ClaimDialog />}
 				</Row>
 			</View>
 		</Row>

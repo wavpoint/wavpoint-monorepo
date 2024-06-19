@@ -16,24 +16,18 @@ import {
 	View,
 	buttonVariants,
 	useMediaQuery,
-} from "@repo/app/ui";
+} from "@wavpoint/app/ui";
 
 import { usePrivy } from "@privy-io/react-auth";
-import {
-	cn,
-	cookieName,
-	getSupabase,
-	mintCountQueryDocument,
-	zdk,
-} from "@repo/app/lib";
-import { currentSongAtom, isPlayingAtom } from "@repo/app/store/player";
-import { COLLECTION_ADDRESS, VINYL_GOAL, ipfsToUrl } from "@repo/utils";
+import { fetchMintData } from "@wavpoint/app/gql";
+import { useIpfsUrl, useSupabase } from "@wavpoint/app/hooks";
+import { cn, fetchToken } from "@wavpoint/app/lib";
+import { currentSongAtom, isPlayingAtom } from "@wavpoint/app/store/player";
+import { COLLECTION_ADDRESS, VINYL_GOAL } from "@wavpoint/utils";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import request from "graphql-request";
 import { useAtom, useSetAtom } from "jotai";
-import Cookies from "js-cookie";
 import { Play, PlayIcon } from "lucide-react-native";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
 import MintDialogContent from "../../dialogs/mint";
@@ -43,21 +37,22 @@ const useMixParams = useParams<{ id: string }>;
 
 export function MixScreen() {
 	const { id } = useMixParams();
+
 	const [currentSong, setCurrentSong] = useAtom(currentSongAtom);
 	const setIsPlaying = useSetAtom(isPlayingAtom);
+
 	const { authenticated } = usePrivy();
+	const supabase = useSupabase();
 
-	const fetchToken = async () => {
-		const data = await zdk.token({
-			token: {
-				address: COLLECTION_ADDRESS,
-				tokenId: id,
-			},
-			includeFullDetails: true,
-		});
+	const { data } = useQuery({
+		queryKey: [`TOKEN_${id}`],
+		queryFn: () => fetchToken(id),
+		enabled: !!id,
+		refetchOnWindowFocus: false,
+	});
 
-		return data.token?.token;
-	};
+	const contentUrl = useIpfsUrl(data?.content?.url);
+	const imageUrl = useIpfsUrl(data?.image?.url);
 
 	const { mutate } = useMutation({
 		mutationFn: async () => {
@@ -79,57 +74,41 @@ export function MixScreen() {
 		if (
 			data?.content?.url &&
 			data.content.mimeType?.startsWith("audio") &&
-			currentSong?.url !== data.content.url
+			currentSong?.url !== data.content.url // Song isn't currently playing
 		) {
 			mutate();
 			setCurrentSong({
 				title: data.name ?? "",
 				artist: "Artist Name",
-				url: ipfsToUrl(data.content.url),
+				url: contentUrl,
 				duration: 0,
-				cover: ipfsToUrl(data.image?.url),
+				cover: imageUrl,
 			});
 
 			setIsPlaying(true);
 		}
 	};
 
-	const { data: mintData } = useQuery({
+	const { data: mintCount } = useQuery({
 		queryKey: [`MINT_${id}`],
-		queryFn: async () =>
-			request(
-				process.env.NEXT_PUBLIC_INDEXER_URI ?? "http://localhost:42069",
-				mintCountQueryDocument,
-				{
-					tokenId: `${id}:${COLLECTION_ADDRESS}`,
-				},
-			),
+		queryFn: () => fetchMintData(id),
 		enabled: !!id,
 		refetchOnWindowFocus: false,
 	});
-
-	const { data } = useQuery({
-		queryKey: [`TOKEN_${id}`],
-		queryFn: fetchToken,
-		enabled: !!id,
-		refetchOnWindowFocus: false,
-	});
-
-	const supabase = useMemo(() => {
-		const accessToken = Cookies.get(cookieName);
-		return getSupabase(accessToken ?? "");
-	}, []);
 
 	const { data: playsData } = useQuery({
 		queryKey: [`TOKEN_PLAYS_${id}`],
-		queryFn: async () =>
-			await supabase
+		queryFn: async () => {
+			const res = await supabase
 				?.from("plays")
 				.select<string, { plays: number }>("plays")
 				.eq("token_id", id)
 				.eq("collection_address", COLLECTION_ADDRESS)
-				.limit(1),
-		enabled: !!id,
+				.limit(1);
+
+			return res?.data?.[0]?.plays;
+		},
+		enabled: !!id && !!supabase,
 		refetchOnWindowFocus: false,
 	});
 
@@ -138,7 +117,7 @@ export function MixScreen() {
 			<View className="relative w-[200px] h-[200px] bg-gradient-to-b from-gradient-initial to-gradient-final rounded-md flex items-center justify-center mt-2">
 				{data?.image && (
 					<SolitoImage
-						src={ipfsToUrl(data?.image?.url)}
+						src={imageUrl}
 						onLayout={{}}
 						contentFit={"cover"}
 						resizeMode={"cover"}
@@ -155,7 +134,7 @@ export function MixScreen() {
 						}}
 					/>
 				)}
-				{currentSong?.url !== ipfsToUrl(data?.content?.url) && (
+				{currentSong?.url !== contentUrl && (
 					<Pressable
 						onPress={setAsCurrentSong}
 						className="backdrop-blur opacity-0 cursor-pointer inset-0 absolute justify-center items-center hover:opacity-100 transition-opacity"
@@ -181,12 +160,8 @@ export function MixScreen() {
 					{/* <Text className="text-[10px] w-1/3 text-center">1,111</Text> */}
 					<Text className="text-[10px] text-end w-1/2 pr-1">{VINYL_GOAL}</Text>
 				</Row>
-				{mintData?.mintCount?.mintCount && (
-					<Progress
-						value={mintData.mintCount.mintCount}
-						max={VINYL_GOAL}
-						className="w-11/12"
-					/>
+				{mintCount && (
+					<Progress value={mintCount} max={VINYL_GOAL} className="w-11/12" />
 				)}
 				<Row className="w-full">
 					<Text className="text-[10px] w-1/2">Onchain</Text>
@@ -201,7 +176,7 @@ export function MixScreen() {
 			<Row className="gap-3">
 				<Row className="items-center gap-0.5">
 					<Play className="fill-black w-2.5 h-2.5" />
-					<Text className="text-xs">{playsData?.data?.[0]?.plays ?? 0}</Text>
+					<Text className="text-xs">{playsData ?? 0}</Text>
 				</Row>
 				<Row className="items-center gap-0.5">
 					<EthLogo className="w-3 h-3" />

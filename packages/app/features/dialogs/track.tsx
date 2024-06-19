@@ -1,10 +1,10 @@
-import { cn } from "@repo/app/lib";
+import { cn } from "@wavpoint/app/lib";
 import {
 	audioRefAtom,
 	currentSongAtom,
 	currentSongElapsedTimeAtom,
 	isPlayingAtom,
-} from "@repo/app/store/player";
+} from "@wavpoint/app/store/player";
 import {
 	Button,
 	Dialog,
@@ -19,8 +19,8 @@ import {
 	View,
 	buttonVariants,
 	useMediaQuery,
-} from "@repo/app/ui";
-import { formatTime } from "@repo/utils";
+} from "@wavpoint/app/ui";
+import { formatTime } from "@wavpoint/utils";
 import { useAtom, useAtomValue } from "jotai";
 import { debounce } from "lodash";
 import {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Row, Text, View } from "@repo/app/ui";
+import { Button, Row, Text, View } from "@wavpoint/app/ui";
 
 import { usePrivy } from "@privy-io/react-auth";
 import {
@@ -8,44 +8,34 @@ import {
 	EditProfileForm,
 	SeasonCard,
 	SeasonCardSkeleton,
-} from "@repo/app/components";
-import { cookieName, getSupabase, zdk } from "@repo/app/lib";
-import { COLLECTION_ADDRESS, formatAddress } from "@repo/utils";
+} from "@wavpoint/app/components";
+import { useCopy, useSupabase } from "@wavpoint/app/hooks";
+import { fetchTokens } from "@wavpoint/app/lib";
+import { formatAddress } from "@wavpoint/utils";
 import { useQuery } from "@tanstack/react-query";
-import Cookies from "js-cookie";
 import { Check, Copy, Edit3 } from "lucide-react-native";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useParams } from "solito/navigation";
+import { Skeleton } from "../../ui/skeleton";
 
 const useProfileParams = useParams<{ id: string }>;
 
 export function ProfileScreen() {
 	const { id } = useProfileParams();
-	const [isEditing, setIsEditing] = useState<boolean>(false);
-	const [copied, setCopied] = useState(false);
-
 	const profileAddress = id.replace("/profile/", "");
 
+	const [isEditing, setIsEditing] = useState<boolean>(false);
+
+	const { isCopied, copyToClipboard } = useCopy();
+
+	const supabase = useSupabase();
 	const { user } = usePrivy();
 
-	const handleCopy = () => {
-		navigator.clipboard.writeText(id);
-		setCopied(true);
-
-		setTimeout(() => setCopied(false), 2000);
-	};
-
-	const supabase = useMemo(() => {
-		const accessToken = Cookies.get(cookieName);
-		return getSupabase(accessToken ?? "");
-	}, []);
-
-	const { data: userData } = useQuery({
+	const { data: userData, isLoading: userDataLoading } = useQuery({
 		queryKey: ["user"],
 		queryFn: async () => {
-			if (!supabase) return;
 			return supabase
-				.from("users")
+				?.from("users")
 				.select("*")
 				.eq("id", profileAddress)
 				.single<{ id: string; username: string; image: string }>();
@@ -53,20 +43,10 @@ export function ProfileScreen() {
 		enabled: !!supabase && !!profileAddress,
 	});
 
-	const fetchTokens = async () => {
-		const tokens = await zdk.tokens({
-			where: {
-				collectionAddresses: [COLLECTION_ADDRESS],
-				ownerAddresses: [profileAddress ?? ""],
-			},
-		});
-
-		return tokens.tokens.nodes.map((node) => node.token);
-	};
-
 	const { data, isLoading } = useQuery({
 		queryKey: [`PROFILE_${profileAddress}`],
-		queryFn: fetchTokens,
+		queryFn: () => fetchTokens(profileAddress as `0x${string}`),
+		enabled: !!profileAddress,
 	});
 
 	const isAuthenticatedUser = userData?.data?.id === user?.wallet?.address;
@@ -74,49 +54,53 @@ export function ProfileScreen() {
 	return (
 		<View className="max-w-xl flex-1 flex items-center w-full gap-8">
 			<View className="items-center gap-2">
-				<Avatar
-					user={userData?.data}
-					id={id}
-					isAuthenticatedUser={isAuthenticatedUser}
-					supabase={supabase}
-				/>
+				<Skeleton show={userDataLoading} className="rounded-full">
+					<Avatar
+						user={userData?.data}
+						id={id}
+						isAuthenticatedUser={isAuthenticatedUser}
+						supabase={supabase}
+					/>
+				</Skeleton>
 				<Row className="items-center">
-					{isAuthenticatedUser ? (
-						isEditing ? (
-							<EditProfileForm
-								oldUsername={userData?.data?.username ?? ""}
-								setIsEditing={setIsEditing}
-								supabase={supabase}
-								id={id}
-							/>
+					<Skeleton show={userDataLoading} className="w-36 h-8">
+						{isAuthenticatedUser ? (
+							isEditing ? (
+								<EditProfileForm
+									oldUsername={userData?.data?.username ?? ""}
+									setIsEditing={setIsEditing}
+									supabase={supabase}
+									id={id}
+								/>
+							) : (
+								<>
+									<Text className="font-bold text-xl">
+										{userData?.data?.username}
+									</Text>
+									<Button
+										variant={"ghost"}
+										size={"icon"}
+										onPress={() => setIsEditing(true)}
+									>
+										<Edit3 className="w-4 h-4 mt-1" />
+									</Button>
+								</>
+							)
 						) : (
-							<>
-								<Text className="font-bold text-xl">
-									{userData?.data?.username}
-								</Text>
-								<Button
-									variant={"ghost"}
-									size={"icon"}
-									onPress={() => setIsEditing(true)}
-								>
-									<Edit3 className="w-4 h-4 mt-1" />
-								</Button>
-							</>
-						)
-					) : (
-						<Text className="font-bold text-xl">
-							{userData?.data?.username}
-						</Text>
-					)}
+							<Text className="font-bold text-xl">
+								{userData?.data?.username}
+							</Text>
+						)}
+					</Skeleton>
 				</Row>
 
 				<Button
 					variant={"link"}
 					className="py-0 flex text-xs"
-					onPress={handleCopy}
+					onPress={() => copyToClipboard(profileAddress)}
 				>
 					{formatAddress(profileAddress)}
-					{copied ? (
+					{isCopied ? (
 						<Check className="w-3 h-3 ml-2 mt-1" />
 					) : (
 						<Copy className="w-3 h-3 ml-2 mt-1" />

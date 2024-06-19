@@ -1,4 +1,4 @@
-import type { ForceMountable } from '@repo/app/ui/primitives/types';
+import type { ForceMountable } from "@wavpoint/app/ui/primitives/types";
 
 type RootContext = {
 	open: boolean;

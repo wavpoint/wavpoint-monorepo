@@ -1,4 +1,4 @@
-import theme from "@repo/app/ui/tailwind/theme";
+import theme from "@wavpoint/app/ui/tailwind/theme";
 import type { Config } from "tailwindcss";
 
 const config: Config = {

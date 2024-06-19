@@ -3,7 +3,6 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react-native";
 import * as React from "react";
-import Animated, { FadeIn } from "react-native-reanimated";
 import { cn } from "../lib/utils";
 
 const Dialog = DialogPrimitive.Root;
@@ -29,21 +28,12 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
-// const AnimatedDialogPrimitiveContent = Animated.createAnimatedComponent(
-// 	DialogPrimitive.Content,
-// );
-
-// const AnimatedDialogOverlay = Animated.createAnimatedComponent(DialogOverlay);
-
 const DialogContent = React.forwardRef<
 	React.ElementRef<typeof DialogPrimitive.Content>,
 	React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
 	<DialogPortal>
-		{/* <AnimatedDialogOverlay entering={FadeIn.duration(100)} /> */}
 		<DialogOverlay />
-		{/* <AnimatedDialogPrimitiveContent
-			entering={FadeIn.duration(100)} */}
 		<DialogPrimitive.Content
 			ref={ref}
 			className={cn(
@@ -58,7 +48,6 @@ const DialogContent = React.forwardRef<
 				<span className="sr-only">Close</span>
 			</DialogPrimitive.Close>
 		</DialogPrimitive.Content>
-		{/* </AnimatedDialogPrimitiveContent> */}
 	</DialogPortal>
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;

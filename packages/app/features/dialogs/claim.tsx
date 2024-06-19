@@ -1,5 +1,5 @@
-import { Button, Input, Row, Text, View } from "@repo/app/ui";
-import { VINYL_GOAL } from "@repo/utils";
+import { Button, Input, Row, Text, View } from "@wavpoint/app/ui";
+import { VINYL_GOAL } from "@wavpoint/utils";
 import { ArrowUpRight, Clock } from "lucide-react-native";
 
 export default function ClaimDialogContent() {

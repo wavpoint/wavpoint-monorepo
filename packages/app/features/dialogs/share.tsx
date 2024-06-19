@@ -1,5 +1,6 @@
-import { Button, Row, View, useCopy } from "@repo/app/ui";
-import { COLLECTION_ADDRESS } from "@repo/utils";
+import { useCopy } from "@wavpoint/app/hooks";
+import { Button, Row, View } from "@wavpoint/app/ui";
+import { COLLECTION_ADDRESS } from "@wavpoint/utils";
 import { ArrowUpRight, Check, Copy } from "lucide-react-native";
 import { SolitoImage } from "solito/image";
 import { Link } from "solito/link";

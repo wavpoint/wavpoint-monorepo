@@ -6,7 +6,7 @@ import {
 	DrawerContent,
 	DrawerTrigger,
 	useMediaQuery,
-} from "@repo/app/ui";
+} from "@wavpoint/app/ui";
 import { ArrowUpRight } from "lucide-react-native";
 import { useState } from "react";
 import ShareDialogContent from "./share";

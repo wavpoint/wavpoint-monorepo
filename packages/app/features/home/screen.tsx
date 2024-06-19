@@ -1,26 +1,15 @@
 "use client";
 
-import { View } from "@repo/app/ui";
+import { View } from "@wavpoint/app/ui";
 
-import { SeasonCard, SeasonCardSkeleton } from "@repo/app/components";
-import { zdk } from "@repo/app/lib";
-import { COLLECTION_ADDRESS } from "@repo/utils";
+import { SeasonCard, SeasonCardSkeleton } from "@wavpoint/app/components";
+import { fetchTokens } from "@wavpoint/app/lib";
 import { useQuery } from "@tanstack/react-query";
 
 export function HomeScreen() {
-	const fetchTokens = async () => {
-		const data = await zdk.tokens({
-			where: {
-				collectionAddresses: [COLLECTION_ADDRESS],
-			},
-		});
-
-		return data;
-	};
-
 	const { data, isLoading } = useQuery({
 		queryKey: ["TOKENS"],
-		queryFn: fetchTokens,
+		queryFn: () => fetchTokens(),
 	});
 
 	return (
@@ -33,9 +22,7 @@ export function HomeScreen() {
 					<View className="loading hidden" />
 				</>
 			) : (
-				data?.tokens.nodes.map((token) => (
-					<SeasonCard token={token.token} key={token.token.tokenId} />
-				))
+				data?.map((token) => <SeasonCard token={token} key={token.tokenId} />)
 			)}
 		</View>
 	);

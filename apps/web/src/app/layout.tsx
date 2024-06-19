@@ -1,7 +1,7 @@
 import "./globals.css";
 import "raf/polyfill";
-import { DefaultLayout } from "@repo/app/features/layouts";
-import { Providers } from "@repo/app/provider";
+import { DefaultLayout } from "@wavpoint/app/features/layouts";
+import { Providers } from "@wavpoint/app/provider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 

@@ -1,5 +1,9 @@
 import { PrivyClient } from "@privy-io/server-auth";
-import { COLLECTION_ADDRESS, type PlayData, type PlayInput } from "@repo/utils";
+import {
+	COLLECTION_ADDRESS,
+	type PlayData,
+	type PlayInput,
+} from "@wavpoint/utils";
 import { type CookieOptions, createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
