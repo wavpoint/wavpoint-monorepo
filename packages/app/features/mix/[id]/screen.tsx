@@ -208,7 +208,9 @@ export function MixScreen() {
 				</Row>
 				<Row className="items-center gap-0.5">
 					<EthLogo className="w-3 h-3" />
-					<Text className="text-xs text-primary">{creatorRewards} ETH</Text>
+					<Text className="text-xs text-primary">
+						{mintCount ? creatorRewards : 0} ETH
+					</Text>
 				</Row>
 			</Row>
 
