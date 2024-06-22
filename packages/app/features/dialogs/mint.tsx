@@ -1,11 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useWallets } from "@privy-io/react-auth";
+import { useQuery } from "@tanstack/react-query";
 import { fetchMintData } from "@wavpoint/app/gql";
 import {
 	chain,
 	cn,
 	getWalletClient,
 	handleContractErrors,
+	mainnetClient,
 	publicClient,
 } from "@wavpoint/app/lib";
 import {
@@ -30,7 +32,6 @@ import {
 	TOKEN_PRICE_ETH,
 	VINYL_GOAL,
 } from "@wavpoint/utils";
-import { useQuery } from "@tanstack/react-query";
 import { createMintClient } from "@zoralabs/protocol-sdk";
 import { Disc3, Loader2 } from "lucide-react-native";
 import { useEffect, useState } from "react";
@@ -38,6 +39,8 @@ import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
+import { zora } from "viem/chains";
+import { normalize } from "viem/ens";
 import { z } from "zod";
 import ClaimDialogContent from "./claim";
 
@@ -133,6 +136,16 @@ export default function MintDialogContent() {
 		const address = wallets[0].address as `0x${string}`;
 
 		try {
+			// TODO: Don't use Zora client
+			const ensAddress = await mainnetClient.getEnsAddress({
+				name: normalize("wavpoint.eth"),
+			});
+
+			if (!ensAddress) {
+				toast.error("Something went wrong! Please contact Wavpoint.");
+				return;
+			}
+
 			const mintClient = createMintClient({ chain, publicClient });
 
 			// prepare the mint transaction, which can be simulated via an rpc with the public client.
@@ -147,7 +160,7 @@ export default function MintDialogContent() {
 					quantityToMint,
 					// optional comment to include with the mint
 					mintComment: input.comment,
-					// TODO: address that will receive a mint referral reward
+					mintReferral: ensAddress,
 				},
 				// account that is to invoke the mint transaction
 				minterAccount: address,

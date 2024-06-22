@@ -19,15 +19,23 @@ import {
 } from "@wavpoint/app/ui";
 
 import { usePrivy } from "@privy-io/react-auth";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchMintData } from "@wavpoint/app/gql";
 import { useIpfsUrl, useSupabase } from "@wavpoint/app/hooks";
 import { cn, fetchToken } from "@wavpoint/app/lib";
-import { currentSongAtom, isPlayingAtom } from "@wavpoint/app/store/player";
-import { COLLECTION_ADDRESS, VINYL_GOAL } from "@wavpoint/utils";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+	currentSongAtom,
+	isPlayingAtom,
+	useOverrideCurrentlyPlayingListener,
+} from "@wavpoint/app/store/player";
+import {
+	COLLECTION_ADDRESS,
+	CREATOR_REWARDS_ETH,
+	VINYL_GOAL,
+} from "@wavpoint/utils";
 import { useAtom, useSetAtom } from "jotai";
 import { Play, PlayIcon } from "lucide-react-native";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
 import MintDialogContent from "../../dialogs/mint";
@@ -70,7 +78,7 @@ export function MixScreen() {
 		},
 	});
 
-	const setAsCurrentSong = () => {
+	const setAsCurrentSong = useCallback(() => {
 		if (
 			data?.content?.url &&
 			data.content.mimeType?.startsWith("audio") &&
@@ -87,7 +95,17 @@ export function MixScreen() {
 
 			setIsPlaying(true);
 		}
-	};
+	}, [
+		data?.content?.url,
+		data?.content?.mimeType,
+		currentSong,
+		contentUrl,
+		data?.name,
+		imageUrl,
+		mutate,
+		setCurrentSong,
+		setIsPlaying,
+	]);
 
 	const { data: mintCount } = useQuery({
 		queryKey: [`MINT_${id}`],
@@ -111,6 +129,16 @@ export function MixScreen() {
 		enabled: !!id && !!supabase,
 		refetchOnWindowFocus: false,
 	});
+
+	const creatorRewards = useMemo(() => {
+		return ((mintCount ?? 0) * CREATOR_REWARDS_ETH).toFixed(3);
+	}, [mintCount]);
+
+	useOverrideCurrentlyPlayingListener(
+		useCallback(() => {
+			setAsCurrentSong();
+		}, [setAsCurrentSong]),
+	);
 
 	return (
 		<View className="max-w-xl items-center gap-2 flex-1 w-full">
@@ -137,7 +165,7 @@ export function MixScreen() {
 				{currentSong?.url !== contentUrl && (
 					<Pressable
 						onPress={setAsCurrentSong}
-						className="backdrop-blur opacity-0 cursor-pointer inset-0 absolute justify-center items-center hover:opacity-100 transition-opacity"
+						className="backdrop-blur cursor-pointer inset-0 absolute justify-center items-center rounded-md"
 					>
 						<PlayIcon className="w-8 h-8" fill={"black"} />
 					</Pressable>
@@ -180,7 +208,7 @@ export function MixScreen() {
 				</Row>
 				<Row className="items-center gap-0.5">
 					<EthLogo className="w-3 h-3" />
-					<Text className="text-xs text-primary">1 ETH</Text>
+					<Text className="text-xs text-primary">{creatorRewards} ETH</Text>
 				</Row>
 			</Row>
 

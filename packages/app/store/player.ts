@@ -15,3 +15,5 @@ export const [isPlayingAtom, useIsPlayingListener] = atomWithListeners(false);
 export const currentSongElapsedTimeAtom = atom<number>(0);
 export const audioRefAtom =
 	atom<MutableRefObject<HTMLAudioElement | null> | null>(null);
+export const [overrideCurrentlyPlaying, useOverrideCurrentlyPlayingListener] =
+	atomWithListeners<boolean>(false);

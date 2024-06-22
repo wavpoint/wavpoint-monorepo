@@ -22,6 +22,7 @@ import {
 	currentSongAtom,
 	currentSongElapsedTimeAtom,
 	isPlayingAtom,
+	overrideCurrentlyPlaying,
 	useIsPlayingListener,
 } from "@wavpoint/app/store/player";
 import { formatTime } from "@wavpoint/utils";
@@ -69,6 +70,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 		currentSongElapsedTimeAtom,
 	);
 	const setAudioRefState = useSetAtom(audioRefAtom);
+	const setOverrideCurrentlyPlaying = useSetAtom(overrideCurrentlyPlaying);
 
 	const [updateAudioRef, setUpdateAudioRef] = useState(false);
 	const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -127,6 +129,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 
 	const handleTogglePlay = () => {
 		if (currentSong) setIsPlaying(!isPlaying);
+		else setOverrideCurrentlyPlaying(true);
 	};
 
 	const handleSongEnd = () => {
@@ -172,23 +175,19 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 
 			<View className="fixed inset-x-0 bottom-0 w-full gap-1 items-center px-6 py-2 bg-white">
 				<Row className="max-w-2xl w-full bg-gradient-final border border-primary rounded-full px-8 py-3 flex justify-between items-center gap-2">
-					<View className="shrink w-full">
-						<Text
-							className={cn(
-								"font-bold truncate",
-								!currentSong?.title && "opacity-0",
-							)}
-						>
-							{currentSong?.title ?? "Nothing Playing"}
+					<View
+						className={cn(
+							"shrink w-full h-[38px]",
+							!currentSong?.artist && "justify-center",
+						)}
+					>
+						<Text className={"font-bold truncate"}>
+							{currentSong?.title ?? "Mix Name"}
 						</Text>
-						<Text
-							className={cn(
-								"italic truncate",
-								!currentSong?.artist && "opacity-0",
-							)}
-						>
-							{currentSong?.artist ?? "Nothing Playing"}
-						</Text>
+
+						{currentSong?.artist && (
+							<Text className={"italic truncate"}>{currentSong.artist}</Text>
+						)}
 					</View>
 
 					<Row className="gap-2 items-center">

@@ -12,7 +12,7 @@ import {
 	createWalletClient,
 	custom,
 } from "viem";
-import { zora } from "viem/chains";
+import { mainnet, zora } from "viem/chains";
 
 export const chain: Chain = {
 	id: 7777777,
@@ -38,6 +38,11 @@ export const chain: Chain = {
 export const publicClient = createPublicClient({
 	// this will determine which chain to interact with
 	chain,
+	transport: http(),
+});
+
+export const mainnetClient = createPublicClient({
+	chain: mainnet,
 	transport: http(),
 });
 
