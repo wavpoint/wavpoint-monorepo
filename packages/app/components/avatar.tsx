@@ -1,10 +1,10 @@
-import { Pressable, View } from "@wavpoint/app/ui";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Pressable, View } from "@wavpoint/app/ui";
+import type { Database } from "@wavpoint/utils";
 import { ImagePlus, Loader, Loader2 } from "lucide-react-native";
 import { useRef, useState } from "react";
 import { SolitoImage } from "solito/image";
-import type { Database } from "../lib";
 
 interface AvatarProps {
 	user?: { id: string; username: string; image: string } | null;
