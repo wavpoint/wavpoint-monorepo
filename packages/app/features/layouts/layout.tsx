@@ -32,7 +32,6 @@ import {
 	AudioLines,
 	FileQuestion,
 	Play,
-	Scale,
 	UploadCloudIcon,
 	User,
 } from "lucide-react-native";
@@ -256,14 +255,6 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 					>
 						<FileQuestion className="w-4 h-4 mt-0.5" />
 						FAQ
-					</Button>
-
-					<Button
-						variant={"link"}
-						className="gap-1 flex no-underline hover:underline"
-					>
-						<Scale className="w-4 h-4 mt-0.5" />
-						Legal
 					</Button>
 
 					<Link href={"https://bridge.zora.energy/"} target="_blank">

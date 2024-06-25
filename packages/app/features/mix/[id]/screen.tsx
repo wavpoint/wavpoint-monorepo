@@ -22,7 +22,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchMintData } from "@wavpoint/app/gql";
 import { useIpfsUrl, useSupabase } from "@wavpoint/app/hooks";
-import { cn, fetchToken } from "@wavpoint/app/lib";
+import { cn } from "@wavpoint/app/lib";
 import {
 	currentSongAtom,
 	isPlayingAtom,
@@ -32,6 +32,7 @@ import {
 	COLLECTION_ADDRESS,
 	CREATOR_REWARDS_ETH,
 	VINYL_GOAL,
+	fetchToken,
 } from "@wavpoint/utils";
 import { useAtom, useSetAtom } from "jotai";
 import { Play, PlayIcon } from "lucide-react-native";

@@ -1,7 +1,6 @@
 import { MixScreen } from "@wavpoint/app/features/mix/[id]/screen";
 
-import { zdk } from "@wavpoint/app/lib";
-import { COLLECTION_ADDRESS, ipfsToUrl } from "@wavpoint/utils";
+import { COLLECTION_ADDRESS, ipfsToUrl, zdk } from "@wavpoint/utils";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 

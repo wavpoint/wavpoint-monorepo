@@ -1,11 +1,5 @@
-import { COLLECTION_ADDRESS, ZORA_API_ENDPOINT } from "@wavpoint/utils";
-import {
-	type TokensQueryArgs,
-	type TokensQueryInput,
-	ZDK,
-	ZDKChain,
-	ZDKNetwork,
-} from "@zoralabs/zdk";
+import { type TokensQueryArgs, ZDK, ZDKChain, ZDKNetwork } from "@zoralabs/zdk";
+import { COLLECTION_ADDRESS, ZORA_API_ENDPOINT } from "./config";
 
 const networkInfo = {
 	network: ZDKNetwork.Zora,
@@ -43,4 +37,21 @@ export const fetchTokens = async (ownerAddress?: `0x${string}`) => {
 	const data = await zdk.tokens(args);
 
 	return data.tokens.nodes.map((node) => node.token);
+};
+
+export const fetchIsOwnerOfToken = async (
+	ownerAddress: string,
+	tokenId: string,
+	collectionAddress: string = COLLECTION_ADDRESS,
+) => {
+	const data = await zdk.sdk.ownersByCount1155({
+		where: {
+			collectionAddress,
+			tokenId,
+		},
+	});
+
+	return !!data.aggregateStat.ownersByCount1155.filter(
+		(token) => token.owner === ownerAddress,
+	).length;
 };

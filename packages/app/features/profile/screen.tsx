@@ -3,6 +3,7 @@
 import { Button, Row, Text, View } from "@wavpoint/app/ui";
 
 import { usePrivy } from "@privy-io/react-auth";
+import { useQuery } from "@tanstack/react-query";
 import {
 	Avatar,
 	EditProfileForm,
@@ -10,9 +11,7 @@ import {
 	SeasonCardSkeleton,
 } from "@wavpoint/app/components";
 import { useCopy, useSupabase } from "@wavpoint/app/hooks";
-import { fetchTokens } from "@wavpoint/app/lib";
-import { formatAddress } from "@wavpoint/utils";
-import { useQuery } from "@tanstack/react-query";
+import { fetchTokens, formatAddress } from "@wavpoint/utils";
 import { Check, Copy, Edit3 } from "lucide-react-native";
 import { useState } from "react";
 import { useParams } from "solito/navigation";

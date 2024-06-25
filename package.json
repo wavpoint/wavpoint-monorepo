@@ -24,15 +24,6 @@
 	"packageManager": "bun@1.1.0",
 	"workspaces": ["apps/*", "packages/*"],
 	"dependencies": {
-		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-		"@privy-io/wagmi": "^0.2.7",
-		"@zoralabs/protocol-sdk": "^0.5.17",
-		"jotai": "^2.8.0",
-		"react-hook-form": "^7.51.4",
-		"thirdweb": "^5.28.0"
-	},
-	"overrides": {
-		"commander": "^12.0.0",
-		"ink": "^4.4.1"
+		"@babel/plugin-proposal-export-namespace-from": "^7.18.9"
 	}
 }

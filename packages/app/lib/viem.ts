@@ -1,5 +1,5 @@
 import type { ConnectedWallet } from "@privy-io/react-auth";
-import toast from "react-hot-toast";
+import * as Burnt from "burnt";
 import {
 	http,
 	BaseError,
@@ -12,7 +12,7 @@ import {
 	createWalletClient,
 	custom,
 } from "viem";
-import { mainnet, zora } from "viem/chains";
+import { mainnet } from "viem/chains";
 
 export const chain: Chain = {
 	id: 7777777,
@@ -68,17 +68,29 @@ export const handleContractErrors = async (
 		if (revertError instanceof ContractFunctionRevertedError) {
 			const errorName = revertError.data?.errorName ?? "";
 			if (errorName === "InvalidCurrency") {
-				toast.error("Invalid Currency!");
+				Burnt.toast({
+					title: "Invalid Currency!",
+					haptic: "error",
+					preset: "error",
+				});
 				return;
 			}
 
 			if (revertError.signature === "0xfb8f41b2") {
-				toast.error("You have insufficient ERC-20 funds!");
+				Burnt.toast({
+					title: "You have insufficient ERC-20 funds!",
+					haptic: "error",
+					preset: "error",
+				});
 				return;
 			}
 
 			console.error(revertError.message, "Is ContractFunctionRevertedError");
-			toast.error(revertError.shortMessage);
+			Burnt.toast({
+				title: revertError.shortMessage,
+				haptic: "error",
+				preset: "error",
+			});
 			return;
 		}
 
@@ -92,7 +104,11 @@ export const handleContractErrors = async (
 				return;
 			}
 			console.error(transactionError.details, "Is TransactionExecutionError");
-			toast.error(transactionError.shortMessage);
+			Burnt.toast({
+				title: transactionError.shortMessage,
+				haptic: "error",
+				preset: "error",
+			});
 			return;
 		}
 
@@ -111,25 +127,45 @@ export const handleContractErrors = async (
 				const errorName = callExecutionError.cause.name;
 
 				if (errorName === "InsufficientFundsError") {
-					toast.error("You have insufficient funds!");
+					Burnt.toast({
+						title: "You have insufficient funds!",
+						haptic: "error",
+						preset: "error",
+					});
 					return;
 				}
 
 				console.error(error, "Is CallExecutionError");
-				toast.error(error.shortMessage);
+				Burnt.toast({
+					title: error.shortMessage,
+					haptic: "error",
+					preset: "error",
+				});
 				return;
 			}
 
 			console.error(error, "Is ContractFunctionExecutionError");
-			toast.error(error.shortMessage);
+			Burnt.toast({
+				title: error.shortMessage,
+				haptic: "error",
+				preset: "error",
+			});
 			return;
 		}
 
 		console.error(error, "Is BaseError");
-		toast.error(error.shortMessage);
+		Burnt.toast({
+			title: error.shortMessage,
+			haptic: "error",
+			preset: "error",
+		});
 		return;
 	}
 
 	console.error(error, "Is Unknown Error");
-	toast.error("Something went wrong! Check console for logs.");
+	Burnt.toast({
+		title: "Something went wrong! Check console for logs.",
+		haptic: "error",
+		preset: "error",
+	});
 };

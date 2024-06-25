@@ -1,17 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Input, View } from "@wavpoint/app/ui";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button, Input, View } from "@wavpoint/app/ui";
+import {
+	type Database,
+	type EditProfileInput,
+	editProfileSchema,
+} from "@wavpoint/utils";
 import { Check, Loader2 } from "lucide-react-native";
 import type { Dispatch, SetStateAction } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
-import type { Database } from "../../lib";
-
-const editProfileSchema = z.object({
-	username: z.string().min(3).max(30),
-});
-type EditProfileInput = z.infer<typeof editProfileSchema>;
 
 interface EditProfileFormProps {
 	oldUsername: string;

@@ -1,5 +1,8 @@
 export * from "./config";
 export * from "./interfaces";
+export * from "./zdk";
+export * from "./schemas";
+export * from "./supabase-types";
 
 export function formatAddress(address?: string): string {
 	if (address?.startsWith("0x")) {

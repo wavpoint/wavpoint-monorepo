@@ -2,9 +2,9 @@
 
 import { View } from "@wavpoint/app/ui";
 
-import { SeasonCard, SeasonCardSkeleton } from "@wavpoint/app/components";
-import { fetchTokens } from "@wavpoint/app/lib";
 import { useQuery } from "@tanstack/react-query";
+import { SeasonCard, SeasonCardSkeleton } from "@wavpoint/app/components";
+import { fetchTokens } from "@wavpoint/utils";
 
 export function HomeScreen() {
 	const { data, isLoading } = useQuery({

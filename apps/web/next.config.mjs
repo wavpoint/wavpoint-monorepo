@@ -19,6 +19,7 @@ const nextConfig = {
 		"react-native-gesture-handler",
 		"react-native-svg",
 		"lucide-react-native",
+		"burnt",
 	],
 	images: {
 		remotePatterns: [

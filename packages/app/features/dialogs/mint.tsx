@@ -29,25 +29,20 @@ import {
 import {
 	COLLECTION_ADDRESS,
 	MAX_MINT_AMOUNT,
+	type MintFormInput,
 	TOKEN_PRICE_ETH,
 	VINYL_GOAL,
+	mintFormSchema,
 } from "@wavpoint/utils";
-import { createMintClient } from "@zoralabs/protocol-sdk";
+import { createCollectorClient } from "@zoralabs/protocol-sdk";
+import * as Burnt from "burnt";
 import { Disc3, Loader2 } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
-import { zora } from "viem/chains";
 import { normalize } from "viem/ens";
-import { z } from "zod";
 import ClaimDialogContent from "./claim";
-
-const mintFormSchema = z.object({
-	comment: z.string().max(128),
-});
-type MintFormInput = z.infer<typeof mintFormSchema>;
 
 export default function MintDialogContent() {
 	const [mintLoading, setMintLoading] = useState(false);
@@ -58,8 +53,8 @@ export default function MintDialogContent() {
 		handleSubmit,
 		formState: { errors },
 		reset,
-	} = useForm({
-		resolver: zodResolver<typeof mintFormSchema>(mintFormSchema),
+	} = useForm<MintFormInput>({
+		resolver: zodResolver(mintFormSchema),
 		defaultValues: {
 			comment: "",
 		},
@@ -129,7 +124,11 @@ export default function MintDialogContent() {
 
 		if (!wallets[0]?.address) {
 			setMintLoading(false);
-			toast.error("Please log into your wallet!");
+			Burnt.toast({
+				title: "Please log into your wallet!",
+				haptic: "error",
+				preset: "error",
+			});
 			return;
 		}
 
@@ -142,47 +141,59 @@ export default function MintDialogContent() {
 			});
 
 			if (!ensAddress) {
-				toast.error("Something went wrong! Please contact Wavpoint.");
+				Burnt.toast({
+					title: "Something went wrong! Please contact Wavpoint.",
+					haptic: "error",
+					preset: "error",
+				});
 				return;
 			}
 
-			const mintClient = createMintClient({ chain, publicClient });
-
-			// prepare the mint transaction, which can be simulated via an rpc with the public client.
-			const prepared = await mintClient.makePrepareMintTokenParams({
-				// 1155 contract address
-				tokenAddress: COLLECTION_ADDRESS,
-				tokenId: BigInt(params.id as string),
-				mintArguments: {
-					// address that will receive the minted tokens
-					mintToAddress: address,
-					// quantity of tokens to mint
-					quantityToMint,
-					// optional comment to include with the mint
-					mintComment: input.comment,
-					mintReferral: ensAddress,
-				},
-				// account that is to invoke the mint transaction
-				minterAccount: address,
+			const mintClient = createCollectorClient({
+				chainId: chain.id,
+				publicClient,
 			});
 
-			// simulate the transaction
-			const { request } = await publicClient.simulateContract({
-				...prepared,
+			// prepare the mint transaction, which can be simulated via an rpc with the public client.
+			const { parameters } = await mintClient.mint({
+				// 1155 contract address
+				tokenContract: COLLECTION_ADDRESS,
+				tokenId: BigInt(params.id as string),
+				// address that will receive the minted tokens
+				mintRecipient: address,
+				// quantity of tokens to mint
+				quantityToMint,
+				// optional comment to include with the mint
+				mintComment: input.comment,
+				mintReferral: ensAddress,
+				// account that is to invoke the mint transaction
+				minterAccount: address,
+				mintType: "1155",
 			});
 
 			const client = await getWalletClient(wallets[0]);
 
-			const hash = await client.writeContract(request);
+			const hash = await client.writeContract({
+				...parameters,
+				account: address,
+			});
 
 			const receipt = await publicClient.waitForTransactionReceipt({ hash });
 
 			if (receipt.status !== "success") {
 				console.error(receipt);
-				toast.error("Transaction failed! Check console for receipt.");
+				Burnt.toast({
+					title: "Transaction failed! Check console for receipt.",
+					haptic: "error",
+					preset: "error",
+				});
 			} else {
 				reset();
-				toast.success("Successfully minted!");
+				Burnt.toast({
+					title: "Successfully minted!",
+					haptic: "success",
+					preset: "done",
+				});
 			}
 		} catch (error) {
 			await handleContractErrors(error, wallets);
