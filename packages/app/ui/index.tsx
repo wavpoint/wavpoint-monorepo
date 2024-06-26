@@ -10,5 +10,4 @@ export * from "./input";
 export * from "./slider";
 export * from "./eth-logo";
 export * from "./primitives/hooks";
-export * from "./marquee";
 export * from "./toast";

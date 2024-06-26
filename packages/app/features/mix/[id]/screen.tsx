@@ -17,6 +17,7 @@ import {
 	buttonVariants,
 	useMediaQuery,
 } from "@wavpoint/app/ui";
+import Marquee from "react-fast-marquee";
 
 import { usePrivy } from "@privy-io/react-auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -164,20 +165,22 @@ export function MixScreen() {
 					/>
 				)}
 				{currentSong?.url !== contentUrl && (
-					<Pressable
-						onPress={setAsCurrentSong}
-						className="backdrop-blur cursor-pointer inset-0 absolute justify-center items-center rounded-md"
-					>
-						<PlayIcon className="w-8 h-8" fill={"black"} />
-					</Pressable>
+					<View className="inset-0 absolute justify-center items-center rounded-md">
+						<Pressable
+							onPress={setAsCurrentSong}
+							className="backdrop-blur cursor-pointer justify-center items-center rounded-full w-12 h-12"
+						>
+							<PlayIcon className="w-8 h-8 text-white" fill={"white"} />
+						</Pressable>
+					</View>
 				)}
 			</View>
 
-			<Row className="px-0 items-center w-[200px]">
-				<Text className="text-sm font-bold underline overflow-hidden grow whitespace-nowrap relative">
-					{data?.name}
-					<View className="absolute inset-y-0 right-0 w-12 bg-gradient-to-r from-transparent to-white pointer-events-none" />
-				</Text>
+			<Row className="px-0 items-center w-[200px] overflow-hidden whitespace-nowrap">
+				<Marquee className="gap-4" autoFill speed={25} pauseOnHover>
+					<Text className="text-sm font-bold underline">{data?.name}</Text>
+				</Marquee>
+				<View className="absolute inset-y-0 right-4 w-12 bg-gradient-to-r from-transparent to-white pointer-events-none z-50" />
 
 				<ShareDialog tokenId={id} />
 			</Row>
