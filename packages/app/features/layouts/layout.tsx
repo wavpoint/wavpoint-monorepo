@@ -35,7 +35,7 @@ import {
 	UploadCloudIcon,
 	User,
 } from "lucide-react-native";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { Link } from "solito/link";
 import { TrackDialogContent } from "../dialogs/track";
@@ -72,7 +72,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 	const setOverrideCurrentlyPlaying = useSetAtom(overrideCurrentlyPlaying);
 
 	const [updateAudioRef, setUpdateAudioRef] = useState(false);
-	const audioRef = useRef<HTMLAudioElement | null>(null);
+	const audioRef = useRef<HTMLVideoElement | null>(null);
 
 	const disableLogin = !ready || (ready && authenticated);
 

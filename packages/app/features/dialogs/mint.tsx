@@ -306,9 +306,9 @@ export default function MintDialogContent() {
 						Collect <Text className="text-primary text-sm">3+</Text> to download
 						IDs
 					</Text> */}
-					<Text className="text-sm">
-						Collect <Text className="text-primary text-sm">{VINYL_GOAL}+</Text>{" "}
-						to be eligible to claim vinyl
+					<Text className="text-sm text-center w-3/4">
+						<Text className="text-primary text-sm">{VINYL_GOAL}+</Text> editions
+						need to be minted to unlock vinyl production.
 					</Text>
 				</View>
 
@@ -323,8 +323,6 @@ export default function MintDialogContent() {
 						<Download className="w-4 h-4" />
 						Download IDs
 					</Button> */}
-
-					{(mintCount ?? 0) >= VINYL_GOAL && <ClaimDialog />}
 				</Row>
 			</View>
 		</Row>

@@ -30,7 +30,7 @@ import {
 	SkipBack,
 	SkipForward,
 } from "lucide-react-native";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SolitoImage } from "solito/image";
 import MintDialogContent from "./mint";
 
@@ -64,27 +64,55 @@ export function TrackDialogContent() {
 		debouncedUpdateTime(nextValue);
 	};
 
+	const videoRef = useRef<HTMLVideoElement>(null);
+
+	useEffect(() => {
+		if (videoRef.current) {
+			if (isPlaying) {
+				videoRef.current.play();
+			} else {
+				videoRef.current.pause();
+			}
+		}
+	}, [isPlaying]);
+
+	useEffect(() => {
+		if (videoRef.current) {
+			videoRef.current.currentTime = currentSongElapsedTime;
+		}
+	}, [currentSongElapsedTime]);
+
 	return (
 		<Row className="flex justify-center">
 			<Row className="px-8 py-2 max-w-xl gap-4">
 				<View className="w-[150px] h-[150px] bg-gradient-initial rounded-lg relative">
-					<SolitoImage
-						src={currentSong?.cover ?? ""}
-						onLayout={{}}
-						contentFit={"cover"}
-						resizeMode={"cover"}
-						width={150}
-						height={150}
-						alt={currentSong?.title ?? "Mix Cover"}
-						style={{
-							position: "absolute",
-							top: 0,
-							bottom: 0,
-							left: 0,
-							right: 0,
-							borderRadius: 6,
-						}}
-					/>
+					{currentSong?.type === "video" ? (
+						<video
+							ref={videoRef}
+							src={currentSong?.url}
+							className="w-full h-full object-cover rounded-md"
+							muted
+							playsInline
+						/>
+					) : (
+						<SolitoImage
+							src={currentSong?.cover ?? ""}
+							onLayout={{}}
+							contentFit={"cover"}
+							resizeMode={"cover"}
+							width={150}
+							height={150}
+							alt={currentSong?.title ?? "Mix Cover"}
+							style={{
+								position: "absolute",
+								top: 0,
+								bottom: 0,
+								left: 0,
+								right: 0,
+								borderRadius: 6,
+							}}
+						/>
+					)}
 				</View>
 
 				<View className="gap-4 justify-center max-w-44">

@@ -1,11 +1,12 @@
-import { type AuthTokenClaims, PrivyClient } from "@privy-io/server-auth";
 import { type CookieOptions, createServerClient } from "@supabase/ssr";
+import { cookieName } from "@wavpoint/app/lib";
 import {
 	type Database,
 	WavpointAPIError,
 	claimFormSchema,
 	fetchIsOwnerOfToken,
 } from "@wavpoint/utils";
+import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
@@ -13,8 +14,7 @@ export async function POST(req: Request) {
 		if (
 			!process.env.NEXT_PUBLIC_SUPABASE_URL ||
 			!process.env.SUPABASE_SERVICE_ROLE_KEY ||
-			!process.env.PRIVY_APP_ID ||
-			!process.env.PRIVY_APP_SECRET
+			!process.env.SUPABASE_JWT_SECRET
 		)
 			throw new WavpointAPIError([{ message: "Something went wrong!" }], 500);
 
@@ -28,29 +28,17 @@ export async function POST(req: Request) {
 
 		const cookieStore = cookies();
 
-		const accessToken = cookieStore.get("privy-token")?.value;
+		const accessToken = cookieStore.get(cookieName)?.value;
 
-		const privy = new PrivyClient(
-			process.env.PRIVY_APP_ID,
-			process.env.PRIVY_APP_SECRET,
+		const payload = jwt.verify(
+			accessToken ?? "",
+			process.env.SUPABASE_JWT_SECRET,
 		);
 
-		let authToken: AuthTokenClaims;
-
-		try {
-			authToken = await privy.verifyAuthToken(accessToken ?? "");
-		} catch (error) {
+		if (typeof payload === "string")
 			throw new WavpointAPIError([{ message: "Unauthorized" }], 403);
-		}
 
-		const user = await privy.getUser(authToken.userId);
-
-		if (!user.wallet?.address)
-			throw new WavpointAPIError([
-				{
-					message: "No wallet attached!",
-				},
-			]);
+		const walletAddress: string = payload.wallet_address;
 
 		const supabase = createServerClient<Database>(
 			process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -80,8 +68,6 @@ export async function POST(req: Request) {
 			.eq("minimix_token_id", mixTokenId)
 			.single();
 
-		console.log(data);
-
 		if (!data.data)
 			throw new WavpointAPIError(
 				[
@@ -105,7 +91,7 @@ export async function POST(req: Request) {
 			);
 
 		const userHoldsClaimToken = await fetchIsOwnerOfToken(
-			user.wallet.address,
+			walletAddress,
 			vinyl_token_id,
 			vinyl_address,
 		);
@@ -123,7 +109,7 @@ export async function POST(req: Request) {
 			email,
 			vinyl_token_id,
 			vinyl_address,
-			wallet_address: user.wallet.address,
+			wallet_address: walletAddress,
 		});
 
 		if (insert.error) {

@@ -20,12 +20,13 @@ import {
 import Marquee from "react-fast-marquee";
 
 import { usePrivy } from "@privy-io/react-auth";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchMintData } from "@wavpoint/app/gql";
 import { useIpfsUrl, useSupabase } from "@wavpoint/app/hooks";
 import { cn } from "@wavpoint/app/lib";
 import {
 	currentSongAtom,
+	currentSongElapsedTimeAtom,
 	isPlayingAtom,
 	useOverrideCurrentlyPlayingListener,
 } from "@wavpoint/app/store/player";
@@ -35,9 +36,9 @@ import {
 	VINYL_GOAL,
 	fetchToken,
 } from "@wavpoint/utils";
-import { useAtom, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { Play, PlayIcon } from "lucide-react-native";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
 import MintDialogContent from "../../dialogs/mint";
@@ -49,7 +50,8 @@ export function MixScreen() {
 	const { id } = useMixParams();
 
 	const [currentSong, setCurrentSong] = useAtom(currentSongAtom);
-	const setIsPlaying = useSetAtom(isPlayingAtom);
+	const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
+	const currentSongElapsedTime = useAtomValue(currentSongElapsedTimeAtom);
 
 	const { authenticated } = usePrivy();
 	const supabase = useSupabase();
@@ -61,8 +63,10 @@ export function MixScreen() {
 		refetchOnWindowFocus: false,
 	});
 
-	const contentUrl = useIpfsUrl(data?.content?.url);
+	const contentUrl = useIpfsUrl(id === "2" ? "/bill.mp4" : data?.content?.url);
 	const imageUrl = useIpfsUrl(data?.image?.url);
+
+	const context = useQueryClient();
 
 	const { mutate } = useMutation({
 		mutationFn: async () => {
@@ -78,12 +82,16 @@ export function MixScreen() {
 
 			return res.status;
 		},
+		onSuccess: async () => {
+			await context.invalidateQueries({ queryKey: [`TOKEN_PLAYS_${id}`] });
+		},
 	});
 
 	const setAsCurrentSong = useCallback(() => {
 		if (
 			data?.content?.url &&
-			data.content.mimeType?.startsWith("audio") &&
+			(data.content.mimeType?.startsWith("audio") ||
+				data.content.mimeType?.startsWith("video")) &&
 			currentSong?.url !== data.content.url // Song isn't currently playing
 		) {
 			mutate();
@@ -93,6 +101,10 @@ export function MixScreen() {
 				url: contentUrl,
 				duration: 0,
 				cover: imageUrl,
+				type:
+					data.content.mimeType?.startsWith("audio") && id !== "2"
+						? "audio"
+						: "video",
 			});
 
 			setIsPlaying(true);
@@ -107,6 +119,7 @@ export function MixScreen() {
 		mutate,
 		setCurrentSong,
 		setIsPlaying,
+		id,
 	]);
 
 	const { data: mintCount } = useQuery({
@@ -142,27 +155,56 @@ export function MixScreen() {
 		}, [setAsCurrentSong]),
 	);
 
+	const videoRef = useRef<HTMLVideoElement | null>(null);
+
+	useEffect(() => {
+		if (videoRef.current) {
+			if (isPlaying) {
+				videoRef.current.play();
+			} else {
+				videoRef.current.pause();
+			}
+		}
+	}, [isPlaying]);
+
+	useEffect(() => {
+		if (videoRef.current) {
+			videoRef.current.currentTime = currentSongElapsedTime;
+		}
+	}, [currentSongElapsedTime]);
+
 	return (
 		<View className="max-w-xl items-center gap-2 flex-1 w-full">
 			<View className="relative w-[200px] h-[200px] bg-gradient-to-b from-gradient-initial to-gradient-final rounded-md flex items-center justify-center mt-2">
-				{data?.image && (
-					<SolitoImage
-						src={imageUrl}
-						onLayout={{}}
-						contentFit={"cover"}
-						resizeMode={"cover"}
-						width={200}
-						height={200}
-						alt={currentSong?.title ?? "Mix Cover"}
-						style={{
-							position: "absolute",
-							top: 0,
-							bottom: 0,
-							left: 0,
-							right: 0,
-							borderRadius: 6,
-						}}
+				{(data?.content?.mimeType?.startsWith("video") || id === "2") &&
+				currentSong?.url === contentUrl ? (
+					<video
+						ref={videoRef}
+						src={contentUrl}
+						className="w-full h-full object-cover rounded-md"
+						muted
+						playsInline
 					/>
+				) : (
+					data?.image && (
+						<SolitoImage
+							src={imageUrl}
+							onLayout={{}}
+							contentFit={"cover"}
+							resizeMode={"cover"}
+							width={200}
+							height={200}
+							alt={currentSong?.title ?? "Mix Cover"}
+							style={{
+								position: "absolute",
+								top: 0,
+								bottom: 0,
+								left: 0,
+								right: 0,
+								borderRadius: 6,
+							}}
+						/>
+					)
 				)}
 				{currentSong?.url !== contentUrl && (
 					<View className="inset-0 absolute justify-center items-center rounded-md">
@@ -176,11 +218,23 @@ export function MixScreen() {
 				)}
 			</View>
 
-			<Row className="px-0 items-center w-[200px] overflow-hidden whitespace-nowrap">
-				<Marquee className="gap-4" autoFill speed={25} pauseOnHover>
-					<Text className="text-sm font-bold underline">{data?.name}</Text>
-				</Marquee>
-				<View className="absolute inset-y-0 right-4 w-12 bg-gradient-to-r from-transparent to-white pointer-events-none z-50" />
+			<Row className="px-0 items-center w-[200px] overflow-x-hidden">
+				<Row className="w-[184px] overflow-x-hidden whitespace-nowrap">
+					<Row className="relative overflow-x-hidden whitespace-nowrap">
+						<Row className="animate-marquee whitespace-nowrap">
+							<Text className="mx-2 text-sm font-bold underline">
+								{data?.name}
+							</Text>
+						</Row>
+
+						<Row className="animate-marquee2 whitespace-nowrap absolute top-0">
+							<Text className="mx-2 text-sm font-bold underline">
+								{data?.name}
+							</Text>
+						</Row>
+					</Row>
+					<View className="absolute inset-y-0 right-0 w-12 bg-gradient-to-r from-transparent to-white pointer-events-none z-50" />
+				</Row>
 
 				<ShareDialog tokenId={id} />
 			</Row>
