@@ -1,57 +1,52 @@
-import { useEffect, useState } from "react";
-
-type TUseTimer = {
-	days: string;
-	hours: string;
-	minutes: string;
-	seconds: string;
-};
-
-const DAYS_IN_MS = 1000 * 60 * 60 * 24;
-const HOURS_IN_MS = 1000 * 60 * 60;
-const MIN_IN_MS = 1000 * 60;
-const SEC_IN_MS = 1000;
-
-const getTimeDiff = (diffInMSec: number): TUseTimer => {
-	let diff = diffInMSec;
-	const days = Math.floor(diff / DAYS_IN_MS); // Give the remaining days
-	diff -= days * DAYS_IN_MS; // Subtract passed days
-	const hours = Math.floor(diff / HOURS_IN_MS); // Give remaining hours
-	diff -= hours * HOURS_IN_MS; // Subtract hours
-	const minutes = Math.floor(diff / MIN_IN_MS); // Give remaining minutes
-	diff -= minutes * MIN_IN_MS; // Subtract minutes
-	const seconds = Math.floor(diff / SEC_IN_MS); // Give remaining seconds
-	return {
-		days: String(days).padStart(2, "0"), // Format everything into the return type
-		hours: String(hours).padStart(2, "0"),
-		minutes: String(minutes).padStart(2, "0"),
-		seconds: String(seconds).padStart(2, "0"),
-	};
-};
+import { useEffect, useRef, useState } from "react";
 
 export const useTimer = () => {
-	const [timeLeft, setTimeLeft] = useState(0);
+	const [countdown, setCountdown] = useState({
+		days: "00",
+		hours: "00",
+		minutes: "00",
+		seconds: "00",
+	});
+	const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+	const calculateTimeLeft = (futureDate: Date) => {
+		const difference = futureDate.getTime() - new Date().getTime();
+
+		if (difference > 0) {
+			return {
+				days: String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(
+					2,
+					"0",
+				),
+				hours: String(
+					Math.floor((difference / (1000 * 60 * 60)) % 24),
+				).padStart(2, "0"),
+				minutes: String(Math.floor((difference / 1000 / 60) % 60)).padStart(
+					2,
+					"0",
+				),
+				seconds: String(Math.floor((difference / 1000) % 60)).padStart(2, "0"),
+			};
+		}
+
+		return { days: "00", hours: "00", minutes: "00", seconds: "00" };
+	};
+
+	const startTimer = (futureDate: Date) => {
+		if (intervalRef.current) {
+			clearInterval(intervalRef.current);
+		}
+
+		intervalRef.current = setInterval(() => {
+			const timeLeft = calculateTimeLeft(new Date(futureDate));
+			setCountdown(timeLeft);
+		}, 1000);
+	};
 
 	useEffect(() => {
-		const id = setTimeout(() => {
-			// We can set conditions here like timeLeft > 0
-			setTimeLeft((prev) => {
-				if (prev === 0) return 0;
-				return prev - 1000;
-			});
-		}, 1000);
-
-		return () => {
-			clearTimeout(id);
-		};
+		return () =>
+			intervalRef.current ? clearInterval(intervalRef.current) : undefined;
 	}, []);
 
-	const startTimer = (targetTime: number) => {
-		setTimeLeft(targetTime - Date.now());
-	};
-
-	return {
-		...getTimeDiff(timeLeft),
-		startTimer,
-	};
+	return { countdown, startTimer };
 };

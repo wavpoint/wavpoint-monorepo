@@ -33,12 +33,12 @@ export default function ClaimDialogContent() {
 				.eq("minimix_token_id", params.id?.toString() ?? "")
 				.single();
 
-			if (data?.data?.ends) startTimer(new Date(data.data.ends).getTime());
+			if (data?.data?.ends) startTimer(new Date(data.data.ends));
 		},
 		enabled: !!params.id?.toString(),
 	});
 
-	const { days, hours, minutes, seconds, startTimer } = useTimer();
+	const { countdown, startTimer } = useTimer();
 
 	const {
 		control,
@@ -190,8 +190,8 @@ export default function ClaimDialogContent() {
 				<Row className="justify-center items-center gap-1">
 					<Clock className="w-4 h-4 text-primary mt-0.5" />
 					<Text className="font-semibold">
-						{days !== "00" && `${days}:`}
-						{hours}:{minutes}:{seconds}
+						{countdown.days !== "00" && `${countdown.days}:`}
+						{countdown.hours}:{countdown.minutes}:{countdown.seconds}
 					</Text>
 				</Row>
 			</View>
