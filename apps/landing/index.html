@@ -1,55 +1,52 @@
 <!doctype html>
-<html lang="en">
-  <head>
+<html lang="en" class="h-full">
+<head>
     <meta charset="UTF-8" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="/src/style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <link rel="stylesheet" href="/src/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Wavpoint - Exclusive Onchain Music</title>
     <meta name="description" content="Very rare onchain MiniMixes & white label vinyl drops.">
-    
     <meta property="og:title" content="Wavpoint - Exclusive Onchain Music" />
     <meta property="og:description" content="Very rare onchain MiniMixes & white label vinyl drops." />
     <meta property="og:url" content="https://wavpoint.tech" />
     <meta property="og:image" content="https://app.wavpoint.tech/logo.png" />
     <meta property="og:site_name" content="Wavpoint - Exclusive Onchain Music" />
-
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:site" content="https://wavpoint.tech" />
     <meta name="twitter:title" content="Wavpoint - Exclusive Onchain Music" />
     <meta name="twitter:description" content="Very rare onchain MiniMixes & white label vinyl drops." />
     <meta name="twitter:image" content="https://app.wavpoint.tech/logo.png" />
-  </head>
-  <body class="bg-primary text-white h-screen w-screen flex items-center justify-center py-10">
-	<main class="flex flex-col justify-between items-center max-h-[750px] h-full">
-		<img src="/logo.svg" alt="Wavpoint Logo" class="h-40">
+</head>
+<body class="bg-primary text-white h-full overflow-hidden">
+    <main class="h-full overflow-auto">
+        <div class="min-h-full flex flex-col justify-between items-center p-10">
+            <img src="/logo.png" alt="Wavpoint Logo" class="h-40">
 
-		<div class="italic text-center leading-loose">
-			<p>Very rare.</p>
-			<p>Onchain.</p>
-			<p>Minimixes.</p>
-			<p>Vinyl drops.</p>
-		</div>
-
-		<div class="flex flex-col items-center gap-3">
-			<a href="https://app.wavpoint.tech">
-				<button class="bg-white text-primary hover:bg-white/90 transition-colors rounded-full py-2 px-8 font-semibold">
-					enter
-				</button>
-			</a>
-
-			<p>powered by</p>
-
-			<div class="flex gap-4">
-				<a href="https://zora.co" target="_blank">
-					<img src="/zorb.svg" alt="Zora Zorb">
-				</a>
-				<a href="https://base.org" target="_blank">
-					<img src="/base.svg" alt="Base Logo">
-				</a>
-			</div>
-		</div>
-	</main>
-  </body>
+            <div class="italic text-center leading-loose">
+                <p>Very rare.</p>
+                <p>Onchain.</p>
+                <p>Minimixes.</p>
+                <p>Vinyl drops.</p>
+            </div>
+			
+            <div class="flex flex-col items-center gap-3">
+                <a href="https://app.wavpoint.tech">
+                    <button class="bg-white text-primary hover:bg-white/90 transition-colors rounded-full py-2 px-8 font-semibold">
+                        enter
+                    </button>
+                </a>
+                <p>powered by</p>
+                <div class="flex gap-4">
+                    <a href="https://zora.co" target="_blank">
+                        <img src="/zorb.png" alt="Zora Zorb" class="h-[30px] w-[30px]">
+                    </a>
+                    <a href="https://base.org" target="_blank">
+						<div class="rounded-full h-[30px] w-[30px] rotate-180" style="background-image: conic-gradient(from 90.001deg at 50% 50%, rgb(255, 255, 255) 0deg, rgb(0, 82, 255) 360deg, rgba(255, 255, 255, 0) 360deg);"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
 </html>
