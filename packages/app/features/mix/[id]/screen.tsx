@@ -17,7 +17,6 @@ import {
 	buttonVariants,
 	useMediaQuery,
 } from "@wavpoint/app/ui";
-import Marquee from "react-fast-marquee";
 
 import { usePrivy } from "@privy-io/react-auth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -26,7 +25,6 @@ import { useIpfsUrl, useSupabase } from "@wavpoint/app/hooks";
 import { cn } from "@wavpoint/app/lib";
 import {
 	currentSongAtom,
-	currentSongElapsedTimeAtom,
 	isPlayingAtom,
 	useOverrideCurrentlyPlayingListener,
 } from "@wavpoint/app/store/player";
@@ -36,9 +34,9 @@ import {
 	VINYL_GOAL,
 	fetchToken,
 } from "@wavpoint/utils";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { Play, PlayIcon } from "lucide-react-native";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
 import MintDialogContent from "../../dialogs/mint";
@@ -51,7 +49,6 @@ export function MixScreen() {
 
 	const [currentSong, setCurrentSong] = useAtom(currentSongAtom);
 	const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
-	const currentSongElapsedTime = useAtomValue(currentSongElapsedTimeAtom);
 
 	const { authenticated } = usePrivy();
 	const supabase = useSupabase();
@@ -63,7 +60,8 @@ export function MixScreen() {
 		refetchOnWindowFocus: false,
 	});
 
-	const contentUrl = useIpfsUrl(id === "2" ? "/bill.mp4" : data?.content?.url);
+	const contentUrl = useIpfsUrl(data?.content?.url);
+	// const contentUrl = useIpfsUrl(id === "2" ? "/bill.mp4" : data?.content?.url);
 	const imageUrl = useIpfsUrl(data?.image?.url);
 
 	const context = useQueryClient();
@@ -101,10 +99,10 @@ export function MixScreen() {
 				url: contentUrl,
 				duration: 0,
 				cover: imageUrl,
-				type:
-					data.content.mimeType?.startsWith("audio") && id !== "2"
-						? "audio"
-						: "video",
+				type: data.content.mimeType?.startsWith("audio") // && id !== "2"
+					? "audio"
+					: "video",
+				loading: false,
 			});
 
 			setIsPlaying(true);
@@ -119,7 +117,7 @@ export function MixScreen() {
 		mutate,
 		setCurrentSong,
 		setIsPlaying,
-		id,
+		// id,
 	]);
 
 	const { data: mintCount } = useQuery({
@@ -155,37 +153,38 @@ export function MixScreen() {
 		}, [setAsCurrentSong]),
 	);
 
-	const videoRef = useRef<HTMLVideoElement | null>(null);
+	// const videoRef = useRef<HTMLVideoElement | null>(null);
 
-	useEffect(() => {
-		if (videoRef.current) {
-			if (isPlaying) {
-				videoRef.current.play();
-			} else {
-				videoRef.current.pause();
-			}
-		}
-	}, [isPlaying]);
+	// useEffect(() => {
+	// 	if (videoRef.current) {
+	// 		if (isPlaying) {
+	// 			videoRef.current.play();
+	// 		} else {
+	// 			videoRef.current.pause();
+	// 		}
+	// 	}
+	// }, [isPlaying]);
 
-	useEffect(() => {
-		if (videoRef.current) {
-			videoRef.current.currentTime = currentSongElapsedTime;
-		}
-	}, [currentSongElapsedTime]);
+	// useEffect(() => {
+	// 	if (videoRef.current) {
+	// 		videoRef.current.currentTime = currentSongElapsedTime;
+	// 	}
+	// }, [currentSongElapsedTime]);
 
 	return (
 		<View className="max-w-xl items-center gap-2 flex-1 w-full">
 			<View className="relative w-[200px] h-[200px] bg-gradient-to-b from-gradient-initial to-gradient-final rounded-md flex items-center justify-center mt-2">
-				{(data?.content?.mimeType?.startsWith("video") || id === "2") &&
-				currentSong?.url === contentUrl ? (
-					<video
-						ref={videoRef}
-						src={contentUrl}
-						className="w-full h-full object-cover rounded-md"
-						muted
-						playsInline
-					/>
-				) : (
+				{
+					// (data?.content?.mimeType?.startsWith("video") || id === "2") &&
+					// currentSong?.url === contentUrl ? (
+					// 	<video
+					// 		ref={videoRef}
+					// 		src={contentUrl}
+					// 		className="w-full h-full object-cover rounded-md"
+					// 		muted
+					// 		playsInline
+					// 	/>
+					// ) : (
 					data?.image && (
 						<SolitoImage
 							src={imageUrl}
@@ -205,7 +204,8 @@ export function MixScreen() {
 							}}
 						/>
 					)
-				)}
+					// )
+				}
 				{currentSong?.url !== contentUrl && (
 					<View className="inset-0 absolute justify-center items-center rounded-md">
 						<Pressable

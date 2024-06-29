@@ -30,7 +30,7 @@ import {
 	SkipBack,
 	SkipForward,
 } from "lucide-react-native";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SolitoImage } from "solito/image";
 import MintDialogContent from "./mint";
 
@@ -64,37 +64,38 @@ export function TrackDialogContent() {
 		debouncedUpdateTime(nextValue);
 	};
 
-	const videoRef = useRef<HTMLVideoElement>(null);
+	// const videoRef = useRef<HTMLVideoElement>(null);
 
-	useEffect(() => {
-		if (videoRef.current) {
-			if (isPlaying) {
-				videoRef.current.play();
-			} else {
-				videoRef.current.pause();
-			}
-		}
-	}, [isPlaying]);
+	// useEffect(() => {
+	// 	if (videoRef.current) {
+	// 		if (isPlaying) {
+	// 			videoRef.current.play();
+	// 		} else {
+	// 			videoRef.current.pause();
+	// 		}
+	// 	}
+	// }, [isPlaying]);
 
-	useEffect(() => {
-		if (videoRef.current) {
-			videoRef.current.currentTime = currentSongElapsedTime;
-		}
-	}, [currentSongElapsedTime]);
+	// useEffect(() => {
+	// 	if (videoRef.current) {
+	// 		videoRef.current.currentTime = currentSongElapsedTime;
+	// 	}
+	// }, [currentSongElapsedTime]);
 
 	return (
 		<Row className="flex justify-center">
 			<Row className="px-8 py-2 max-w-xl gap-4">
 				<View className="w-[150px] h-[150px] bg-gradient-initial rounded-lg relative">
-					{currentSong?.type === "video" ? (
-						<video
-							ref={videoRef}
-							src={currentSong?.url}
-							className="w-full h-full object-cover rounded-md"
-							muted
-							playsInline
-						/>
-					) : (
+					{
+						// currentSong?.type === "video" ? (
+						// 	<video
+						// 		ref={videoRef}
+						// 		src={currentSong?.url}
+						// 		className="w-full h-full object-cover rounded-md"
+						// 		muted
+						// 		playsInline
+						// 	/>
+						// ) : (
 						<SolitoImage
 							src={currentSong?.cover ?? ""}
 							onLayout={{}}
@@ -112,7 +113,8 @@ export function TrackDialogContent() {
 								borderRadius: 6,
 							}}
 						/>
-					)}
+						// )
+					}
 				</View>
 
 				<View className="gap-4 justify-center max-w-44">

@@ -115,10 +115,6 @@ export default function MintDialogContent() {
 	// 	enabled: false,
 	// });
 
-	// const {} = usePrepareContractWrite({
-
-	// })
-
 	const handleMint = async (input: MintFormInput) => {
 		setMintLoading(true);
 
@@ -313,6 +309,7 @@ export default function MintDialogContent() {
 				</View>
 
 				<Row className="justify-center gap-1">
+					{(mintCount ?? 0) >= VINYL_GOAL && <ClaimDialog />}
 					{/* FIXME: Uncomment to enable downloads */}
 					{/* <Button
 						variant="ghost"

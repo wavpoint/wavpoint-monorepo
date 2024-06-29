@@ -12,6 +12,7 @@ export type CurrentSong = {
 	artist: string;
 	title: string;
 	duration: number;
+	loading: boolean;
 	type: "video" | "audio";
 };
 

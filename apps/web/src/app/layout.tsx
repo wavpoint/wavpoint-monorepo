@@ -1,5 +1,4 @@
 import "./globals.css";
-import "raf/polyfill";
 import { DefaultLayout } from "@wavpoint/app/features/layouts";
 import { Providers } from "@wavpoint/app/provider";
 import type { Metadata } from "next";
@@ -9,27 +8,27 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: {
-		default: "Wavpoint - Exclusive Onchain Music",
+		default: "Wavpoint - Rare Onchain Minimixes",
 		template: "%s | Wavpoint",
 	},
-	description: "Very rare onchain MiniMixes & white label vinyl drops.",
+	description: "Rare Onchain Minimixes.",
 	openGraph: {
 		title: {
-			default: "Wavpoint - Exclusive Onchain Music",
+			default: "Wavpoint - Rare Onchain Minimixes",
 			template: "%s | Wavpoint",
 		},
 		url: "https://app.wavpoint.tech",
-		siteName: "Wavpoint - Exclusive Onchain Music",
-		description: "Very rare onchain MiniMixes & white label vinyl drops.",
+		siteName: "Wavpoint - Rare Onchain Minimixes",
+		description: "Rare Onchain Minimixes.",
 		images: ["https://app.wavpoint.tech/logo.png"],
 	},
 	twitter: {
 		title: {
-			default: "Wavpoint - Exclusive Onchain Music",
+			default: "Wavpoint - Rare Onchain Minimixes",
 			template: "%s | Wavpoint",
 		},
 		card: "summary",
-		description: "Very rare onchain MiniMixes & white label vinyl drops.",
+		description: "Rare Onchain Minimixes.",
 		site: "https://app.wavpoint.tech",
 		images: ["https://app.wavpoint.tech/logo.png"],
 	},

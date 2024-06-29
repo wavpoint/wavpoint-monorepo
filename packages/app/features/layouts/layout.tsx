@@ -31,11 +31,12 @@ import Cookies from "js-cookie";
 import {
 	AudioLines,
 	FileQuestion,
+	Loader2,
 	Play,
 	UploadCloudIcon,
 	User,
 } from "lucide-react-native";
-import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { Link } from "solito/link";
 import { TrackDialogContent } from "../dialogs/track";
@@ -127,6 +128,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 	};
 
 	const handleTogglePlay = () => {
+		if (currentSong?.loading) return;
 		if (currentSong) setIsPlaying(!isPlaying);
 		else setOverrideCurrentlyPlaying(true);
 	};
@@ -153,14 +155,19 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 					</Link>
 
 					<Row className="gap-2">
-						<Button
-							variant={"ghost"}
-							className="flex items-center gap-2"
-							onPress={submitButtonHandler}
+						<Link
+							href={"https://forms.fillout.com/t/791MURAcDbus"}
+							target="_blank"
 						>
-							<UploadCloudIcon className="w-4" />
-							Submit Mix
-						</Button>
+							<Button
+								variant={"ghost"}
+								className="flex items-center gap-2"
+								onPress={submitButtonHandler}
+							>
+								<UploadCloudIcon className="w-4" />
+								Submit Mix
+							</Button>
+						</Link>
 						<Button onPress={connectButtonHandler}>
 							{authenticated ? "Disconnect" : "Connect"}
 						</Button>
@@ -190,7 +197,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 					</View>
 
 					<Row className="gap-2 items-center">
-						{currentSong && <TrackDialog />}
+						{currentSong && !currentSong?.loading && <TrackDialog />}
 
 						<Text className="mb-0.5">
 							{formatTime(currentSongElapsedTime)}/
@@ -202,6 +209,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 							size={"icon"}
 							className="h-auto w-auto"
 							onPress={handleTogglePlay}
+							disabled={currentSong?.loading}
 						>
 							{currentSong && (
 								// biome-ignore lint/a11y/useMediaCaption: <explanation>
@@ -215,6 +223,18 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 											duration: e.currentTarget.duration,
 										})
 									}
+									onLoadStart={() =>
+										setCurrentSong({
+											...currentSong,
+											loading: true,
+										})
+									}
+									onLoadedData={() =>
+										setCurrentSong({
+											...currentSong,
+											loading: false,
+										})
+									}
 									onEnded={handleSongEnd}
 									onTimeUpdate={(e) =>
 										setCurrentSongElapsedTime(
@@ -223,7 +243,11 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 									}
 								/>
 							)}
-							{isPlaying ? (
+							{currentSong?.loading ? (
+								<View className="animate-spin">
+									<Loader2 className="w-[18px] h-[18px]" />
+								</View>
+							) : isPlaying ? (
 								<Row className="w-[18px] h-[16px] justify-evenly">
 									<View className="w-1 h-full bg-black" />
 									<View className="w-1 h-full bg-black" />
@@ -249,13 +273,20 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 				</Row>
 
 				<Row className="gap-1 items-center">
-					<Button
-						variant={"link"}
-						className="gap-1 flex no-underline hover:underline"
+					<Link
+						href={
+							"https://wavpoint.notion.site/Wavpoint-FAQ-8ec16bfbfce54259b1f06d6d92ff7447"
+						}
+						target="_blank"
 					>
-						<FileQuestion className="w-4 h-4 mt-0.5" />
-						FAQ
-					</Button>
+						<Button
+							variant={"link"}
+							className="gap-1 flex no-underline hover:underline"
+						>
+							<FileQuestion className="w-4 h-4 mt-0.5" />
+							FAQ
+						</Button>
+					</Link>
 
 					<Link href={"https://bridge.zora.energy/"} target="_blank">
 						<Button
