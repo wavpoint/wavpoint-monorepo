@@ -125,9 +125,6 @@ export function TrackDialogContent() {
 							</Text>
 							<ArrowUpRight className="w-4 h-4 text-primary mt-0.5 basis-4 shrink-0" />
 						</Row>
-						<Text className="font-extralight italic text-xs">
-							{currentSong?.artist ?? "Nothing Playing"}
-						</Text>
 					</View>
 
 					<View className="gap-1.5">

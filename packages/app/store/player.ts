@@ -9,7 +9,6 @@ import { atomWithListeners } from "./utils";
 export type CurrentSong = {
 	cover: string;
 	url: string;
-	artist: string;
 	title: string;
 	duration: number;
 	loading: boolean;

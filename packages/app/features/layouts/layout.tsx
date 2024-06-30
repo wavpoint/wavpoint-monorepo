@@ -181,19 +181,10 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 
 			<View className="fixed inset-x-0 bottom-0 w-full gap-1 items-center px-6 py-2 bg-white">
 				<Row className="max-w-2xl w-full bg-gradient-final border border-primary rounded-full px-8 py-3 flex justify-between items-center gap-2">
-					<View
-						className={cn(
-							"shrink w-full h-[38px]",
-							!currentSong?.artist && "justify-center",
-						)}
-					>
+					<View className={"shrink w-full h-[38px] justify-center"}>
 						<Text className={"font-bold truncate"}>
 							{currentSong?.title ?? "Mix Name"}
 						</Text>
-
-						{currentSong?.artist && (
-							<Text className={"italic truncate"}>{currentSong.artist}</Text>
-						)}
 					</View>
 
 					<Row className="gap-2 items-center">

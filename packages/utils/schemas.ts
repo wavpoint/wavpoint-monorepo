@@ -19,6 +19,11 @@ export const claimFormSchema = z.object({
 });
 export type ClaimFormInput = z.infer<typeof claimFormSchema>;
 
+export const loginSchema = z.object({
+	accessToken: z.string().min(1)
+});
+export type LoginInput = z.infer<typeof loginSchema>;
+
 export class WavpointAPIError {
 	errors: {
 		message: string;

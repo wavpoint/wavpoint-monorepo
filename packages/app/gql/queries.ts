@@ -15,5 +15,5 @@ export const fetchMintData = async (id: string) => {
 		tokenId: `${id}:${COLLECTION_ADDRESS}`,
 	});
 
-	return res.mintCount?.mintCount;
+	return res.mintCount?.mintCount ?? 0;
 };

@@ -1,9 +1,16 @@
 import { PrivyClient } from "@privy-io/server-auth";
 import { type CookieOptions, createServerClient } from "@supabase/ssr";
-import { type Database, formatAddress } from "@wavpoint/utils";
+import {
+	type Database,
+	WavpointAPIError,
+	formatAddress,
+	loginSchema,
+} from "@wavpoint/utils";
 import cookie from "cookie";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { http, createPublicClient } from "viem";
+import { mainnet } from "viem/chains";
 
 const expToExpiresIn = (exp: number) => exp - Math.floor(Date.now() / 1000);
 
@@ -15,14 +22,19 @@ export async function POST(req: Request) {
 		!process.env.PRIVY_APP_ID ||
 		!process.env.PRIVY_APP_SECRET
 	)
-		return new Response(null, { status: 500 });
+		throw new WavpointAPIError([{ message: "Something went wrong!" }], 500);
 
 	const cookieStore = cookies();
 
-	// omit expiration time,.it will conflict with jwt.sign
-	const data = await req.json();
-	const accessToken = data.accessToken;
-	const token = accessToken.replace(/^Bearer /, "");
+	const response = loginSchema.safeParse(await req.json());
+
+	if (!response.success) {
+		const { errors } = response.error;
+
+		throw new WavpointAPIError([], 400, errors);
+	}
+
+	const token = response.data.accessToken.replace(/^Bearer /, "");
 
 	const privy = new PrivyClient(
 		process.env.PRIVY_APP_ID,
@@ -58,9 +70,18 @@ export async function POST(req: Request) {
 		},
 	);
 
+	const mainnetClient = createPublicClient({
+		chain: mainnet,
+		transport: http(),
+	});
+
+	const ens = await mainnetClient.getEnsName({
+		address: user.wallet.address as `0x${string}`,
+	});
+
 	await supabase.from("users").insert({
 		id: user.wallet.address,
-		username: formatAddress(user.wallet.address),
+		username: ens ?? formatAddress(user.wallet.address),
 		image: null,
 	});
 

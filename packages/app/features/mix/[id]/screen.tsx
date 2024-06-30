@@ -36,11 +36,12 @@ import {
 } from "@wavpoint/utils";
 import { useAtom } from "jotai";
 import { Play, PlayIcon } from "lucide-react-native";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
 import MintDialogContent from "../../dialogs/mint";
 import { ShareDialog } from "../../dialogs/share-arrow";
+export { Text as NativeText } from "react-native";
 
 const useMixParams = useParams<{ id: string }>;
 
@@ -95,7 +96,6 @@ export function MixScreen() {
 			mutate();
 			setCurrentSong({
 				title: data.name ?? "",
-				artist: "Artist Name",
 				url: contentUrl,
 				duration: 0,
 				cover: imageUrl,
@@ -144,7 +144,8 @@ export function MixScreen() {
 	});
 
 	const creatorRewards = useMemo(() => {
-		return ((mintCount ?? 0) * CREATOR_REWARDS_ETH).toFixed(3);
+		if (!mintCount) return 0;
+		return mintCount < 1 ? 0 : (mintCount * CREATOR_REWARDS_ETH).toFixed(3);
 	}, [mintCount]);
 
 	useOverrideCurrentlyPlayingListener(
@@ -152,6 +153,23 @@ export function MixScreen() {
 			setAsCurrentSong();
 		}, [setAsCurrentSong]),
 	);
+
+	const parseDescription = useCallback((input: string) => {
+		const formatted = input.replaceAll("↳", "");
+		const lines = formatted.split("\n");
+
+		return lines.reduce(
+			(res, line) => {
+				const [artist, track] = line.split(" - ");
+				if (artist || track) {
+					res.push({ artist, track });
+				}
+
+				return res;
+			},
+			[] as { artist: string | undefined; track: string | undefined }[],
+		);
+	}, []);
 
 	// const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -221,17 +239,9 @@ export function MixScreen() {
 			<Row className="px-0 items-center w-[200px] overflow-x-hidden">
 				<Row className="w-[184px] overflow-x-hidden whitespace-nowrap">
 					<Row className="relative overflow-x-hidden whitespace-nowrap">
-						<Row className="animate-marquee whitespace-nowrap">
-							<Text className="mx-2 text-sm font-bold underline">
-								{data?.name}
-							</Text>
-						</Row>
-
-						<Row className="animate-marquee2 whitespace-nowrap absolute top-0">
-							<Text className="mx-2 text-sm font-bold underline">
-								{data?.name}
-							</Text>
-						</Row>
+						<Text className="mx-2 text-sm font-bold underline">
+							{data?.name}
+						</Text>
 					</Row>
 					<View className="absolute inset-y-0 right-0 w-12 bg-gradient-to-r from-transparent to-white pointer-events-none z-50" />
 				</Row>
@@ -246,7 +256,7 @@ export function MixScreen() {
 					{/* <Text className="text-[10px] w-1/3 text-center">1,111</Text> */}
 					<Text className="text-[10px] text-end w-1/2 pr-1">{VINYL_GOAL}</Text>
 				</Row>
-				{mintCount && (
+				{!!mintCount && (
 					<Progress value={mintCount} max={VINYL_GOAL} className="w-11/12" />
 				)}
 				<Row className="w-full">
@@ -266,18 +276,23 @@ export function MixScreen() {
 				</Row>
 				<Row className="items-center gap-0.5">
 					<EthLogo className="w-3 h-3" />
-					<Text className="text-xs text-primary">
-						{mintCount ? creatorRewards : 0} ETH
-					</Text>
+					<Text className="text-xs text-primary">{creatorRewards} ETH</Text>
 				</Row>
 			</Row>
 
 			<View className="w-full mt-8 gap-3">
-				{Array.from({ length: 10 }).map((_, i) => (
-					<View key={`${i * 2}`} className="w-full">
-						<Text className="text-sm font-semibold">Track ID</Text>
-						<Text className="text-xs italic font-extralight">Artist Name</Text>
-					</View>
+				{parseDescription(data?.description ?? "").map((line, i) => (
+					<Row key={`${i * 2}`} className="w-full">
+						<Text
+							className={cn(
+								"text-sm",
+								line.track ? "font-semibold" : "font-bold",
+							)}
+						>
+							{line.artist}{" "}
+						</Text>
+						{line.track && <Text className="text-sm">- {line.track}</Text>}
+					</Row>
 				))}
 			</View>
 		</View>
