@@ -1,30 +1,30 @@
 {
-  "name": "wavpoint",
-  "private": true,
-  "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "web:clean": "cd apps/web && bun clean",
-    "mobile:clean": "cd apps/mobile && bun clean",
-    "indexer:clean": "cd apps/indexer && bun clean",
-    "app:clean": "cd packages/app && bun clean",
-    "clean": "git clean -xdf node_modules && rm -rf .turbo && rm -rf bun.lockb && bun web:clean && bun mobile:clean && bun app:clean && bun indexer:clean"
-  },
-  "devDependencies": {
-    "@wavpoint/eslint-config": "*",
-    "@wavpoint/typescript-config": "*",
-    "prettier": "^3.2.5",
-    "turbo": "latest"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "packageManager": "bun@1.1.0",
-  "workspaces": ["apps/*", "packages/*"],
-  "dependencies": {
-    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
-    "viem": "^2.16.5"
-  }
+	"name": "wavpoint",
+	"private": true,
+	"scripts": {
+		"build": "turbo build",
+		"dev": "turbo dev",
+		"lint": "turbo lint",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"web:clean": "cd apps/web && bun clean",
+		"mobile:clean": "cd apps/mobile && bun clean",
+		"landing:clean": "cd apps/landing && bun clean",
+		"app:clean": "cd packages/app && bun clean",
+		"clean": "git clean -xdf node_modules && rm -rf .turbo && rm -rf bun.lockb && bun web:clean && bun mobile:clean && bun app:clean && bun landing:clean"
+	},
+	"devDependencies": {
+		"@wavpoint/eslint-config": "*",
+		"@wavpoint/typescript-config": "*",
+		"prettier": "^3.2.5",
+		"turbo": "latest"
+	},
+	"engines": {
+		"node": ">=18"
+	},
+	"packageManager": "bun@1.1.0",
+	"workspaces": ["apps/*", "packages/*"],
+	"dependencies": {
+		"@babel/plugin-proposal-export-namespace-from": "^7.18.9",
+		"viem": "^2.16.5"
+	}
 }

@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"clean": "git clean -xdf node_modules && rm -rf .turbo && rm -rf dist"
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.19",
