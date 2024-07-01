@@ -5,6 +5,7 @@ import { View } from "@wavpoint/app/ui";
 import { useQuery } from "@tanstack/react-query";
 import { SeasonCard, SeasonCardSkeleton } from "@wavpoint/app/components";
 import { fetchTokens } from "@wavpoint/utils";
+import { cn } from "../../lib";
 
 export function HomeScreen() {
 	const { data, isLoading } = useQuery({
@@ -13,7 +14,12 @@ export function HomeScreen() {
 	});
 
 	return (
-		<View className="flex sm:flex-row flex-wrap items-center sm:justify-between max-w-md w-full mx-auto gap-2">
+		<View
+			className={cn(
+				"flex sm:flex-row flex-wrap items-center sm:justify-between max-w-md w-full mx-auto gap-2",
+				data?.length === 1 && "justify-center sm:justify-center",
+			)}
+		>
 			{isLoading ? (
 				<>
 					{Array.from({ length: 6 }).map((_v, i) => (

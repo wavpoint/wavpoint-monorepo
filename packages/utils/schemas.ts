@@ -20,9 +20,14 @@ export const claimFormSchema = z.object({
 export type ClaimFormInput = z.infer<typeof claimFormSchema>;
 
 export const loginSchema = z.object({
-	accessToken: z.string().min(1)
+	accessToken: z.string().min(1),
 });
 export type LoginInput = z.infer<typeof loginSchema>;
+
+export const playSchema = z.object({
+	tokenId: z.string().min(1).max(100),
+});
+export type PlayInput = z.infer<typeof playSchema>;
 
 export class WavpointAPIError {
 	errors: {

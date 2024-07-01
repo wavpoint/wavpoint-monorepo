@@ -4,6 +4,8 @@ import {
 	COLLECTION_ADDRESS,
 	type PlayData,
 	type PlayInput,
+	WavpointAPIError,
+	playSchema,
 } from "@wavpoint/utils";
 import { cookies } from "next/headers";
 
@@ -18,8 +20,14 @@ export async function POST(req: Request) {
 
 	const cookieStore = cookies();
 
-	// omit expiration time,.it will conflict with jwt.sign
-	const data = await req.json();
+	const { data, success, error } = playSchema.safeParse(await req.json());
+
+	if (!success) {
+		const { errors } = error;
+
+		throw new WavpointAPIError([], 400, errors);
+	}
+
 	const accessToken = cookieStore.get("privy-token")?.value;
 
 	const privy = new PrivyClient(
