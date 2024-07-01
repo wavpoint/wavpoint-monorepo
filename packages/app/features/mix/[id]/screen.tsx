@@ -282,16 +282,14 @@ export function MixScreen() {
 
 			<View className="w-full mt-8 gap-3">
 				{parseDescription(data?.description ?? "").map((line, i) => (
-					<Row key={`${i * 2}`} className="w-full">
-						<Text
-							className={cn(
-								"text-sm",
-								line.track ? "font-semibold" : "font-bold",
-							)}
-						>
-							{line.artist}{" "}
-						</Text>
-						{line.track && <Text className="text-sm">- {line.track}</Text>}
+					<Row key={`${i}_${line.track}`} className="w-full">
+						{line.track ? (
+							<Text className="text-sm">
+								{line.artist} - {line.track}
+							</Text>
+						) : (
+							<Text className="text-sm font-bold">{line.artist}</Text>
+						)}
 					</Row>
 				))}
 			</View>
