@@ -4,7 +4,7 @@
 
 # Wavpoint Monorepo
 
-Wavpoint is a social platform for sharing onchain music using the Zora blockchain. This monorepo houses the web app and future mobile app for the Wavpoint platform.
+Wavpoint is an onchain platform, purpose-built, to showcase heavily curated and tokenized music minimixes. This monorepo houses the web app and future mobile app for the Wavpoint platform.
 
 ## Repository Structure
 
