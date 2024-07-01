@@ -1,17 +1,17 @@
 import { PrivyClient } from "@privy-io/server-auth";
+import { type CookieOptions, createServerClient } from "@supabase/ssr";
 import {
 	COLLECTION_ADDRESS,
 	type PlayData,
 	type PlayInput,
 } from "@wavpoint/utils";
-import { type CookieOptions, createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
 	if (
 		!process.env.NEXT_PUBLIC_SUPABASE_URL ||
 		!process.env.SUPABASE_SERVICE_ROLE_KEY ||
-		!process.env.PRIVY_APP_ID ||
+		!process.env.NEXT_PUBLIC_PRIVY_APP_ID ||
 		!process.env.PRIVY_APP_SECRET
 	)
 		return new Response(null, { status: 500 });
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
 	const accessToken = cookieStore.get("privy-token")?.value;
 
 	const privy = new PrivyClient(
-		process.env.PRIVY_APP_ID,
+		process.env.NEXT_PUBLIC_PRIVY_APP_ID,
 		process.env.PRIVY_APP_SECRET,
 	);
 

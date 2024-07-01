@@ -19,7 +19,7 @@ export async function POST(req: Request) {
 		!process.env.NEXT_PUBLIC_SUPABASE_URL ||
 		!process.env.SUPABASE_SERVICE_ROLE_KEY ||
 		!process.env.SUPABASE_JWT_SECRET ||
-		!process.env.PRIVY_APP_ID ||
+		!process.env.NEXT_PUBLIC_PRIVY_APP_ID ||
 		!process.env.PRIVY_APP_SECRET ||
 		!process.env.MAINNET_RPC
 	)
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 	const token = response.data.accessToken.replace(/^Bearer /, "");
 
 	const privy = new PrivyClient(
-		process.env.PRIVY_APP_ID,
+		process.env.NEXT_PUBLIC_PRIVY_APP_ID,
 		process.env.PRIVY_APP_SECRET,
 	);
 
