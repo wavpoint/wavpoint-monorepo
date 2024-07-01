@@ -12,28 +12,28 @@ import {
 	createWalletClient,
 	custom,
 } from "viem";
-import { mainnet } from "viem/chains";
+import { mainnet, zora } from "viem/chains";
 
-export const chain: Chain = {
-	id: 7777777,
-	name: "Virtual Mainnet",
-	nativeCurrency: { name: "VETH", symbol: "vETH", decimals: 18 },
-	rpcUrls: {
-		default: {
-			http: [
-				"https://virtual.mainnet.rpc.tenderly.co/18f2d3da-616d-4279-a1e9-ee410bd6c570",
-			],
-		},
-	},
-	blockExplorers: {
-		default: {
-			name: "Tenderly Explorer",
-			url: "https://virtual.mainnet.rpc.tenderly.co/581e0c47-df1f-4f42-9e03-30f0ad445274",
-		},
-	},
-};
+// export const chain: Chain = {
+// 	id: 7777777,
+// 	name: "Virtual Mainnet",
+// 	nativeCurrency: { name: "VETH", symbol: "vETH", decimals: 18 },
+// 	rpcUrls: {
+// 		default: {
+// 			http: [
+// 				"https://virtual.mainnet.rpc.tenderly.co/18f2d3da-616d-4279-a1e9-ee410bd6c570",
+// 			],
+// 		},
+// 	},
+// 	blockExplorers: {
+// 		default: {
+// 			name: "Tenderly Explorer",
+// 			url: "https://virtual.mainnet.rpc.tenderly.co/581e0c47-df1f-4f42-9e03-30f0ad445274",
+// 		},
+// 	},
+// };
 
-// export const chain = zora;
+export const chain = zora;
 
 export const publicClient = createPublicClient({
 	// this will determine which chain to interact with
