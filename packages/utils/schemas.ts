@@ -24,10 +24,10 @@ export const loginSchema = z.object({
 });
 export type LoginInput = z.infer<typeof loginSchema>;
 
-export const playSchema = z.object({
+export const playCounterSchema = z.object({
 	tokenId: z.string().min(1).max(100),
 });
-export type PlayInput = z.infer<typeof playSchema>;
+export type PlayCounterInput = z.infer<typeof playCounterSchema>;
 
 export class WavpointAPIError {
 	errors: {

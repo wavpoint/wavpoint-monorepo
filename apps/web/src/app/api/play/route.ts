@@ -5,7 +5,7 @@ import {
 	type PlayData,
 	type PlayInput,
 	WavpointAPIError,
-	playSchema,
+	playCounterSchema,
 } from "@wavpoint/utils";
 import { cookies } from "next/headers";
 
@@ -20,7 +20,9 @@ export async function POST(req: Request) {
 
 	const cookieStore = cookies();
 
-	const { data, success, error } = playSchema.safeParse(await req.json());
+	const { data, success, error } = playCounterSchema.safeParse(
+		await req.json(),
+	);
 
 	if (!success) {
 		const { errors } = error;
