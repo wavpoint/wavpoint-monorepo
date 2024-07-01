@@ -20,17 +20,17 @@ export const metadata: Metadata = {
 		url: "https://app.wavpoint.tech",
 		siteName: "Wavpoint - Rare Onchain Minimixes",
 		description: "Rare Onchain Minimixes.",
-		images: ["https://app.wavpoint.tech/logo.png"],
+		images: ["https://app.wavpoint.tech/og.png"],
 	},
 	twitter: {
 		title: {
 			default: "Wavpoint - Rare Onchain Minimixes",
 			template: "%s | Wavpoint",
 		},
-		card: "summary",
+		card: "summary_large_image",
 		description: "Rare Onchain Minimixes.",
 		site: "https://app.wavpoint.tech",
-		images: ["https://app.wavpoint.tech/logo.png"],
+		images: ["https://app.wavpoint.tech/og.png"],
 	},
 };
 
