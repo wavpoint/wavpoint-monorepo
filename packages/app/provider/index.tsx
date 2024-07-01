@@ -30,6 +30,22 @@ export function Providers({ children }: { children: React.ReactNode }) {
 					embeddedWallets: {
 						createOnLogin: "users-without-wallets",
 					},
+					appearance: {
+						walletList: [
+							"coinbase_wallet",
+							"detected_wallets",
+							"metamask",
+							"coinbase",
+							"rainbow",
+							"wallet_connect",
+						],
+					},
+					externalWallets: {
+						coinbaseWallet: {
+							// Valid connection options include 'eoaOnly' (default), 'smartWalletOnly', or 'all'
+							connectionOptions: "all",
+						},
+					},
 				}}
 			>
 				<QueryClientProvider client={queryClient}>
