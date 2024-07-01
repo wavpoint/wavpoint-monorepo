@@ -8,4 +8,4 @@ This configuration is automatically applied to all packages and apps in the mono
 
 If you need to extend or modify the TypeScript configuration, edit the files in this package.
 
-For more detailed instructions, refer to the [main README](../README.md).
+For more detailed instructions, refer to the [main README](../../README.md).

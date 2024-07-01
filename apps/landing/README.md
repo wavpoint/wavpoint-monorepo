@@ -21,4 +21,4 @@ To run the landing page:
 bun dev --filter=@wavpoint/landing
 ```
 
-For more detailed instructions, refer to the [main README](../README.md).
+For more detailed instructions, refer to the [main README](../../README.md).

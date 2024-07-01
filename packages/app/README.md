@@ -28,4 +28,4 @@ This package contains the core application logic and components used across the 
 
 This package is used internally by the Wavpoint web and mobile apps. Refer to their respective READMEs for usage instructions.
 
-For more detailed instructions, refer to the [main README](../README.md).
+For more detailed instructions, refer to the [main README](../../README.md).

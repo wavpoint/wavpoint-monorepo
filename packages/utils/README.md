@@ -18,4 +18,4 @@ Import utilities and constants from this package in other parts of the Wavpoint 
 import { COLLECTION_ADDRESS, ZORA_API_ENDPOINT } from '@wavpoint/utils';
 ```
 
-For more detailed instructions, refer to the [main README](../README.md).
+For more detailed instructions, refer to the [main README](../../README.md).

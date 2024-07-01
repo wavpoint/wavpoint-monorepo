@@ -32,4 +32,4 @@ To run the web app:
 bun dev --filter=@wavpoint/web --filter=@wavpoint/app
 ```
 
-For more detailed instructions, refer to the [main README](../README.md).
+For more detailed instructions, refer to the [main README](../../README.md).

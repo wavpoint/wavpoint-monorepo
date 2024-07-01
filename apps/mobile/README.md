@@ -19,4 +19,4 @@ Once implemented, you'll be able to run the mobile app with:
 bun dev --filter=@wavpoint/mobile
 ```
 
-For more detailed instructions, refer to the [main README](../README.md).
+For more detailed instructions, refer to the [main README](../../README.md).
