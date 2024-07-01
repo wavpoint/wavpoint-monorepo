@@ -1,0 +1,25 @@
+{
+	"extends": "@wavpoint/typescript-config/react-library.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"moduleResolution": "Bundler",
+		"module": "Preserve",
+		"plugins": [
+			{
+				"name": "@0no-co/graphqlsp",
+				"schema": "https://indexer.wavpoint.tech",
+			}
+		]
+	},
+	"include": [
+		"**.d.ts",
+		"tailwind.config.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.png"
+	],
+	"exclude": [
+		"node_modules",
+		"dist"
+	]
+}

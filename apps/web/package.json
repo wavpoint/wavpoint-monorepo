@@ -1,0 +1,40 @@
+{
+	"name": "@wavpoint/web",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"clean": "git clean -xdf node_modules && rm -rf .next && rm -rf next-env.d.ts"
+	},
+	"dependencies": {
+		"@expo/next-adapter": "^6.0.0",
+		"@privy-io/server-auth": "^1.7.3",
+		"@supabase/ssr": "^0.3.0",
+		"@wavpoint/app": "workspace:*",
+		"@wavpoint/utils": "workspace:*",
+		"cookie": "^0.6.0",
+		"jsonwebtoken": "^9.0.2",
+		"metro-react-native-babel-preset": "^0.77.0",
+		"next": "14.1.4",
+		"raf": "^3.4.1",
+		"react": "^18",
+		"react-dom": "^18",
+		"react-native-reanimated": "^3.8.1",
+		"tailwindcss-animate": "^1.0.7"
+	},
+	"devDependencies": {
+		"@types/jsonwebtoken": "^9.0.6",
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"autoprefixer": "^10.0.1",
+		"eslint": "^9.0.0",
+		"eslint-config-next": "14.1.4",
+		"postcss": "^8",
+		"tailwindcss": "^3.3.0",
+		"typescript": "^5"
+	}
+}

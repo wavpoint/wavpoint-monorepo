@@ -1,0 +1,17 @@
+{
+	"extends": "@wavpoint/typescript-config/react-library.json",
+	"compilerOptions": {
+		"outDir": "dist",
+		"moduleResolution": "Bundler",
+		"module": "Preserve"
+	},
+	"include": [
+		"**.d.ts",
+		"**/*.ts",
+		"**/*.tsx"
+	],
+	"exclude": [
+		"node_modules",
+		"dist"
+	]
+}

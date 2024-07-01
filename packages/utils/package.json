@@ -1,0 +1,14 @@
+{
+  "name": "@wavpoint/utils",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.ts",
+  "type": "module",
+  "scripts": {
+    "clean": "git clean -xdf node_modules && rm -rf dist"
+  },
+  "dependencies": {
+    "@zoralabs/zdk": "^2.4.0",
+    "zod": "^3.23.8"
+  }
+}

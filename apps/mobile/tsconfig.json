@@ -1,0 +1,29 @@
+{
+	"extends": [
+		"@wavpoint/typescript-config/base.json"
+	],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": [
+				"./src/*"
+			]
+		},
+		"jsx": "react-native",
+		"types": [
+			"nativewind/types"
+		],
+		"checkJs": false,
+		"noEmit": true
+	},
+	"include": [
+		"src",
+		"*.ts",
+		"*.js",
+		".expo/types/**/*.ts",
+		"expo-env.d.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}

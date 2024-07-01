@@ -1,0 +1,3 @@
+{
+  "extends": "@wavpoint/typescript-config/base.json"
+}
