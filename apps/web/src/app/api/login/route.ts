@@ -20,7 +20,8 @@ export async function POST(req: Request) {
 		!process.env.SUPABASE_SERVICE_ROLE_KEY ||
 		!process.env.SUPABASE_JWT_SECRET ||
 		!process.env.PRIVY_APP_ID ||
-		!process.env.PRIVY_APP_SECRET
+		!process.env.PRIVY_APP_SECRET ||
+		!process.env.MAINNET_RPC
 	)
 		throw new WavpointAPIError([{ message: "Something went wrong!" }], 500);
 
@@ -72,7 +73,7 @@ export async function POST(req: Request) {
 
 	const mainnetClient = createPublicClient({
 		chain: mainnet,
-		transport: http(),
+		transport: http(process.env.MAINNET_RPC),
 	});
 
 	const ens = await mainnetClient.getEnsName({

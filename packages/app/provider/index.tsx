@@ -25,7 +25,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 	return (
 		<SafeArea>
 			<PrivyProvider
-				appId="cleywwlvl000yme08g6c7stv2"
+				appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID}
 				config={{
 					embeddedWallets: {
 						createOnLogin: "users-without-wallets",
