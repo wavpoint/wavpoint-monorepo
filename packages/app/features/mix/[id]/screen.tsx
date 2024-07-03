@@ -35,8 +35,8 @@ import {
 	fetchToken,
 } from "@wavpoint/utils";
 import { useAtom } from "jotai";
-import { Play, PlayIcon } from "lucide-react-native";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { Play, PlayIcon, Sparkle } from "lucide-react-native";
+import { useCallback, useMemo, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
 import MintDialogContent from "../../dialogs/mint";
@@ -270,6 +270,12 @@ export function MixScreen() {
 			<MintDialog />
 
 			<Row className="gap-3">
+				<Row className="items-center gap-0.5">
+					<Sparkle className="fill-black w-2.5 h-2.5" />
+					<Text className="text-xs">
+						{Number.isSafeInteger(mintCount) ? mintCount : 0}
+					</Text>
+				</Row>
 				<Row className="items-center gap-0.5">
 					<Play className="fill-black w-2.5 h-2.5" />
 					<Text className="text-xs">{playsData ?? 0}</Text>
