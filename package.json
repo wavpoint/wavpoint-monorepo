@@ -5,7 +5,7 @@
 		"build": "turbo build",
 		"dev": "turbo dev",
 		"lint": "turbo lint",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"format": "biome check --write ./",
 		"web:clean": "cd apps/web && bun clean",
 		"mobile:clean": "cd apps/mobile && bun clean",
 		"landing:clean": "cd apps/landing && bun clean",
@@ -13,7 +13,7 @@
 		"clean": "git clean -xdf node_modules && rm -rf .turbo && rm -rf bun.lockb && bun web:clean && bun mobile:clean && bun app:clean && bun landing:clean"
 	},
 	"devDependencies": {
-		"@wavpoint/eslint-config": "*",
+		"@biomejs/biome": "1.8.3",
 		"@wavpoint/typescript-config": "*",
 		"prettier": "^3.2.5",
 		"turbo": "latest"

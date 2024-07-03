@@ -17,7 +17,6 @@ wavpoint/
 ├── packages/
 │   ├── app/        # Solito router-based cross-platform package
 │   ├── utils/      # Constant variables and common schemas/utils
-│   ├── eslint-config/
 │   └── typescript-config/
 ```
 
@@ -30,7 +29,6 @@ wavpoint/
 - Packages
   - [App Package](packages/app/README.md)
   - [Utils Package](packages/utils/README.md)
-  - [ESLint Config](packages/eslint-config/README.md)
   - [TypeScript Config](packages/typescript-config/README.md)
 
 ## Key Technologies

@@ -1,9 +1,9 @@
 import { Button, Row, Text, TextLink, View } from "@wavpoint/app/ui";
 
+import { useQuery } from "@tanstack/react-query";
 import { client, mintCountQueryDocument } from "@wavpoint/app/gql";
 import { cn } from "@wavpoint/app/lib";
 import { COLLECTION_ADDRESS, VINYL_GOAL, ipfsToUrl } from "@wavpoint/utils";
-import { useQuery } from "@tanstack/react-query";
 import type { TokensResponseItem } from "@zoralabs/zdk";
 import { Disc3 } from "lucide-react-native";
 import { SolitoImage } from "solito/image";

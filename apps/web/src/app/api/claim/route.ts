@@ -7,7 +7,7 @@ import {
 	fetchIsOwnerOfToken,
 } from "@wavpoint/utils";
 import { cookies } from "next/headers";
-import { authenticate } from "../../lib/auth";
+import { authenticate } from "../../../lib/auth";
 
 export async function POST(req: Request) {
 	try {

@@ -35,8 +35,8 @@ import {
 	fetchToken,
 } from "@wavpoint/utils";
 import { useAtom } from "jotai";
-import { Play, PlayIcon } from "lucide-react-native";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { Play, PlayIcon, Sparkle } from "lucide-react-native";
+import { useCallback, useMemo, useState } from "react";
 import { SolitoImage } from "solito/image";
 import { useParams } from "solito/navigation";
 import MintDialogContent from "../../dialogs/mint";
@@ -120,7 +120,7 @@ export function MixScreen() {
 		// id,
 	]);
 
-	const { data: mintCount } = useQuery({
+	const { data: mintCount, isFetched } = useQuery({
 		queryKey: [`MINT_${id}`],
 		queryFn: () => fetchMintData(id),
 		enabled: !!id,
@@ -144,7 +144,7 @@ export function MixScreen() {
 	});
 
 	const creatorRewards = useMemo(() => {
-		if (!mintCount) return 0;
+		if (!mintCount || !Number.isSafeInteger(mintCount)) return 0;
 		return mintCount < 1 ? 0 : (mintCount * CREATOR_REWARDS_ETH).toFixed(3);
 	}, [mintCount]);
 
@@ -256,7 +256,7 @@ export function MixScreen() {
 					{/* <Text className="text-[10px] w-1/3 text-center">1,111</Text> */}
 					<Text className="text-[10px] text-end w-1/2 pr-1">{VINYL_GOAL}</Text>
 				</Row>
-				{!!mintCount && (
+				{Number.isSafeInteger(mintCount) && (
 					<Progress value={mintCount} max={VINYL_GOAL} className="w-11/12" />
 				)}
 				<Row className="w-full">
@@ -270,6 +270,12 @@ export function MixScreen() {
 			<MintDialog />
 
 			<Row className="gap-3">
+				<Row className="items-center gap-0.5">
+					<Sparkle className="fill-black w-2.5 h-2.5" />
+					<Text className="text-xs">
+						{Number.isSafeInteger(mintCount) ? mintCount : 0}
+					</Text>
+				</Row>
 				<Row className="items-center gap-0.5">
 					<Play className="fill-black w-2.5 h-2.5" />
 					<Text className="text-xs">{playsData ?? 0}</Text>

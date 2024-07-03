@@ -1,6 +1,6 @@
 import * as Progress from "@radix-ui/react-progress";
-import * as React from "react";
 import { View } from "@wavpoint/app/ui";
+import * as React from "react";
 import * as Slot from "../slot";
 import type { SlottableViewProps, ViewRef } from "../types";
 import type { ProgressRootProps } from "./types";

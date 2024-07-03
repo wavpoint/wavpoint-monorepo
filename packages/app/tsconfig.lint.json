@@ -3,15 +3,6 @@
 	"compilerOptions": {
 		"outDir": "dist"
 	},
-	"include": [
-		"**/*.ts",
-		"**/*.tsx",
-		"turbo",
-		"**.d.ts",
-		"tailwind.config.ts"
-	],
-	"exclude": [
-		"node_modules",
-		"dist"
-	]
+	"include": ["**/*.ts", "**/*.tsx", "turbo", "**.d.ts", "tailwind.config.ts"],
+	"exclude": ["node_modules", "dist"]
 }

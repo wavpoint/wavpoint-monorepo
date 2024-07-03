@@ -1,5 +1,5 @@
-import * as React from "react";
 import { View } from "@wavpoint/app/ui";
+import * as React from "react";
 import * as Slot from "../slot";
 import type { SlottableViewProps, ViewRef } from "../types";
 import type { ProgressRootProps } from "./types";
@@ -62,8 +62,12 @@ function defaultGetValueLabel(value: number, max: number) {
 	return `${Math.round((value / max) * 100)}%`;
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 function isValidValueNumber(value: any, max: number): value is number {
 	return (
-		typeof value === "number" && !isNaN(value) && value <= max && value >= 0
+		typeof value === "number" &&
+		!Number.isNaN(value) &&
+		value <= max &&
+		value >= 0
 	);
 }
