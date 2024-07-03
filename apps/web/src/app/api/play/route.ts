@@ -1,5 +1,5 @@
-import { PrivyClient } from "@privy-io/server-auth";
 import { type CookieOptions, createServerClient } from "@supabase/ssr";
+import { cookieName } from "@wavpoint/app/lib";
 import {
 	COLLECTION_ADDRESS,
 	type PlayData,
@@ -8,6 +8,7 @@ import {
 	playCounterSchema,
 } from "@wavpoint/utils";
 import { cookies } from "next/headers";
+import { authenticate } from "../../lib/auth";
 
 export async function POST(req: Request) {
 	if (
@@ -20,6 +21,8 @@ export async function POST(req: Request) {
 
 	const cookieStore = cookies();
 
+	authenticate(cookieStore.get(cookieName)?.value);
+
 	const { data, success, error } = playCounterSchema.safeParse(
 		await req.json(),
 	);
@@ -28,19 +31,6 @@ export async function POST(req: Request) {
 		const { errors } = error;
 
 		throw new WavpointAPIError([], 400, errors);
-	}
-
-	const accessToken = cookieStore.get("privy-token")?.value;
-
-	const privy = new PrivyClient(
-		process.env.NEXT_PUBLIC_PRIVY_APP_ID,
-		process.env.PRIVY_APP_SECRET,
-	);
-
-	try {
-		await privy.verifyAuthToken(accessToken ?? "");
-	} catch (error) {
-		return new Response(null, { status: 403 });
 	}
 
 	const supabase = createServerClient(

@@ -6,8 +6,8 @@ import {
 	claimFormSchema,
 	fetchIsOwnerOfToken,
 } from "@wavpoint/utils";
-import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { authenticate } from "../../lib/auth";
 
 export async function POST(req: Request) {
 	try {
@@ -18,6 +18,9 @@ export async function POST(req: Request) {
 		)
 			throw new WavpointAPIError([{ message: "Something went wrong!" }], 500);
 
+		const cookieStore = cookies();
+		const { walletAddress } = authenticate(cookieStore.get(cookieName)?.value);
+
 		const response = claimFormSchema.safeParse(await req.json());
 
 		if (!response.success) {
@@ -26,19 +29,8 @@ export async function POST(req: Request) {
 			throw new WavpointAPIError([], 400, errors);
 		}
 
-		const cookieStore = cookies();
-
-		const accessToken = cookieStore.get(cookieName)?.value;
-
-		const payload = jwt.verify(
-			accessToken ?? "",
-			process.env.SUPABASE_JWT_SECRET,
-		);
-
-		if (typeof payload === "string")
+		if (!walletAddress)
 			throw new WavpointAPIError([{ message: "Unauthorized" }], 403);
-
-		const walletAddress: string = payload.wallet_address;
 
 		const supabase = createServerClient<Database>(
 			process.env.NEXT_PUBLIC_SUPABASE_URL,

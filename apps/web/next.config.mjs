@@ -30,7 +30,7 @@ const nextConfig = {
 				hostname: "zora-prod.mypinata.cloud",
 			},
 			{
-				hostname: "rogpgrdjgfryhrmcmmpl.supabase.co",
+				hostname: "gnvpkbsguukbuvppslse.supabase.co",
 			},
 		],
 	},
