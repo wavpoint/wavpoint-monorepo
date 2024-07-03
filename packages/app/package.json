@@ -7,7 +7,7 @@
 	"sideEffects": false,
 	"scripts": {
 		"dev": "bun graphql-codegen --watch",
-		"lint": "eslint . --max-warnings 0",
+		"lint": "biome lint --write .",
 		"generate:component": "turbo gen react-component",
 		"clean": "rm -rf node_modules"
 	},
@@ -15,16 +15,13 @@
 		"@graphql-codegen/cli": "^5.0.2",
 		"@graphql-codegen/client-preset": "^4.2.6",
 		"@parcel/watcher": "^2.4.1",
-		"@wavpoint/eslint-config": "*",
 		"@wavpoint/typescript-config": "*",
 		"@turbo/gen": "^1.12.4",
-		"@types/eslint": "^8.56.5",
 		"@types/js-cookie": "^3.0.6",
 		"@types/lodash": "^4.17.5",
 		"@types/node": "^20.11.24",
 		"@types/react": "^18.2.61",
 		"@types/react-dom": "^18.2.19",
-		"eslint": "^9.0.0",
 		"react": "^18.2.0",
 		"tailwindcss": "^3.4.3",
 		"typescript": "^5.3.3"

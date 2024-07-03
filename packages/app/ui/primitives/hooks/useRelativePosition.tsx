@@ -1,11 +1,11 @@
+import type { Insets } from "@wavpoint/app/ui/primitives/types";
 import * as React from "react";
 import {
-	useWindowDimensions,
 	type LayoutRectangle,
 	type ScaledSize,
 	type ViewStyle,
+	useWindowDimensions,
 } from "react-native";
-import type { Insets } from "@wavpoint/app/ui/primitives/types";
 
 const POSITION_ABSOLUTE: ViewStyle = {
 	position: "absolute",
@@ -56,7 +56,20 @@ export function useRelativePosition({
 			sideOffset,
 			dimensions,
 		});
-	}, [triggerPosition, contentLayout, dimensions.width, dimensions.height]);
+	}, [
+		triggerPosition,
+		contentLayout,
+		dimensions.width,
+		dimensions.height,
+		align,
+		dimensions,
+		side,
+		disablePositioningStyle,
+		sideOffset,
+		insets,
+		alignOffset,
+		avoidCollisions,
+	]);
 }
 
 export interface LayoutPosition {

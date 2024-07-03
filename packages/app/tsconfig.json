@@ -7,7 +7,7 @@
 		"plugins": [
 			{
 				"name": "@0no-co/graphqlsp",
-				"schema": "https://indexer.wavpoint.tech",
+				"schema": "https://indexer.wavpoint.tech"
 			}
 		]
 	},
@@ -18,8 +18,5 @@
 		"**/*.tsx",
 		"**/*.png"
 	],
-	"exclude": [
-		"node_modules",
-		"dist"
-	]
+	"exclude": ["node_modules", "dist"]
 }

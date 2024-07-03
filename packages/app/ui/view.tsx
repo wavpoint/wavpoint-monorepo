@@ -1,4 +1,4 @@
-import { View as ReactNativeView } from 'react-native'
-import { styled } from 'nativewind'
+import { styled } from "nativewind";
+import { View as ReactNativeView } from "react-native";
 
-export const View = styled(ReactNativeView)
+export const View = styled(ReactNativeView);

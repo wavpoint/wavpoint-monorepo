@@ -1,5 +1,6 @@
-import type { Pressable, Text, View, ViewStyle } from 'react-native';
+import type { Pressable, Text, View, ViewStyle } from "react-native";
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 type ComponentPropsWithAsChild<T extends React.ElementType<any>> =
 	React.ComponentPropsWithoutRef<T> & { asChild?: boolean };
 
@@ -40,8 +41,8 @@ interface PositionedContentProps {
 	alignOffset?: number;
 	insets?: Insets;
 	avoidCollisions?: boolean;
-	align?: 'start' | 'center' | 'end';
-	side?: 'top' | 'bottom';
+	align?: "start" | "center" | "end";
+	side?: "top" | "bottom";
 	sideOffset?: number;
 	/**
 	 * Platform: NATIVE ONLY
@@ -80,7 +81,7 @@ interface PositionedContentProps {
 	/**
 	 * Platform: WEB ONLY
 	 */
-	sticky?: 'partial' | 'always';
+	sticky?: "partial" | "always";
 	/**
 	 * Platform: WEB ONLY
 	 */
