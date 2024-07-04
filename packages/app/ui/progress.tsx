@@ -50,7 +50,7 @@ function Indicator({ value }: { value: number | undefined | null }) {
 			// [1111, VINYL_GOAL],
 			// [50, 100],
 			[0, VINYL_GOAL],
-			[0, 100],
+			[11, 100],
 			Extrapolation.CLAMP,
 		);
 	}
@@ -61,7 +61,7 @@ function Indicator({ value }: { value: number | undefined | null }) {
 				`${interpolate(
 					progress.value,
 					[0, VINYL_GOAL],
-					[0, 100],
+					[11, 100],
 					Extrapolation.CLAMP,
 				)}%`,
 				{ overshootClamping: true },
@@ -80,25 +80,6 @@ function Indicator({ value }: { value: number | undefined | null }) {
 						}%)`,
 					}}
 				/>
-				{progress.value > VINYL_GOAL / 11 && (
-					<Text
-						className="absolute flex items-center justify-end w-full text-[8px] h-full pr-1 italic -mt-[1px]"
-						style={{
-							transform: `translateX(-${
-								100 - getVisualProgress(progress.value)
-							}%)`,
-						}}
-					>
-						{progress.value.toLocaleString()}
-					</Text>
-				)}
-			</>
-		);
-	}
-
-	return (
-		<ProgressPrimitive.Indicator asChild>
-			{progress.value > VINYL_GOAL / 11 && (
 				<Text
 					className="absolute flex items-center justify-end w-full text-[8px] h-full pr-1 italic -mt-[1px]"
 					style={{
@@ -109,7 +90,20 @@ function Indicator({ value }: { value: number | undefined | null }) {
 				>
 					{progress.value.toLocaleString()}
 				</Text>
-			)}
+			</>
+		);
+	}
+
+	return (
+		<ProgressPrimitive.Indicator asChild>
+			<Text
+				className="absolute flex items-center justify-end w-full text-[8px] h-full pr-1 italic -mt-[1px]"
+				style={{
+					transform: `translateX(-${100 - getVisualProgress(progress.value)}%)`,
+				}}
+			>
+				{progress.value.toLocaleString()}
+			</Text>
 			<Animated.View style={indicator} className={cn("h-full bg-foreground")} />
 		</ProgressPrimitive.Indicator>
 	);

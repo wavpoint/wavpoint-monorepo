@@ -120,7 +120,7 @@ export function MixScreen() {
 		// id,
 	]);
 
-	const { data: mintCount, isFetched } = useQuery({
+	const { data: mintCount } = useQuery({
 		queryKey: [`MINT_${id}`],
 		queryFn: () => fetchMintData(id),
 		enabled: !!id,
@@ -251,7 +251,7 @@ export function MixScreen() {
 
 			<View className="w-[200px] items-center">
 				<Row className="w-full">
-					<Text className="text-[10px] w-1/2 pl-3">0</Text>
+					<Text className="text-[10px] w-1/2 pl-3">1</Text>
 					{/* FIXME: UNCOMMENT FOR DOWNLOADS GOAL and change widths from 1/2 to 1/3 */}
 					{/* <Text className="text-[10px] w-1/3 text-center">1,111</Text> */}
 					<Text className="text-[10px] text-end w-1/2 pr-1">{VINYL_GOAL}</Text>
