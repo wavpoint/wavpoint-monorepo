@@ -1,6 +1,6 @@
-import type { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 /* eslint-disable */
-import * as types from "./graphql";
+import * as types from './graphql';
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
 /**
  * Map of all GraphQL operations in the project.
@@ -13,8 +13,7 @@ import * as types from "./graphql";
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-	"\n\tquery mintCountQuery($tokenId: String!) {\n\t\tmintCount(id: $tokenId) {\n    \t\tmintCount\n  \t\t}\n\t}\n":
-		types.MintCountQueryDocument,
+    "\n\tquery mintCountQuery($tokenId: String!) {\n\t\tmintCount(id: $tokenId) {\n    \t\tmintCount\n  \t\t}\n\t}\n": types.MintCountQueryDocument,
 };
 
 /**
@@ -34,13 +33,10 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-	source: "\n\tquery mintCountQuery($tokenId: String!) {\n\t\tmintCount(id: $tokenId) {\n    \t\tmintCount\n  \t\t}\n\t}\n",
-): (typeof documents)["\n\tquery mintCountQuery($tokenId: String!) {\n\t\tmintCount(id: $tokenId) {\n    \t\tmintCount\n  \t\t}\n\t}\n"];
+export function graphql(source: "\n\tquery mintCountQuery($tokenId: String!) {\n\t\tmintCount(id: $tokenId) {\n    \t\tmintCount\n  \t\t}\n\t}\n"): (typeof documents)["\n\tquery mintCountQuery($tokenId: String!) {\n\t\tmintCount(id: $tokenId) {\n    \t\tmintCount\n  \t\t}\n\t}\n"];
 
 export function graphql(source: string) {
-	return (documents as any)[source] ?? {};
+  return (documents as any)[source] ?? {};
 }
 
-export type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
-	TDocumentNode extends DocumentNode<infer TType, any> ? TType : never;
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;
