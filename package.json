@@ -15,7 +15,6 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
 		"@wavpoint/typescript-config": "*",
-		"prettier": "^3.2.5",
 		"turbo": "latest"
 	},
 	"engines": {
