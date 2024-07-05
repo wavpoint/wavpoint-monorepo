@@ -6,6 +6,10 @@
 
 Wavpoint is an onchain platform, purpose-built, to showcase heavily curated and tokenized music minimixes. This monorepo houses the web app and future mobile app for the Wavpoint platform.
 
+↳Deploy unreleased/rare music in mix form.
+↳Test resonance.
+↳Archive to limited-edition vinyl if the mix performs well.
+
 ## Repository Structure
 
 ```
