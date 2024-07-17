@@ -16,8 +16,10 @@ export function formatAddress(address?: string): string {
 
 export function ipfsToUrl(ipfsAddress?: string | null): string {
 	return (
-		ipfsAddress?.replace("ipfs://", "https://zora-prod.mypinata.cloud/ipfs/") ??
-		""
+		ipfsAddress?.replace(
+			"ipfs://",
+			"https://magic.decentralized-content.com/ipfs/",
+		) ?? ""
 	);
 }
 

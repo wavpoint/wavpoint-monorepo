@@ -30,6 +30,9 @@ const nextConfig = {
 				hostname: "zora-prod.mypinata.cloud",
 			},
 			{
+				hostname: "magic.decentralized-content.com",
+			},
+			{
 				hostname: "gnvpkbsguukbuvppslse.supabase.co",
 			},
 		],
