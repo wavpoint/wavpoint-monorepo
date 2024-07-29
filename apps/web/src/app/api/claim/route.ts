@@ -1,10 +1,10 @@
 import { type CookieOptions, createServerClient } from "@supabase/ssr";
+import { fetchUserOwnsToken } from "@wavpoint/app/gql";
 import { cookieName } from "@wavpoint/app/lib";
 import {
 	type Database,
 	WavpointAPIError,
 	claimFormSchema,
-	fetchIsOwnerOfToken,
 } from "@wavpoint/utils";
 import { cookies } from "next/headers";
 import { authenticate } from "../../../lib/auth";
@@ -82,7 +82,7 @@ export async function POST(req: Request) {
 				404,
 			);
 
-		const userHoldsClaimToken = await fetchIsOwnerOfToken(
+		const userHoldsClaimToken = await fetchUserOwnsToken(
 			walletAddress,
 			vinyl_token_id,
 			vinyl_address,

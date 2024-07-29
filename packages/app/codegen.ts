@@ -5,7 +5,7 @@ const config: CodegenConfig = {
 	ignoreNoDocuments: true, // for better experience with the watcher
 	generates: {
 		"./gql/indexer/": {
-			schema: "https://indexer.wavpoint.tech",
+			schema: "http://localhost:42069",
 			preset: "client",
 		},
 		// "./gql/zora/": {

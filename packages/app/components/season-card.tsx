@@ -1,35 +1,24 @@
 import { Button, Row, Text, TextLink, View } from "@wavpoint/app/ui";
 
-import { useQuery } from "@tanstack/react-query";
-import { client, mintCountQueryDocument } from "@wavpoint/app/gql";
 import { cn } from "@wavpoint/app/lib";
-import { COLLECTION_ADDRESS, VINYL_GOAL, ipfsToUrl } from "@wavpoint/utils";
-import type { TokensResponseItem } from "@zoralabs/zdk";
+import { VINYL_GOAL } from "@wavpoint/utils";
 import { Disc3 } from "lucide-react-native";
 import { SolitoImage } from "solito/image";
 import { Link } from "solito/link";
 import { ShareDialog } from "../features/dialogs/share-arrow";
+import type { TokensQuery } from "../gql/indexer/graphql";
 
 interface SeasonCardProps {
-	token: TokensResponseItem["token"];
+	token: TokensQuery["tokens"]["items"][number];
 }
 
 export function SeasonCard({ token }: SeasonCardProps) {
-	const { data: mintData } = useQuery({
-		queryKey: [`MINT_${token.tokenId}`],
-		queryFn: async () =>
-			client.request(mintCountQueryDocument, {
-				tokenId: `${token.tokenId}:${COLLECTION_ADDRESS}`,
-			}),
-		enabled: !!token.tokenId,
-	});
-
 	return (
 		<View className="gap-1">
 			<Link href={`/mix/${token.tokenId}`}>
 				<View className="w-[200px] h-[200px] flex justify-end bg-gradient-to-b from-gradient-initial to-gradient-final rounded-md p-2">
 					<SolitoImage
-						src={ipfsToUrl(token.image?.url)}
+						src={token.imageUrl}
 						onLayout={{}}
 						contentFit={"cover"}
 						resizeMode={"cover"}
@@ -47,7 +36,7 @@ export function SeasonCard({ token }: SeasonCardProps) {
 					/>
 					<Row className="flex justify-between items-end">
 						<Button variant={"outline"} size={"sm"}>
-							{mintData?.mintCount?.mintCount ?? <Text className="h-4 w-5" />}
+							{token.mintCount ?? <Text className="h-4 w-5" />}
 						</Button>
 
 						<Row className="gap-2 font-bold">
@@ -64,8 +53,7 @@ export function SeasonCard({ token }: SeasonCardProps) {
 								size={"icon"}
 								className={cn(
 									"h-auto w-auto",
-									(mintData?.mintCount?.mintCount ?? 0) > VINYL_GOAL &&
-										"text-primary",
+									token.mintCount > VINYL_GOAL && "text-primary",
 								)}
 							>
 								<Disc3 className="w-4 h-4" />

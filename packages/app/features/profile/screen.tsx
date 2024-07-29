@@ -11,10 +11,11 @@ import {
 	SeasonCardSkeleton,
 } from "@wavpoint/app/components";
 import { useCopy, useSupabase } from "@wavpoint/app/hooks";
-import { fetchTokens, formatAddress } from "@wavpoint/utils";
+import { formatAddress } from "@wavpoint/utils";
 import { Check, Copy, Edit3 } from "lucide-react-native";
 import { useState } from "react";
 import { useParams } from "solito/navigation";
+import { fetchUserTokens } from "../../gql";
 import { Skeleton } from "../../ui/skeleton";
 
 const useProfileParams = useParams<{ id: string }>;
@@ -44,7 +45,7 @@ export function ProfileScreen() {
 
 	const { data, isLoading } = useQuery({
 		queryKey: [`PROFILE_${profileAddress}`],
-		queryFn: () => fetchTokens(profileAddress as `0x${string}`),
+		queryFn: () => fetchUserTokens(profileAddress as `0x${string}`),
 		enabled: !!profileAddress,
 	});
 

@@ -89,7 +89,7 @@ export default function MintDialogContent() {
 		queryFn: fetchEthPrice,
 	});
 
-	const { data: mintCount } = useQuery({
+	const { data: mintData } = useQuery({
 		queryKey: [`MINT_${params.id}`],
 		queryFn: () => fetchMintData(params.id?.toString() ?? ""),
 		enabled: !!params.id,
@@ -309,7 +309,7 @@ export default function MintDialogContent() {
 				</View>
 
 				<Row className="justify-center gap-1">
-					{(mintCount ?? 0) >= VINYL_GOAL && <ClaimDialog />}
+					{(mintData?.mintCount ?? 0) >= VINYL_GOAL && <ClaimDialog />}
 					{/* FIXME: Uncomment to enable downloads */}
 					{/* <Button
 						variant="ghost"

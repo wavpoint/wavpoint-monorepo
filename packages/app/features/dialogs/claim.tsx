@@ -6,13 +6,13 @@ import {
 	type ClaimFormInput,
 	VINYL_GOAL,
 	WavpointAPIError,
-	fetchToken,
 } from "@wavpoint/utils";
 import * as Burnt from "burnt";
 import { ArrowUpRight, Clock, Loader2 } from "lucide-react-native";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useParams } from "solito/navigation";
+import { fetchTokenName } from "../../gql";
 import { useSupabase, useTimer } from "../../hooks";
 import { Skeleton } from "../../ui/skeleton";
 
@@ -57,7 +57,7 @@ export default function ClaimDialogContent() {
 
 	const { data, isLoading } = useQuery({
 		queryKey: [`TOKEN_${params.id}`],
-		queryFn: () => fetchToken(params.id?.toString() ?? ""),
+		queryFn: () => fetchTokenName(params.id?.toString() ?? ""),
 		enabled: !!params.id?.toString(),
 		refetchOnWindowFocus: false,
 	});

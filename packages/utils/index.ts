@@ -1,6 +1,5 @@
 export * from "./config";
 export * from "./interfaces";
-export * from "./zdk";
 export * from "./schemas";
 export * from "./supabase-types";
 
