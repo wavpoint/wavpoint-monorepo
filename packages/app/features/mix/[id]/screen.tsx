@@ -32,6 +32,7 @@ import {
 	COLLECTION_ADDRESS,
 	CREATOR_REWARDS_ETH,
 	VINYL_GOAL,
+	ethToSparks,
 } from "@wavpoint/utils";
 import { useAtom } from "jotai";
 import { Play, PlayIcon, Sparkle } from "lucide-react-native";
@@ -121,7 +122,7 @@ export function MixScreen() {
 
 	const creatorRewards = useMemo(() => {
 		if (!data?.mintCount) return 0;
-		return (data.mintCount * CREATOR_REWARDS_ETH).toFixed(3);
+		return data.mintCount * CREATOR_REWARDS_ETH;
 	}, [data]);
 
 	useOverrideCurrentlyPlayingListener(
@@ -228,8 +229,12 @@ export function MixScreen() {
 					<Text className="text-xs">{playsData ?? 0}</Text>
 				</Row>
 				<Row className="items-center gap-0.5">
-					<EthLogo className="w-3 h-3" />
-					<Text className="text-xs text-primary">{creatorRewards} ETH</Text>
+					<Text className="text-xs text-primary">
+						✧{" "}
+						{Intl.NumberFormat("en-US", {
+							compactDisplay: "short",
+						}).format(ethToSparks(creatorRewards))}{" "}
+					</Text>
 				</Row>
 			</Row>
 
