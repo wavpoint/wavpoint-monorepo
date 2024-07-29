@@ -22,6 +22,10 @@ export function ipfsToUrl(ipfsAddress?: string | null): string {
 	);
 }
 
+export function ethToSparks(eth: number): number {
+	return eth * 1000000;
+}
+
 export function formatTime(ms?: number): string {
 	return ms ? new Date(ms * 1000).toISOString().substring(14, 19) : "00:00";
 }

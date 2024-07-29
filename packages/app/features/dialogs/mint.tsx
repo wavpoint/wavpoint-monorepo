@@ -32,6 +32,7 @@ import {
 	type MintFormInput,
 	TOKEN_PRICE_ETH,
 	VINYL_GOAL,
+	ethToSparks,
 	mintFormSchema,
 } from "@wavpoint/utils";
 import { createCollectorClient } from "@zoralabs/protocol-sdk";
@@ -238,7 +239,11 @@ export default function MintDialogContent() {
 					<Row className="w-full flex justify-between">
 						<Text className="text-xs">QTY: {quantityToMint}</Text>
 						<Text className="text-xs">
-							{quantityToMint * TOKEN_PRICE_ETH} ETH (≈$
+							✧{" "}
+							{Intl.NumberFormat("en-US", {
+								compactDisplay: "short",
+							}).format(ethToSparks(quantityToMint * TOKEN_PRICE_ETH))}{" "}
+							(≈$
 							{((ethPrice ?? 0) * quantityToMint * TOKEN_PRICE_ETH).toFixed(2)}{" "}
 							USD)
 						</Text>
