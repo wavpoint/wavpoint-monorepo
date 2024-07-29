@@ -20,8 +20,8 @@ import {
 
 import { usePrivy } from "@privy-io/react-auth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchMintData } from "@wavpoint/app/gql";
-import { useIpfsUrl, useSupabase } from "@wavpoint/app/hooks";
+import { fetchToken } from "@wavpoint/app/gql";
+import { useSupabase } from "@wavpoint/app/hooks";
 import { cn } from "@wavpoint/app/lib";
 import {
 	currentSongAtom,
@@ -32,7 +32,6 @@ import {
 	COLLECTION_ADDRESS,
 	CREATOR_REWARDS_ETH,
 	VINYL_GOAL,
-	fetchToken,
 } from "@wavpoint/utils";
 import { useAtom } from "jotai";
 import { Play, PlayIcon, Sparkle } from "lucide-react-native";
@@ -61,10 +60,6 @@ export function MixScreen() {
 		refetchOnWindowFocus: false,
 	});
 
-	const contentUrl = useIpfsUrl(data?.content?.url);
-	// const contentUrl = useIpfsUrl(id === "2" ? "/bill.mp4" : data?.content?.url);
-	const imageUrl = useIpfsUrl(data?.image?.url);
-
 	const context = useQueryClient();
 
 	const { mutate } = useMutation({
@@ -88,18 +83,17 @@ export function MixScreen() {
 
 	const setAsCurrentSong = useCallback(() => {
 		if (
-			data?.content?.url &&
-			(data.content.mimeType?.startsWith("audio") ||
-				data.content.mimeType?.startsWith("video")) &&
-			currentSong?.url !== data.content.url // Song isn't currently playing
+			data &&
+			(data.medium.startsWith("audio") || data.medium.startsWith("video")) &&
+			currentSong?.url !== data.contentUrl // Song isn't currently playing
 		) {
 			mutate();
 			setCurrentSong({
 				title: data.name ?? "",
-				url: contentUrl,
+				url: data.contentUrl,
 				duration: 0,
-				cover: imageUrl,
-				type: data.content.mimeType?.startsWith("audio") // && id !== "2"
+				cover: data.imageUrl,
+				type: data.medium?.startsWith("audio") // && id !== "2"
 					? "audio"
 					: "video",
 				loading: false,
@@ -107,25 +101,7 @@ export function MixScreen() {
 
 			setIsPlaying(true);
 		}
-	}, [
-		data?.content?.url,
-		data?.content?.mimeType,
-		currentSong,
-		contentUrl,
-		data?.name,
-		imageUrl,
-		mutate,
-		setCurrentSong,
-		setIsPlaying,
-		// id,
-	]);
-
-	const { data: mintCount } = useQuery({
-		queryKey: [`MINT_${id}`],
-		queryFn: () => fetchMintData(id),
-		enabled: !!id,
-		refetchOnWindowFocus: false,
-	});
+	}, [currentSong?.url, data, mutate, setCurrentSong, setIsPlaying]);
 
 	const { data: playsData } = useQuery({
 		queryKey: [`TOKEN_PLAYS_${id}`],
@@ -144,9 +120,9 @@ export function MixScreen() {
 	});
 
 	const creatorRewards = useMemo(() => {
-		if (!mintCount || !Number.isSafeInteger(mintCount)) return 0;
-		return mintCount < 1 ? 0 : (mintCount * CREATOR_REWARDS_ETH).toFixed(3);
-	}, [mintCount]);
+		if (!data?.mintCount) return 0;
+		return (data.mintCount * CREATOR_REWARDS_ETH).toFixed(3);
+	}, [data]);
 
 	useOverrideCurrentlyPlayingListener(
 		useCallback(() => {
@@ -171,60 +147,29 @@ export function MixScreen() {
 		);
 	}, []);
 
-	// const videoRef = useRef<HTMLVideoElement | null>(null);
-
-	// useEffect(() => {
-	// 	if (videoRef.current) {
-	// 		if (isPlaying) {
-	// 			videoRef.current.play();
-	// 		} else {
-	// 			videoRef.current.pause();
-	// 		}
-	// 	}
-	// }, [isPlaying]);
-
-	// useEffect(() => {
-	// 	if (videoRef.current) {
-	// 		videoRef.current.currentTime = currentSongElapsedTime;
-	// 	}
-	// }, [currentSongElapsedTime]);
-
 	return (
 		<View className="max-w-xl items-center gap-2 flex-1 w-full">
 			<View className="relative w-[200px] h-[200px] bg-gradient-to-b from-gradient-initial to-gradient-final rounded-md flex items-center justify-center mt-2">
-				{
-					// (data?.content?.mimeType?.startsWith("video") || id === "2") &&
-					// currentSong?.url === contentUrl ? (
-					// 	<video
-					// 		ref={videoRef}
-					// 		src={contentUrl}
-					// 		className="w-full h-full object-cover rounded-md"
-					// 		muted
-					// 		playsInline
-					// 	/>
-					// ) : (
-					data?.image && (
-						<SolitoImage
-							src={imageUrl}
-							onLayout={{}}
-							contentFit={"cover"}
-							resizeMode={"cover"}
-							width={200}
-							height={200}
-							alt={currentSong?.title ?? "Mix Cover"}
-							style={{
-								position: "absolute",
-								top: 0,
-								bottom: 0,
-								left: 0,
-								right: 0,
-								borderRadius: 6,
-							}}
-						/>
-					)
-					// )
-				}
-				{currentSong?.url !== contentUrl && (
+				{data?.imageUrl && (
+					<SolitoImage
+						src={data.imageUrl}
+						onLayout={{}}
+						contentFit={"cover"}
+						resizeMode={"cover"}
+						width={200}
+						height={200}
+						alt={currentSong?.title ?? "Mix Cover"}
+						style={{
+							position: "absolute",
+							top: 0,
+							bottom: 0,
+							left: 0,
+							right: 0,
+							borderRadius: 6,
+						}}
+					/>
+				)}
+				{currentSong?.url !== data?.contentUrl && (
 					<View className="inset-0 absolute justify-center items-center rounded-md">
 						<Pressable
 							onPress={setAsCurrentSong}
@@ -256,8 +201,12 @@ export function MixScreen() {
 					{/* <Text className="text-[10px] w-1/3 text-center">1,111</Text> */}
 					<Text className="text-[10px] text-end w-1/2 pr-1">{VINYL_GOAL}</Text>
 				</Row>
-				{Number.isSafeInteger(mintCount) && (
-					<Progress value={mintCount} max={VINYL_GOAL} className="w-11/12" />
+				{data?.mintCount && (
+					<Progress
+						value={data.mintCount}
+						max={VINYL_GOAL}
+						className="w-11/12"
+					/>
 				)}
 				<Row className="w-full">
 					<Text className="text-[10px] w-1/2">Onchain</Text>
@@ -272,9 +221,7 @@ export function MixScreen() {
 			<Row className="gap-3">
 				<Row className="items-center gap-0.5">
 					<Sparkle className="fill-black w-2.5 h-2.5" />
-					<Text className="text-xs">
-						{Number.isSafeInteger(mintCount) ? mintCount : 0}
-					</Text>
+					<Text className="text-xs">{data?.mintCount ?? 0}</Text>
 				</Row>
 				<Row className="items-center gap-0.5">
 					<Play className="fill-black w-2.5 h-2.5" />
@@ -287,7 +234,7 @@ export function MixScreen() {
 			</Row>
 
 			<View className="w-full mt-8 gap-3">
-				{parseDescription(data?.description ?? "").map((line, i) => (
+				{parseDescription(data?.notes ?? "").map((line, i) => (
 					<Row key={`${i}_${line.track}`} className="w-full">
 						{line.track ? (
 							<Text className="text-sm">

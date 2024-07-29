@@ -4,7 +4,7 @@ import { View } from "@wavpoint/app/ui";
 
 import { useQuery } from "@tanstack/react-query";
 import { SeasonCard, SeasonCardSkeleton } from "@wavpoint/app/components";
-import { fetchTokens } from "@wavpoint/utils";
+import { fetchTokens } from "@wavpoint/app/gql";
 import { cn } from "../../lib";
 
 export function HomeScreen() {

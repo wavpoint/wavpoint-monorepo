@@ -1,6 +1,7 @@
 import { MixScreen } from "@wavpoint/app/features/mix/[id]/screen";
+import { fetchToken } from "@wavpoint/app/gql";
 
-import { COLLECTION_ADDRESS, ipfsToUrl, zdk } from "@wavpoint/utils";
+import { ipfsToUrl } from "@wavpoint/utils";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
@@ -19,21 +20,14 @@ export async function generateMetadata({
 
 	const id = params.id;
 
-	const tokenData = await zdk.token({
-		token: {
-			address: COLLECTION_ADDRESS,
-			tokenId: id,
-		},
-	});
+	const token = await fetchToken(id);
 
-	if (!tokenData.token?.token) return notFound();
-
-	const { token } = tokenData.token;
+	if (!token) return notFound();
 
 	const title = token.name ?? `Token ${id}`;
 	const url = new URL(`/mix/${id}`, "https://app.wavpoint.tech");
 	const description = `Stream "${token.name}" and mint it directly on Wavpoint.`;
-	const image = ipfsToUrl(token.image?.url);
+	const image = ipfsToUrl(token.imageUrl);
 
 	return {
 		title,
