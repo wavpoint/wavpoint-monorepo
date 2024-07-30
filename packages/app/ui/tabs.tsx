@@ -1,9 +1,11 @@
+import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { styled } from "nativewind";
 import * as React from "react";
 import { cn } from "../lib";
-import * as TabsPrimitive from "./primitives/tabs";
+import { Root, useRootContext } from "./primitives/tabs";
 import { TextClassContext } from "./text";
 
-const Tabs = TabsPrimitive.Root;
+const Tabs = Root;
 
 const TabsList = React.forwardRef<
 	React.ElementRef<typeof TabsPrimitive.List>,
@@ -11,10 +13,7 @@ const TabsList = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<TabsPrimitive.List
 		ref={ref}
-		className={cn(
-			"web:inline-flex h-10 native:h-12 items-center justify-center rounded-md bg-muted p-1 native:px-1.5",
-			className,
-		)}
+		className={cn("web:inline-flex h-10 native:h-12 items-center", className)}
 		{...props}
 	/>
 ));
@@ -24,7 +23,7 @@ const TabsTrigger = React.forwardRef<
 	React.ElementRef<typeof TabsPrimitive.Trigger>,
 	React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
 >(({ className, ...props }, ref) => {
-	const { value } = TabsPrimitive.useRootContext();
+	const { value } = useRootContext();
 	return (
 		<TextClassContext.Provider
 			value={cn(
@@ -35,10 +34,9 @@ const TabsTrigger = React.forwardRef<
 			<TabsPrimitive.Trigger
 				ref={ref}
 				className={cn(
-					"inline-flex items-center justify-center shadow-none web:whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium web:ring-offset-background web:transition-all web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
+					"border-b-2 border-white inline-flex items-center justify-center shadow-none web:whitespace-nowrap py-1.5 text-sm font-medium web:ring-offset-background web:transition-all web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
 					props.disabled && "web:pointer-events-none opacity-50",
-					props.value === value &&
-						"bg-background shadow-lg shadow-foreground/10",
+					props.value === value && " border-primary",
 					className,
 				)}
 				{...props}

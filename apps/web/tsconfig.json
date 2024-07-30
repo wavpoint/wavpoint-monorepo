@@ -14,5 +14,10 @@
 		"**/*.tsx",
 		".next/types/**/*.ts"
 	],
-	"exclude": ["node_modules"]
+	"types": [
+		"nativewind/types"
+	],
+	"exclude": [
+		"node_modules"
+	]
 }

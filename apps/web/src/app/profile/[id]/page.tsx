@@ -43,7 +43,7 @@ export async function generateMetadata({
 	const user = await supabase
 		.from("users")
 		.select("*")
-		.eq("id", id)
+		.eq("id", id.toLowerCase())
 		.single<{ id: string; username: string; image: string }>();
 
 	if (!user.data) return notFound();
@@ -55,7 +55,10 @@ export async function generateMetadata({
 	const image = avatarUrl ?? "/default_avatar.jpg";
 
 	const title = user.data.username;
-	const url = new URL(`/profile/${id}`, "https://app.wavpoint.tech");
+	const url = new URL(
+		`/profile/${id.toLowerCase()}`,
+		"https://app.wavpoint.tech",
+	);
 	const description = `View ${user.data.username}'s profile and their collected seasons on Wavpoint.`;
 	return {
 		title,
