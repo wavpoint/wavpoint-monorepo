@@ -14,65 +14,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-};
-
-export type ContentUrl = {
-  __typename?: 'ContentUrl';
-  collectionAddress: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  tokenId: Scalars['String']['output'];
-  url: Scalars['String']['output'];
-};
-
-export type ContentUrlFilter = {
-  AND?: InputMaybe<Array<InputMaybe<ContentUrlFilter>>>;
-  OR?: InputMaybe<Array<InputMaybe<ContentUrlFilter>>>;
-  collectionAddress?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_contains?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_ends_with?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  collectionAddress_not?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_not_contains?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  collectionAddress_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_starts_with?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  id_contains?: InputMaybe<Scalars['String']['input']>;
-  id_ends_with?: InputMaybe<Scalars['String']['input']>;
-  id_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  id_not?: InputMaybe<Scalars['String']['input']>;
-  id_not_contains?: InputMaybe<Scalars['String']['input']>;
-  id_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  id_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  id_starts_with?: InputMaybe<Scalars['String']['input']>;
-  tokenId?: InputMaybe<Scalars['String']['input']>;
-  tokenId_contains?: InputMaybe<Scalars['String']['input']>;
-  tokenId_ends_with?: InputMaybe<Scalars['String']['input']>;
-  tokenId_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  tokenId_not?: InputMaybe<Scalars['String']['input']>;
-  tokenId_not_contains?: InputMaybe<Scalars['String']['input']>;
-  tokenId_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  tokenId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  tokenId_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  tokenId_starts_with?: InputMaybe<Scalars['String']['input']>;
-  url?: InputMaybe<Scalars['String']['input']>;
-  url_contains?: InputMaybe<Scalars['String']['input']>;
-  url_ends_with?: InputMaybe<Scalars['String']['input']>;
-  url_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  url_not?: InputMaybe<Scalars['String']['input']>;
-  url_not_contains?: InputMaybe<Scalars['String']['input']>;
-  url_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  url_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  url_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  url_starts_with?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type ContentUrlPage = {
-  __typename?: 'ContentUrlPage';
-  items: Array<ContentUrl>;
-  pageInfo: PageInfo;
+  BigInt: { input: any; output: any; }
 };
 
 export type Mint = {
@@ -81,65 +23,10 @@ export type Mint = {
   comment: Scalars['String']['output'];
   hasComment: Scalars['Boolean']['output'];
   id: Scalars['String']['output'];
+  timestamp: Scalars['BigInt']['output'];
   token: Scalars['String']['output'];
-  user: Scalars['String']['output'];
-};
-
-export type MintCount = {
-  __typename?: 'MintCount';
-  collectionAddress: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  mintCount: Scalars['Int']['output'];
-  tokenId: Scalars['String']['output'];
-};
-
-export type MintCountFilter = {
-  AND?: InputMaybe<Array<InputMaybe<MintCountFilter>>>;
-  OR?: InputMaybe<Array<InputMaybe<MintCountFilter>>>;
-  collectionAddress?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_contains?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_ends_with?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  collectionAddress_not?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_not_contains?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  collectionAddress_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  collectionAddress_starts_with?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
-  id_contains?: InputMaybe<Scalars['String']['input']>;
-  id_ends_with?: InputMaybe<Scalars['String']['input']>;
-  id_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  id_not?: InputMaybe<Scalars['String']['input']>;
-  id_not_contains?: InputMaybe<Scalars['String']['input']>;
-  id_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  id_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  id_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  id_starts_with?: InputMaybe<Scalars['String']['input']>;
-  mintCount?: InputMaybe<Scalars['Int']['input']>;
-  mintCount_gt?: InputMaybe<Scalars['Int']['input']>;
-  mintCount_gte?: InputMaybe<Scalars['Int']['input']>;
-  mintCount_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  mintCount_lt?: InputMaybe<Scalars['Int']['input']>;
-  mintCount_lte?: InputMaybe<Scalars['Int']['input']>;
-  mintCount_not?: InputMaybe<Scalars['Int']['input']>;
-  mintCount_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  tokenId?: InputMaybe<Scalars['String']['input']>;
-  tokenId_contains?: InputMaybe<Scalars['String']['input']>;
-  tokenId_ends_with?: InputMaybe<Scalars['String']['input']>;
-  tokenId_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  tokenId_not?: InputMaybe<Scalars['String']['input']>;
-  tokenId_not_contains?: InputMaybe<Scalars['String']['input']>;
-  tokenId_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  tokenId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  tokenId_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  tokenId_starts_with?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type MintCountPage = {
-  __typename?: 'MintCountPage';
-  items: Array<MintCount>;
-  pageInfo: PageInfo;
+  user: User;
+  userId: Scalars['String']['output'];
 };
 
 export type MintFilter = {
@@ -177,6 +64,14 @@ export type MintFilter = {
   id_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   id_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   id_starts_with?: InputMaybe<Scalars['String']['input']>;
+  timestamp?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_gt?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_gte?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_in?: InputMaybe<Array<InputMaybe<Scalars['BigInt']['input']>>>;
+  timestamp_lt?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_lte?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_not?: InputMaybe<Scalars['BigInt']['input']>;
+  timestamp_not_in?: InputMaybe<Array<InputMaybe<Scalars['BigInt']['input']>>>;
   token?: InputMaybe<Scalars['String']['input']>;
   token_contains?: InputMaybe<Scalars['String']['input']>;
   token_ends_with?: InputMaybe<Scalars['String']['input']>;
@@ -187,16 +82,16 @@ export type MintFilter = {
   token_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   token_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   token_starts_with?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['String']['input']>;
-  user_contains?: InputMaybe<Scalars['String']['input']>;
-  user_ends_with?: InputMaybe<Scalars['String']['input']>;
-  user_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  user_not?: InputMaybe<Scalars['String']['input']>;
-  user_not_contains?: InputMaybe<Scalars['String']['input']>;
-  user_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  user_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  user_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  user_starts_with?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
+  userId_contains?: InputMaybe<Scalars['String']['input']>;
+  userId_ends_with?: InputMaybe<Scalars['String']['input']>;
+  userId_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  userId_not?: InputMaybe<Scalars['String']['input']>;
+  userId_not_contains?: InputMaybe<Scalars['String']['input']>;
+  userId_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  userId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  userId_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  userId_starts_with?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MintPage = {
@@ -210,7 +105,8 @@ export type OwnedToken = {
   amountOwned: Scalars['Int']['output'];
   id: Scalars['String']['output'];
   token: Scalars['String']['output'];
-  user: Scalars['String']['output'];
+  user: User;
+  userId: Scalars['String']['output'];
 };
 
 export type OwnedTokenFilter = {
@@ -244,16 +140,16 @@ export type OwnedTokenFilter = {
   token_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   token_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   token_starts_with?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['String']['input']>;
-  user_contains?: InputMaybe<Scalars['String']['input']>;
-  user_ends_with?: InputMaybe<Scalars['String']['input']>;
-  user_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  user_not?: InputMaybe<Scalars['String']['input']>;
-  user_not_contains?: InputMaybe<Scalars['String']['input']>;
-  user_not_ends_with?: InputMaybe<Scalars['String']['input']>;
-  user_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  user_not_starts_with?: InputMaybe<Scalars['String']['input']>;
-  user_starts_with?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['String']['input']>;
+  userId_contains?: InputMaybe<Scalars['String']['input']>;
+  userId_ends_with?: InputMaybe<Scalars['String']['input']>;
+  userId_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  userId_not?: InputMaybe<Scalars['String']['input']>;
+  userId_not_contains?: InputMaybe<Scalars['String']['input']>;
+  userId_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  userId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  userId_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  userId_starts_with?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type OwnedTokenPage = {
@@ -272,11 +168,7 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
-  contentUrl?: Maybe<ContentUrl>;
-  contentUrls: ContentUrlPage;
   mint?: Maybe<Mint>;
-  mintCount?: Maybe<MintCount>;
-  mintCounts: MintCountPage;
   mints: MintPage;
   ownedToken?: Maybe<OwnedToken>;
   ownedTokens: OwnedTokenPage;
@@ -289,38 +181,8 @@ export type Query = {
 };
 
 
-export type QueryContentUrlArgs = {
-  id: Scalars['String']['input'];
-};
-
-
-export type QueryContentUrlsArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Scalars['String']['input']>;
-  orderDirection?: InputMaybe<Scalars['String']['input']>;
-  where?: InputMaybe<ContentUrlFilter>;
-};
-
-
 export type QueryMintArgs = {
   id: Scalars['String']['input'];
-};
-
-
-export type QueryMintCountArgs = {
-  id: Scalars['String']['input'];
-};
-
-
-export type QueryMintCountsArgs = {
-  after?: InputMaybe<Scalars['String']['input']>;
-  before?: InputMaybe<Scalars['String']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Scalars['String']['input']>;
-  orderDirection?: InputMaybe<Scalars['String']['input']>;
-  where?: InputMaybe<MintCountFilter>;
 };
 
 
@@ -399,6 +261,8 @@ export type Token = {
   collectionAddress: Scalars['String']['output'];
   commentsCount: Scalars['Int']['output'];
   contentUrl: Scalars['String']['output'];
+  firstMinter: User;
+  firstMinterId: Scalars['String']['output'];
   id: Scalars['String']['output'];
   imageUrl: Scalars['String']['output'];
   medium: Scalars['String']['output'];
@@ -410,6 +274,9 @@ export type Token = {
   notes: Scalars['String']['output'];
   tokenId: Scalars['String']['output'];
   tokenStandard: Scalars['String']['output'];
+  topMinter: User;
+  topMinterAmount: Scalars['Int']['output'];
+  topMinterId: Scalars['String']['output'];
   userTokens?: Maybe<UserTokenPage>;
 };
 
@@ -484,6 +351,16 @@ export type TokenFilter = {
   contentUrl_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   contentUrl_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   contentUrl_starts_with?: InputMaybe<Scalars['String']['input']>;
+  firstMinterId?: InputMaybe<Scalars['String']['input']>;
+  firstMinterId_contains?: InputMaybe<Scalars['String']['input']>;
+  firstMinterId_ends_with?: InputMaybe<Scalars['String']['input']>;
+  firstMinterId_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  firstMinterId_not?: InputMaybe<Scalars['String']['input']>;
+  firstMinterId_not_contains?: InputMaybe<Scalars['String']['input']>;
+  firstMinterId_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  firstMinterId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  firstMinterId_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  firstMinterId_starts_with?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['String']['input']>;
   id_contains?: InputMaybe<Scalars['String']['input']>;
   id_ends_with?: InputMaybe<Scalars['String']['input']>;
@@ -570,6 +447,24 @@ export type TokenFilter = {
   tokenStandard_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   tokenStandard_not_starts_with?: InputMaybe<Scalars['String']['input']>;
   tokenStandard_starts_with?: InputMaybe<Scalars['String']['input']>;
+  topMinterAmount?: InputMaybe<Scalars['Int']['input']>;
+  topMinterAmount_gt?: InputMaybe<Scalars['Int']['input']>;
+  topMinterAmount_gte?: InputMaybe<Scalars['Int']['input']>;
+  topMinterAmount_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  topMinterAmount_lt?: InputMaybe<Scalars['Int']['input']>;
+  topMinterAmount_lte?: InputMaybe<Scalars['Int']['input']>;
+  topMinterAmount_not?: InputMaybe<Scalars['Int']['input']>;
+  topMinterAmount_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  topMinterId?: InputMaybe<Scalars['String']['input']>;
+  topMinterId_contains?: InputMaybe<Scalars['String']['input']>;
+  topMinterId_ends_with?: InputMaybe<Scalars['String']['input']>;
+  topMinterId_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  topMinterId_not?: InputMaybe<Scalars['String']['input']>;
+  topMinterId_not_contains?: InputMaybe<Scalars['String']['input']>;
+  topMinterId_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  topMinterId_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  topMinterId_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  topMinterId_starts_with?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type TokenPage = {
@@ -708,7 +603,7 @@ export type TokenQueryVariables = Exact<{
 }>;
 
 
-export type TokenQuery = { __typename?: 'Query', token?: { __typename?: 'Token', contentUrl: string, imageUrl: string, medium: string, name: string, mintCount: number, notes: string } | null };
+export type TokenQuery = { __typename?: 'Query', token?: { __typename?: 'Token', contentUrl: string, imageUrl: string, medium: string, name: string, mintCount: number, notes: string, mintersCount: number, commentsCount: number, tokenStandard: string, blockchain: string, collectionAddress: string, tokenId: string, topMinterId: string, firstMinterId: string } | null };
 
 export type TokenNameQueryVariables = Exact<{
   tokenId: Scalars['String']['input'];
@@ -739,10 +634,26 @@ export type UserOwnsTokenQueryVariables = Exact<{
 
 export type UserOwnsTokenQuery = { __typename?: 'Query', ownedTokens: { __typename?: 'OwnedTokenPage', items: Array<{ __typename?: 'OwnedToken', amountOwned: number }> } };
 
+export type TokenMintersQueryVariables = Exact<{
+  tokenId: Scalars['String']['input'];
+}>;
+
+
+export type TokenMintersQuery = { __typename?: 'Query', ownedTokens: { __typename?: 'OwnedTokenPage', items: Array<{ __typename?: 'OwnedToken', amountOwned: number, user: { __typename?: 'User', id: string, username: string, image: string } }> } };
+
+export type MintsWithCommentsQueryVariables = Exact<{
+  tokenId: Scalars['String']['input'];
+}>;
+
+
+export type MintsWithCommentsQuery = { __typename?: 'Query', mints: { __typename?: 'MintPage', items: Array<{ __typename?: 'Mint', comment: string, timestamp: any, user: { __typename?: 'User', id: string, username: string, image: string } }> } };
+
 
 export const TokensDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"tokens"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tokens"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}}]}}]}}]}}]} as unknown as DocumentNode<TokensQuery, TokensQueryVariables>;
-export const TokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"token"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentUrl"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"medium"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}}]}}]}}]} as unknown as DocumentNode<TokenQuery, TokenQueryVariables>;
+export const TokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"token"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"contentUrl"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"medium"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}},{"kind":"Field","name":{"kind":"Name","value":"notes"}},{"kind":"Field","name":{"kind":"Name","value":"mintersCount"}},{"kind":"Field","name":{"kind":"Name","value":"commentsCount"}},{"kind":"Field","name":{"kind":"Name","value":"tokenStandard"}},{"kind":"Field","name":{"kind":"Name","value":"blockchain"}},{"kind":"Field","name":{"kind":"Name","value":"collectionAddress"}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"topMinterId"}},{"kind":"Field","name":{"kind":"Name","value":"firstMinterId"}}]}}]}}]} as unknown as DocumentNode<TokenQuery, TokenQueryVariables>;
 export const TokenNameDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"tokenName"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<TokenNameQuery, TokenNameQueryVariables>;
 export const TokenMintCountDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"tokenMintCount"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"mintCount"}}]}}]}}]} as unknown as DocumentNode<TokenMintCountQuery, TokenMintCountQueryVariables>;
 export const UserTokensDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"userTokens"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userTokens"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"token"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"tokenId"}},{"kind":"Field","name":{"kind":"Name","value":"imageUrl"}},{"kind":"Field","name":{"kind":"Name","value":"mintCount"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<UserTokensQuery, UserTokensQueryVariables>;
-export const UserOwnsTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"userOwnsToken"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"token"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ownedTokens"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"AND"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"user"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"token"},"value":{"kind":"Variable","name":{"kind":"Name","value":"token"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amountOwned"}}]}}]}}]}}]} as unknown as DocumentNode<UserOwnsTokenQuery, UserOwnsTokenQueryVariables>;
+export const UserOwnsTokenDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"userOwnsToken"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"user"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"token"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ownedTokens"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"AND"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"user"}}},{"kind":"ObjectField","name":{"kind":"Name","value":"token"},"value":{"kind":"Variable","name":{"kind":"Name","value":"token"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"amountOwned"}}]}}]}}]}}]} as unknown as DocumentNode<UserOwnsTokenQuery, UserOwnsTokenQueryVariables>;
+export const TokenMintersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"tokenMinters"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ownedTokens"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"token"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}},{"kind":"Field","name":{"kind":"Name","value":"amountOwned"}}]}}]}}]}}]} as unknown as DocumentNode<TokenMintersQuery, TokenMintersQueryVariables>;
+export const MintsWithCommentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"mintsWithComments"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"mints"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"AND"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"hasComment"},"value":{"kind":"BooleanValue","value":true}},{"kind":"ObjectField","name":{"kind":"Name","value":"token"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tokenId"}}}]}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"comment"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"image"}}]}}]}}]}}]}}]} as unknown as DocumentNode<MintsWithCommentsQuery, MintsWithCommentsQueryVariables>;

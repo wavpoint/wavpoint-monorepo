@@ -11,3 +11,5 @@ export * from "./slider";
 export * from "./eth-logo";
 export * from "./primitives/hooks";
 export * from "./toast";
+export * from "./tabs";
+export * from "./rodeo-logo";

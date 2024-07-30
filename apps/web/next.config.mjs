@@ -35,6 +35,9 @@ const nextConfig = {
 			{
 				hostname: "gnvpkbsguukbuvppslse.supabase.co",
 			},
+			{
+				hostname: "euc.li",
+			},
 		],
 	},
 };

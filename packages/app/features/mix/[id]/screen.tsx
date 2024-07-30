@@ -8,7 +8,6 @@ import {
 	Drawer,
 	DrawerContent,
 	DrawerTrigger,
-	EthLogo,
 	Pressable,
 	Progress,
 	Row,
@@ -20,6 +19,7 @@ import {
 
 import { usePrivy } from "@privy-io/react-auth";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { MixTabs } from "@wavpoint/app/components/mix-tabs";
 import { fetchToken } from "@wavpoint/app/gql";
 import { useSupabase } from "@wavpoint/app/hooks";
 import { cn } from "@wavpoint/app/lib";
@@ -131,23 +131,6 @@ export function MixScreen() {
 		}, [setAsCurrentSong]),
 	);
 
-	const parseDescription = useCallback((input: string) => {
-		const formatted = input.replaceAll("↳", "");
-		const lines = formatted.split("\n");
-
-		return lines.reduce(
-			(res, line) => {
-				const [artist, track] = line.split(" - ");
-				if (artist || track) {
-					res.push({ artist, track });
-				}
-
-				return res;
-			},
-			[] as { artist: string | undefined; track: string | undefined }[],
-		);
-	}, []);
-
 	return (
 		<View className="max-w-xl items-center gap-2 flex-1 w-full">
 			<View className="relative w-[200px] h-[200px] bg-gradient-to-b from-gradient-initial to-gradient-final rounded-md flex items-center justify-center mt-2">
@@ -238,19 +221,7 @@ export function MixScreen() {
 				</Row>
 			</Row>
 
-			<View className="w-full mt-8 gap-3">
-				{parseDescription(data?.notes ?? "").map((line, i) => (
-					<Row key={`${i}_${line.track}`} className="w-full">
-						{line.track ? (
-							<Text className="text-sm">
-								{line.artist} - {line.track}
-							</Text>
-						) : (
-							<Text className="text-sm font-bold">{line.artist}</Text>
-						)}
-					</Row>
-				))}
-			</View>
+			<MixTabs token={data} />
 		</View>
 	);
 }

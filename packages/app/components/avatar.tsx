@@ -5,6 +5,7 @@ import type { Database } from "@wavpoint/utils";
 import { ImagePlus, Loader, Loader2 } from "lucide-react-native";
 import { useRef, useState } from "react";
 import { SolitoImage } from "solito/image";
+import { cn } from "../lib";
 
 interface AvatarProps {
 	user?: { id: string; username: string; image: string } | null;
@@ -12,6 +13,9 @@ interface AvatarProps {
 	isAuthenticatedUser: boolean;
 	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	supabase?: SupabaseClient<Database, "public", any>;
+	defaultAvatar?: string;
+	className?: string;
+	size?: number;
 }
 
 export function Avatar({
@@ -19,6 +23,9 @@ export function Avatar({
 	id,
 	isAuthenticatedUser,
 	supabase,
+	defaultAvatar,
+	className,
+	size = 80,
 }: AvatarProps) {
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -64,11 +71,22 @@ export function Avatar({
 		.getPublicUrl(user?.image ?? "").data.publicUrl;
 
 	return (
-		<View className="w-20 h-20 rounded-full bg-gradient-final group relative">
+		<View
+			className={cn(
+				"w-20 h-20 rounded-full bg-gradient-final group relative",
+				className,
+			)}
+		>
 			<SolitoImage
-				src={user?.image && avatarUrl ? avatarUrl : "/default_avatar.jpg"}
-				height={80}
-				width={80}
+				src={
+					user?.image && avatarUrl
+						? avatarUrl
+						: defaultAvatar
+							? defaultAvatar
+							: "/default_avatar.jpg"
+				}
+				height={size}
+				width={size}
 				contentFit={"cover"}
 				onLayout={{}}
 				resizeMode={"cover"}
@@ -81,8 +99,8 @@ export function Avatar({
 					top: 0,
 					right: 0,
 					bottom: 0,
-					width: 80,
-					height: 80,
+					width: size,
+					height: size,
 				}}
 			/>
 

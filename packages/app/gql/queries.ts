@@ -24,6 +24,14 @@ export const tokenQueryDocument = indexerGraphql(/* GraphQL */ `
 			name
 			mintCount
 			notes
+			mintersCount
+			commentsCount
+			tokenStandard
+			blockchain
+			collectionAddress
+			tokenId
+			topMinterId
+			firstMinterId
 		}
 	}
 `);
@@ -48,14 +56,14 @@ export const userTokensQueryDocument = indexerGraphql(/* GraphQL */ `
 	query userTokens($user: String!) {
 		user(id: $user) {
 			userTokens {
-			items {
-				token {
-				name
-				tokenId
-				imageUrl
-				mintCount
+				items {
+					token {
+						name
+						tokenId
+						imageUrl
+						mintCount
+					}
 				}
-			}
 			}
 		}
 	}
@@ -63,9 +71,40 @@ export const userTokensQueryDocument = indexerGraphql(/* GraphQL */ `
 
 export const userOwnsTokenQueryDocument = indexerGraphql(/* GraphQL */ `
 	query userOwnsToken($user: String!, $token: String!) {
-		ownedTokens(where: {AND: {user: $user, token: $token}}) {
+		ownedTokens(where: {AND: {userId: $user, token: $token}}) {
+				items {
+				amountOwned
+			}
+		}
+	}
+`);
+
+export const tokenMintersQueryDocument = indexerGraphql(/* GraphQL */ `
+	query tokenMinters($tokenId: String!) {
+		ownedTokens(where: {token: $tokenId}) {
 			items {
-			amountOwned
+				user {
+					id
+					username
+					image
+				}
+				amountOwned
+			}
+		}
+	}
+`);
+
+export const mintsWithCommentsQueryDocument = indexerGraphql(/* GraphQL */ `
+	query mintsWithComments($tokenId: String!) {
+		mints(where: {AND: {hasComment: true, token: $tokenId}}) {
+			items {
+				comment
+				timestamp
+				user {
+					id
+					username
+					image
+				}
 			}
 		}
 	}
@@ -120,4 +159,20 @@ export const fetchMintData = async (id: string) => {
 	});
 
 	return res.token;
+};
+
+export const fetchTokenMinters = async (id: string) => {
+	const res = await client.request(tokenMintersQueryDocument, {
+		tokenId: `${id}:${COLLECTION_ADDRESS}`,
+	});
+
+	return res.ownedTokens.items;
+};
+
+export const fetchMintsWithComments = async (id: string) => {
+	const res = await client.request(mintsWithCommentsQueryDocument, {
+		tokenId: `${id}:${COLLECTION_ADDRESS}`,
+	});
+
+	return res.mints.items;
 };

@@ -250,7 +250,7 @@ export function DefaultLayout({ children }: DefaultLayoutProps) {
 
 						{user?.wallet && (
 							<Link
-								href={`/profile/${user.wallet.address}`}
+								href={`/profile/${user.wallet.address.toLowerCase()}`}
 								className={buttonVariants({
 									variant: "ghost",
 									size: "icon",

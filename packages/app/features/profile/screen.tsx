@@ -37,7 +37,7 @@ export function ProfileScreen() {
 			return supabase
 				?.from("users")
 				.select("*")
-				.eq("id", profileAddress)
+				.eq("id", profileAddress.toLowerCase())
 				.single<{ id: string; username: string; image: string }>();
 		},
 		enabled: !!supabase && !!profileAddress,
@@ -45,11 +45,13 @@ export function ProfileScreen() {
 
 	const { data, isLoading } = useQuery({
 		queryKey: [`PROFILE_${profileAddress}`],
-		queryFn: () => fetchUserTokens(profileAddress as `0x${string}`),
+		queryFn: () =>
+			fetchUserTokens(profileAddress.toLowerCase() as `0x${string}`),
 		enabled: !!profileAddress,
 	});
 
-	const isAuthenticatedUser = userData?.data?.id === user?.wallet?.address;
+	const isAuthenticatedUser =
+		userData?.data?.id.toLowerCase() === user?.wallet?.address.toLowerCase();
 
 	return (
 		<View className="max-w-xl flex-1 flex items-center w-full gap-8">
@@ -57,7 +59,7 @@ export function ProfileScreen() {
 				<Skeleton show={userDataLoading} className="rounded-full">
 					<Avatar
 						user={userData?.data}
-						id={id}
+						id={profileAddress}
 						isAuthenticatedUser={isAuthenticatedUser}
 						supabase={supabase}
 					/>
@@ -97,7 +99,7 @@ export function ProfileScreen() {
 				<Button
 					variant={"link"}
 					className="py-0 flex text-xs"
-					onPress={() => copyToClipboard(profileAddress)}
+					onPress={() => copyToClipboard(profileAddress.toLowerCase())}
 				>
 					{formatAddress(profileAddress)}
 					{isCopied ? (
