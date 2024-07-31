@@ -1,7 +1,6 @@
 import { MixScreen } from "@wavpoint/app/features/mix/[id]/screen";
 import { fetchToken } from "@wavpoint/app/gql";
 
-import { ipfsToUrl } from "@wavpoint/utils";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
@@ -20,30 +19,36 @@ export async function generateMetadata({
 
 	const id = params.id;
 
-	const token = await fetchToken(id);
+	try {
+		const token = await fetchToken(id);
 
-	if (!token) return notFound();
+		if (!token) return notFound();
 
-	const title = token.name ?? `Token ${id}`;
-	const url = new URL(`/mix/${id}`, "https://app.wavpoint.tech");
-	const description = `Stream "${token.name}" and mint it directly on Wavpoint.`;
+		const title = token.name ?? `Token ${id}`;
+		const url = new URL(`/mix/${id}`, "https://app.wavpoint.tech");
+		const description = `Stream "${token.name}" and mint it directly on Wavpoint.`;
 
-	return {
-		title,
-		description,
-		openGraph: {
+		return {
 			title,
-			siteName: "Wavpoint - Exclusive Onchain Music",
 			description,
-			images: [token.imageUrl],
-			url,
-		},
-		twitter: {
-			title,
-			card: "summary",
-			images: [token.imageUrl],
-		},
-	};
+			openGraph: {
+				title,
+				siteName: "Wavpoint - Exclusive Onchain Music",
+				description,
+				images: [token.imageUrl],
+				url,
+			},
+			twitter: {
+				title,
+				card: "summary",
+				images: [token.imageUrl],
+			},
+		};
+	} catch (error) {
+		console.error(error);
+	}
+
+	return {};
 }
 
 export default function Mix() {
