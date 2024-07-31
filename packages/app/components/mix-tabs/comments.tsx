@@ -86,6 +86,9 @@ export function MixCommentsTab({ tokenId, tab }: MixCommentsTabProps) {
 							size={36}
 							id={comment.user.id}
 							isAuthenticatedUser={false}
+							user={{
+								...comment.user,
+							}}
 							defaultAvatar={
 								comment.user.image ? comment.user.image : undefined
 							}

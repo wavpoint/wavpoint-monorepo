@@ -64,6 +64,9 @@ export function MixCollectorsTab({ token, tab }: MixCollectorsTabProps) {
 										className="w-9 h-9"
 										size={36}
 										id={collector.user.id}
+										user={{
+											...collector.user,
+										}}
 										isAuthenticatedUser={false}
 										defaultAvatar={
 											collector.user.image ? collector.user.image : undefined
