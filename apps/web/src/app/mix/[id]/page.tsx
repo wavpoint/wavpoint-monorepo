@@ -27,7 +27,6 @@ export async function generateMetadata({
 	const title = token.name ?? `Token ${id}`;
 	const url = new URL(`/mix/${id}`, "https://app.wavpoint.tech");
 	const description = `Stream "${token.name}" and mint it directly on Wavpoint.`;
-	const image = ipfsToUrl(token.imageUrl);
 
 	return {
 		title,
@@ -36,13 +35,13 @@ export async function generateMetadata({
 			title,
 			siteName: "Wavpoint - Exclusive Onchain Music",
 			description,
-			images: [image],
+			images: [token.imageUrl],
 			url,
 		},
 		twitter: {
 			title,
 			card: "summary",
-			images: [image],
+			images: [token.imageUrl],
 		},
 	};
 }
